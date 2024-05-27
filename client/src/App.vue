@@ -14,6 +14,10 @@ import MainLayouts from "./layouts/mainLayouts.vue";
     margin: 0;
 }
 
+body .q-page-container {
+    padding-bottom: 0 !important;
+}
+
 
 .q-layout__section--marginal {
     background-color: transparent;
@@ -37,6 +41,10 @@ h1 {
     letter-spacing: 0;
 }
 
+img {
+    max-width: 100%;
+}
+
 :root {
     --red: #E83D46;
     --orange: #ECA73E;
@@ -44,6 +52,7 @@ h1 {
     --violet: #812D9C;
     --light-green: #C9FF22;
     --text: #414143;
+    --bg: #F2F1EC;
 }
 
 .btn-reset {
@@ -60,7 +69,7 @@ h1 {
 
 .container {
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 40px;
     max-width: 1800px;
 
 }
@@ -71,6 +80,37 @@ body {
     font-weight: 400;
     font-size: 20px;
     color: var(--text);
+    background-color: var(--bg);
+}
+
+body.open-menu {
+    overflow-y: hidden;
+}
+
+.open-menu .burger__line {
+    background-color: var(--text);
+    transition: transform .3s ease-in-out;
+}
+
+.open-menu .burger__line:nth-child(1) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.open-menu .burger__line:nth-child(2) {
+    opacity: 0;
+}
+
+.open-menu .burger__line:nth-child(3) {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
 }
 
 

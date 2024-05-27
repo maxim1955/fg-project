@@ -2,27 +2,26 @@
     <q-footer>
         <footer class="footer">
         <div class="container">
-            <div class="footer__container">
-                <div class="footer__left">
-                    <div class="footer__logos">
-                        <img src="img/footer-logo-1.svg" alt="">
-                        <img src="img/footer-logo-2.svg" alt="">
+            <div class="footer__container flex">
+                <div class="footer__left flex column">
+                    <div class="footer__logos flex">
+                        <router-link :to="{name: 'home'}"><img src="../assets/img/footer-logo-1.svg" alt=""></router-link>
+                        <a target="_blank" href="https://shkola55perm.ru"><img src="../assets/img/footer-logo-2.svg" alt=""></a>
                     </div>
-                    <div class="footer__copyright">© 2024 МАОУ «СОШ № 55 имени дважды Героя Советского
-                        Союза Г.Ф. Сивкова»</div>
+                    <div class="footer__copyright">&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</div>
                 </div>
-                <div class="footer__middle">
-                    <div class="footer__terms">
-                        <a href="" class="footer__link">Пользовательское соглашение</a>
-                        <a href="" class="footer__link">Политика о персональных данных</a>
+                <div class="footer__middle flex column">
+                    <div class="footer__terms flex column">
+                        <a target="_blank" href="https://docs.google.com/document/d/1bvu8LaYXfBBOyenb9K_73980SOiNBdC5Ka6F7HBhro0/edit" class="footer__link">Пользовательское соглашение</a>
+                        <a target="_blank" href="https://docs.google.com/document/d/1Z5DFIfdqGlYQx4WHMDMiMUjkPWbSDQL6sVRE0yvJLh0/edit" class="footer__link">Политика о персональных данных</a>
                     </div>
-                    <img src="img/footer-logo-3.svg" alt="">
+                    <a target="_blank" href="https://xn--g1ani7c.xn--p1ai/?ysclid=lroyqtkpvl175668603/"><img src="../assets/img/footer-logo-3.svg" alt=""></a>
                 </div>
-                <div class="footer__right social">
+                <div class="footer__right social flex column">
                     <span class="social__text">Соц.сети</span>
-                    <ul class="social__list list-reset">
-                        <li class="social__item">
-                            <a href="" class="social__link">
+                    <ul class="social__list list-reset flex">
+                        <li class="social__item social__item--tg">
+                            <a target="_blank" href="https://t.me/school55_perm" class="social__link">
                                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="48" height="48" rx="24" fill="#C9FF22" />
@@ -32,8 +31,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="social__item">
-                            <a href="" class="social__link">
+                        <li class="social__item social__item--vk">
+                            <a target="_blank" href="https://vk.com/school55_perm" class="social__link">
                                 <svg width="48" height="48" viewBox="0 0 48 48" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <rect width="48" height="48" rx="24" fill="#C9FF22" />
@@ -59,4 +58,155 @@
     .q-footer {
         position: inherit;
     }
+
+    footer {
+        padding-top: 120px;
+    }
+
+    .footer {
+        padding: 40px 0;
+        font-weight: 600;
+        border-radius: 80px 80px 0px 0px;
+        background-color: #F9F8F6;
+        color: var(--text);
+    }
+
+    .footer__container {
+        justify-content: space-between;
+    }
+
+    .footer__logos {
+        align-items: start;
+        gap: 40px;
+    }
+
+    .footer__left {
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .footer__copyright {
+        max-width: 465px;
+    }
+
+    .footer__middle {
+        justify-content: space-between;
+    }
+
+    .footer__terms {
+        gap: 8px;
+    }
+
+    .footer__middle img {
+        max-width: max-content;
+    }
+
+    .social__list {
+        gap: 20px;
+    }
+
+    .footer__right {
+        gap: 12px;
+    }
+
+    .social__item rect,
+    .social__item path {
+        transition: fill .3s ease-in-out;
+    }
+
+    .social__item--tg:hover rect {
+        fill: #34ABDF;
+    }
+
+    .social__item:hover path {
+        fill: white;
+    }
+
+    .social__item--tg:focus-visible rect,
+    .social__item--tg:active rect {
+        fill: #2097CB;
+    }
+
+    .social__item:focus-visible path,
+    .social__item:active path {
+        fill: white;
+    }
+
+
+
+
+    .social__item--vk:hover rect {
+        fill: #5181B8;
+    }
+
+
+    .social__item--vk:focus-visible rect,
+    .social__item--vk:active rect {
+        fill: #3D6DA4;
+    }
+
+
+    @media (max-width: 1400px) {
+        .footer {
+            font-size: 16px;
+            border-radius: 60px 60px 0px 0px;
+        }
+
+        .footer__copyright {
+            font-size: 14px;
+        }
+
+        footer {
+            padding-top: 84px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer__left {
+            display: contents;
+        }
+
+        .footer__middle {
+            display: contents;
+        }
+
+        .footer__container {
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .footer__logos {
+            order: -1;
+        }
+
+        .footer__terms {
+            order: -1;
+        }
+
+        .footer__right {
+            order: -1;
+        }
+
+        .footer__copyright {
+            order: 1;
+            font-size: 12px;
+            line-height: 14.4px;
+        }
+
+        .footer__link,
+        .social__text {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .footer {
+            border-radius: 40px 40px 0px 0px;
+        }
+
+        footer {
+            padding-top: 80px;
+        }
+    }
+
+
 </style>
