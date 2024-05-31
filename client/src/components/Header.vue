@@ -1,6 +1,6 @@
 <template>
     <q-header>
-        <header class="header">
+        <header class="header" ref="header" :class="{'header-radius': radius}">
             <div class="container">
                 <div class="header__container">
                     <router-link :to="{name: 'home'}" class="header__logo">
@@ -67,10 +67,11 @@
 </template>
 
 <script>
+import { ref } from 'vue'
     export default {
         data() {
             return {
-
+                radius: false,
             }
         },
         methods: {
@@ -82,11 +83,25 @@
 
         },
 
+        created() {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY  >= this.$refs.header.clientHeight) {
+                    this.radius = true;
+                } else this.radius = false;
+            })
+
+
+        }
+
     }
 
 </script>
 
 <style>
+
+.header-radius {
+    border-radius: 0px 0px 60px 60px;
+}
 
 .header__picture--mob {
     opacity: 0;
@@ -98,6 +113,7 @@
 .header {
     padding: 20px 0;
     background-color: var(--red);
+
 }
 
 .header__container {
@@ -382,6 +398,10 @@
 
     .header {
         padding: 12px 0;
+    }
+
+    .header-radius {
+        border-radius: 0px 0px 40px 40px;
     }
 }
 

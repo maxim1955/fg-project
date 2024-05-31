@@ -753,6 +753,7 @@
 .training__card--two img {
     height: 100%;
     vertical-align: bottom;
+    object-fit: cover;
 }
 
 .training__card--three {
@@ -894,7 +895,7 @@
 .partners__list {
     display: flex;
     gap: 40px;
-    animation: scroll 5s linear infinite;
+    animation: scroll 8s linear infinite;
 }
 
 .partners__container:hover .partners__list {
@@ -1185,7 +1186,16 @@
     bottom: 60px;
 }
 
+.form__block > div {
+    width: 100%;
+}
+
 @media (max-width: 1400px) {
+
+    .banner {
+        border-radius: 0px 0px 60px 60px;
+    }
+
     .hero__right {
         flex-direction: column;
         align-self: end;
@@ -1538,6 +1548,11 @@
 
 
 @media (max-width: 768px) {
+
+    .banner {
+        border-radius: 0px 0px 40px 40px;
+    }
+
     .img-animation {
         animation: none;
     }
@@ -1855,6 +1870,11 @@
         padding-top: 16px;
         padding-bottom: 28px;
     }
+
+    .hero__right {
+        align-self: start;
+    }
+
 
     .banner {
         border-radius: 0px 0px 40px 40px;
