@@ -48,6 +48,7 @@
 
     .modal__close {
         align-self: end;
+        flex-shrink: 0;
         margin-bottom: 12px;
         width: 40px;
         height: 40px;

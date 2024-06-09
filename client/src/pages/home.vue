@@ -90,21 +90,44 @@
                             @swiper="onSwiper"
                             @slideChange="onSlideChange"
                             :pagination="{ clickable: true }"
-                            >
+                            :autoplay="{
+                            delay: 2500,
+                            disableOnInteraction: false,
+                            }">
                             <swiper-slide>
+                                <picture>
+                                    <source srcset="../assets/img/training-21-360.webp" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-21-1024.webp" media="(max-width:1024px)">
                                     <img src="../assets/img/training-21.webp" alt="">
+                                </picture>
                             </swiper-slide>
                             <swiper-slide>
+                                <picture>
+                                    <source srcset="../assets/img/training-22-360.webp" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-22-1024.webp" media="(max-width:1024px)">
                                     <img src="../assets/img/training-22.webp" alt="">
+                                </picture>
                             </swiper-slide>
                             <swiper-slide>
+                                <picture>
+                                    <source srcset="../assets/img/training-23-360.webp" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-23-1024.webp" media="(max-width:1024px)">
                                     <img src="../assets/img/training-23.webp" alt="">
+                                </picture>
                             </swiper-slide>
                             <swiper-slide>
+                                <picture>
+                                    <source srcset="../assets/img/training-24-360.webp" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-24-1024.webp" media="(max-width:1024px)">
                                     <img src="../assets/img/training-24.webp" alt="">
+                                </picture>
                             </swiper-slide>
                             <swiper-slide>
+                                <picture>
+                                    <source srcset="../assets/img/training-25-360.webp" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-25-1024.webp" media="(max-width:1024px)">
                                     <img src="../assets/img/training-25.webp" alt="">
+                                </picture>
                             </swiper-slide>
                         </swiper>
 
@@ -148,7 +171,11 @@
                         <img src="../assets/img/auditorium-31.webp" alt="">
                     </div>
                     <div class="auditorium__card auditorium__card--four">
-                        <img src="../assets/img/auditorium-4.webp" alt="">
+                        <picture>
+                            <source srcset="../assets/img/auditorium-4-1024.webp" media="(max-width: 1024px)">
+                            <source srcset="../assets/img/auditorium-4-360.webp" media="(max-width: 576px)">
+                            <img src="../assets/img/auditorium-4.webp" alt="">
+                        </picture>
                     </div>
                     <div class="auditorium__card auditorium__card--five">
                         <img src="../assets/img/auditorium-5.webp" alt="">
@@ -278,7 +305,7 @@
     import Header from '../components/Header.vue';
     import Footer from '../components/Footer.vue';
     import FeedbackModal from '../components/FeedbackModal.vue';
-    import { Pagination } from 'swiper';
+    import { Pagination, Autoplay  } from 'swiper';
     import { Swiper, SwiperSlide } from 'swiper/vue';
     import {Form, Field, ErrorMessage, configure} from 'vee-validate';
 
@@ -337,7 +364,7 @@
             return {
                 onSwiper,
                 onSlideChange,
-                modules: [Pagination],
+                modules: [Pagination, Autoplay],
             };
             },
 
@@ -354,7 +381,6 @@
 
             resizeHeader() {
                 this.headerHeight = document.querySelector('.header').clientHeight;
-                console.log(document.querySelector('.header').clientHeight);
             },
             validateName(value) {
                 if (!value) {
@@ -483,6 +509,12 @@
 </script>
 
 <style>
+
+.banner {
+    border-radius: 0px 0px 80px 80px;
+    background-color: var(--red);
+    color: white;
+}
 
 .form__input.form__input--error::placeholder {
     color: var(--red);
@@ -751,6 +783,7 @@
 }
 
 .training__card--two img {
+    width: 100%;
     height: 100%;
     vertical-align: bottom;
     object-fit: cover;
@@ -800,6 +833,7 @@
 }
 
 .auditorium__card img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
 }
