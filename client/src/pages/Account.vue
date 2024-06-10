@@ -94,6 +94,10 @@
             <BonusesTab></BonusesTab>
           </q-tab-panel>
 
+          <q-tab-panel name="resources">
+            <ResourcesTab></ResourcesTab>
+          </q-tab-panel>
+
             </q-tab-panels>
             </div>
             <div class="account__footer">
@@ -110,11 +114,12 @@
 </template>
 
 <script>
-    import { ref } from 'vue'
-    import HomeTab from '../components/HomeTab.vue'
-    import BonusesTab from '../components/BonusesTab.vue'
+    import { ref } from 'vue';
+    import HomeTab from '../components/HomeTab.vue';
+    import BonusesTab from '../components/BonusesTab.vue';
+    import ResourcesTab from '../components/ResourcesTab.vue';
     export default {
-        components: {HomeTab, BonusesTab},
+        components: {HomeTab, BonusesTab, ResourcesTab},
         data() {
             return {
                 points: 100,
@@ -392,6 +397,7 @@
     .q-tab-panel {
         padding: 0;
         padding-top: 13px;
+        overflow: hidden;
     }
 
     .cards__text {
@@ -752,6 +758,10 @@
             padding-top: 40px;
         }
 
+        .account {
+            background-image: url(../assets/img/account-bg-1024.webp);
+        }
+
 
     }
 
@@ -885,7 +895,12 @@
             padding-top: 28px;
             background-size: 24px;
         }
+    }
 
+    @media (max-width: 360px) {
+        .account {
+            background-image: url(../assets/img/account-bg-360.webp);
+        }
     }
 
 
