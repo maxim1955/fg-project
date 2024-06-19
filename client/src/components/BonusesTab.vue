@@ -145,7 +145,7 @@ const bonuses = [
 
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
         .bonuses__container {
             grid-template-columns: 1fr;
             grid-auto-flow: row;
