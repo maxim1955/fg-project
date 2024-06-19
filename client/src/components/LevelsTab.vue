@@ -91,7 +91,7 @@ export default {
   methods: {
     getLevel(level) {
         this.level = level;
-        this.showTasks = true;
+        // this.$router.push({name: 'tasks'})
     },
     showLevel() {
         this.showTasks = false;
@@ -101,7 +101,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
     .levels__title {
         margin-bottom: 93px;
         position: relative;

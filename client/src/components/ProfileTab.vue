@@ -46,10 +46,16 @@
 import ChoiceAvatarModal from './ChoiceAvatarModal.vue';
 export default {
     components: {ChoiceAvatarModal},
-    props: ['user'],
     data() {
     return {
-
+        user: {
+            name: 'Иван',
+            surname: 'Иванов',
+            lastname: 'Иванович',
+            classNumber: '8 Б',
+            gender: 'female',
+            avatar: '../assets/img/profile-avatar.png'
+        },
 
       showChoiceAvatar: false,
 

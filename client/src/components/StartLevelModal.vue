@@ -1,5 +1,5 @@
 <template>
-    <div class="modal">
+    <div v-if="!showTask" class="modal">
         <div class="modal__overlay">
             <div class="modal__window">
                 <button @click="$emit('close-modal')" class="btn-reset modal__close"></button>
@@ -7,17 +7,32 @@
                     <h2 class="modal__title">
                         На&nbsp;прохождение задания у&nbsp;тебя сегодня 30&nbsp;минут</h2>
                         <h2 class="modal__title">Начинаем?</h2>
-                        <button class="modal__btn btn-reset">Начать</button>
+                        <router-link :to="{name: 'task'}" class="modal__btn btn-reset">Начать</router-link>
                 </div>
 
             </div>
         </div>
     </div>
+    <Task v-else/>
 </template>
 
 <script>
+import Task from './Task.vue';
 export default {
+    data() {
+        return {
+            showTask: false,
+        }
+    },
+    components: {Task},
+    props: ['currentTask'],
 
+    methods: {
+        openTask() {
+            this.$emit('close-modal');
+            this.showTask = true;
+        },
+    }
 }
 </script>
 

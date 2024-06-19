@@ -38,7 +38,7 @@
 
             <div class="tasks__list">
                 <div v-for="task of tasks" :key="task.id">
-                    <button class="tasks__item task btn-reset" :class="{'tasks__item--violet': task.id == 1, 'tasks__item--orange': task.id == 2, 'tasks__item--green': task.id == 3, 'tasks__item--red': task.id == 4, 'tasks__item--lightgreen': task.id == 5}" @click="openModalStart()" :disabled="this.points < level.min">
+                    <button class="tasks__item task btn-reset" :class="{'tasks__item--violet': task.id == 1, 'tasks__item--orange': task.id == 2, 'tasks__item--green': task.id == 3, 'tasks__item--red': task.id == 4, 'tasks__item--lightgreen': task.id == 5}" @click="openModalStart(task.id)" :disabled="this.points < level.min">
                         <span v-if="task.id == 1" class="task__name">{{ task.name }}</span>
                         <span v-else class="task__name">Задание {{ task.id }}</span>
                         <span class="task__points">0 из 20 баллов</span>
@@ -48,7 +48,7 @@
 
             </div>
         </div>
-        <StartLevelModal @close-modal="closeModalStart()" v-show="this.showModalStart"></StartLevelModal>
+        <StartLevelModal :currentTask="this.currentTask" @close-modal="closeModalStart()" v-show="this.showModalStart"></StartLevelModal>
     </div>
 </template>
 
@@ -128,6 +128,7 @@ export default {
 
         ],
         showModalStart: false,
+        currentTask: null,
 
     }
   },
@@ -136,8 +137,9 @@ export default {
         this.level = level;
         this.showTasks = true;
     },
-    openModalStart() {
+    openModalStart(id) {
         this.showModalStart = true;
+        this.currentTask = id;
     },
     closeModalStart() {
         this.showModalStart = false;
@@ -152,7 +154,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .tasks__item {
         display: flex;
         justify-content: space-between;

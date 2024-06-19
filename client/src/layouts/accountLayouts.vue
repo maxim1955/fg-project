@@ -1,26 +1,29 @@
-<!-- <template>
-  <div class="">
+<template>
+    <q-layout view="hHh lpR fFf">
+        <div class="">
     <div class="account row justify-between no-wrap">
         <div class="menu" :class="{collapse: this.collapse}">
             <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
-            <router-link :to="{name: 'home'}" class="menu__logo" href=""><img src="../assets/img/account-logo.svg" alt="Логотип"></router-link>
+            <router-link :to="{name: 'main'}" class="menu__logo">
+                <img src="../assets/img/account-logo.svg" alt="Логотип">
+            </router-link>
             <q-tabs
             v-model="tab"
             vertical
             class=""
             >
-          <q-tab class="menu__item menu__item--home" name="home" label="Главная" />
-          <q-tab class="menu__item menu__item--levels" name="levels" label="Уровни" />
-          <q-tab class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы" />
-          <q-tab class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
-          <q-tab class="menu__item menu__item--chat" name="chat" label="Чат" />
+                <q-route-tab to="/home" class="menu__item menu__item--home" name="home" label="Главная" />
+                <q-route-tab to="/levels" class="menu__item menu__item--levels" name="levels" label="Уровни" />
+                <q-route-tab to="/bonuses" class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы"/>
+                <q-route-tab to="/resources" class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
+                <!-- <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" /> -->
         </q-tabs>
         </div>
 
         <div class="content flex justify-end">
             <div>
                 <div class="account__header">
-                    <a class="account__logo" href=""><img src="../assets/img/account-logo-1024.svg" alt="Логотип"></a>
+                    <router-link :to="{name: 'main'}" class="account__logo"><img src="../assets/img/account-logo-1024.svg" alt="Логотип"></router-link>
                     <div class="points">
                         <div class="points__amount">{{ this.points }}</div>
                     </div>
@@ -39,15 +42,15 @@
                                     vertical
                                     class=""
                                     >
-                                    <q-tab class="profile__link" name="profile">
+                                    <q-route-tab to="/profile" class="profile__link" name="profile">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M10.1322 9.05768C10.0488 9.04935 9.94883 9.04935 9.85716 9.05768C7.87383 8.99102 6.29883 7.36602 6.29883 5.36602C6.29883 3.32435 7.94883 1.66602 9.99883 1.66602C12.0405 1.66602 13.6988 3.32435 13.6988 5.36602C13.6905 7.36602 12.1155 8.99102 10.1322 9.05768Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M5.96563 12.134C3.94896 13.484 3.94896 15.684 5.96563 17.0257C8.25729 18.559 12.0156 18.559 14.3073 17.0257C16.324 15.6757 16.324 13.4757 14.3073 12.134C12.024 10.609 8.26562 10.609 5.96563 12.134Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-                                        Профиль</q-tab>
+                                        Профиль</q-route-tab>
                                 </q-tabs>
                             </li>
-                            <li class="profile__item profile__item--chat">
+                            <!-- <li class="profile__item profile__item--chat">
                                 <router-link class="profile__link">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14.167 17.0827H5.83366C3.33366 17.0827 1.66699 15.8327 1.66699 12.916V7.08268C1.66699 4.16602 3.33366 2.91602 5.83366 2.91602H14.167C16.667 2.91602 18.3337 4.16602 18.3337 7.08268V12.916C18.3337 15.8327 16.667 17.0827 14.167 17.0827Z" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,7 +58,7 @@
                                     </svg>
                                         Чат
                                 </router-link>
-                            </li>
+                            </li> -->
                             <li class="profile__item profile__item--exit">
                                 <a class="profile__link">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +73,10 @@
                         </ul>
                     </div>
                 </div>
-            <div class="account__main">
+
+                <router-view/>
+
+            <!-- <div class="account__main">
                 <q-tab-panels
                 v-model="tab"
                 animated
@@ -100,20 +106,17 @@
           </q-tab-panel>
 
             </q-tab-panels>
-            </div>
+            </div> -->
+
             <div class="account__footer">
               <span>&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</span>
             </div>
-
             </div>
-
         </div>
-
     </div>
-
   </div>
+    </q-layout>
 </template>
-
 <script>
     import { ref } from 'vue';
     import HomeTab from '../components/HomeTab.vue';
@@ -139,7 +142,6 @@
                     gender: 'female',
                     avatar: '../assets/img/profile-avatar.png'
                 },
-                tabs: ['home', 'levels', 'bonuses', 'resources', 'chat'],
             }
         },
         setup () {
@@ -163,8 +165,10 @@
         }
     }
 </script>
-
 <style>
+    .q-router-link--active {
+        background-color: rgba(255, 255, 255, 0.32);
+    }
 
     .cards__img {
         display: none;
@@ -976,6 +980,4 @@
             background-image: url(../assets/img/account-bg-360.webp);
         }
     }
-
-
-</style> -->
+</style>
