@@ -1,9 +1,15 @@
 <template>
-    <main-layouts/>
+    <main-layouts v-if="$route.meta.layout == 'mainLayouts'">
+        <router-view/>
+    </main-layouts>
+    <account-layouts v-else>
+        <router-view/>
+    </account-layouts>
 </template>
 
 <script setup>
 import MainLayouts from "./layouts/mainLayouts.vue";
+import AccountLayouts from "./layouts/accountLayouts.vue";
 </script>
 
 <style>

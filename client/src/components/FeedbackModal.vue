@@ -5,7 +5,7 @@
                 <button @click="$emit('close-modal')" class="btn-reset modal__close"></button>
                 <div class="modal__block">
                     <h1 class="modal__title">Спасибо!</h1>
-                    <p class="modal__text">Мы ценим каждое обращение и ответим в ближайшее время на почту</p>
+                    <p class="modal__text">Мы ценим каждое обращение и ответим в ближайшее время на ваш e-mail</p>
                 </div>
 
             </div>
@@ -48,6 +48,7 @@
 
     .modal__close {
         align-self: end;
+        flex-shrink: 0;
         margin-bottom: 12px;
         width: 40px;
         height: 40px;
