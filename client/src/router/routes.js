@@ -7,37 +7,37 @@ import ResourcesTab from '../components/ResourcesTab.vue'
 import ProfileTab from '../components/ProfileTab.vue'
 import Tasks from '../components/Tasks.vue'
 import Task from '../components/Task.vue'
+
 const routes = [
-  {
-    path: '/',
-    name: 'main',
-    component: home,
-    meta: { layout: 'mainLayouts' },
-  },
+    {
+        path: '/',
+        name: 'main',
+        component: home,
+        meta: {layout: 'mainLayouts'},
+    },
+    {
+        path: '/home',
+        name: 'home',
+        component: HomeTab,
+    },
 
-  {
-    path: '/home',
-    name: 'home',
-    component: HomeTab,
-  },
+    {
+        path: '/bonuses',
+        name: 'bonuses',
+        component: BonusesTab,
+    },
 
-  {
-    path: '/bonuses',
-    name: 'bonuses',
-    component: BonusesTab,
-  },
+    {
+        path: '/levels',
+        name: 'levels',
+        component: LevelsTab,
+    },
 
-  {
-    path: '/levels',
-    name: 'levels',
-    component: LevelsTab,
-  },
-
-  {
-    path: '/resources',
-    name: 'resources',
-    component: ResourcesTab,
-  },
+    {
+        path: '/resources',
+        name: 'resources',
+        component: ResourcesTab,
+    },
 
 //   {
 //     path: '/chat',
@@ -45,23 +45,23 @@ const routes = [
 //     component: ChatTab,
 //   },
 
-  {
-    path: '/profile',
-    name: 'profile',
-    component: ProfileTab,
-  },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: ProfileTab,
+    },
 
-  {
-    path: '/tasks',
-    name: 'tasks',
-    component: Tasks,
-  },
+    {
+        path: '/tasks',
+        name: 'tasks',
+        component: Tasks,
+    },
 
-  {
-    path: '/task',
-    name: 'task',
-    component: Task,
-  },
+    {
+        path: '/task',
+        name: 'task',
+        component: Task,
+    },
 
 
 ]

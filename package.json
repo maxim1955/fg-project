@@ -17,7 +17,7 @@
         "@babel/runtime": "^7.24.7",
         "@quasar/extras": "^1.16.11",
         "quasar": "^2.16.2",
-        "swiper": "^9.0.0",
+        "swiper": "^9.4.1",
         "vee-validate": "^4.12.8"
     }
 }
