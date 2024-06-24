@@ -98,6 +98,10 @@
             <ResourcesTab></ResourcesTab>
           </q-tab-panel>
 
+          <q-tab-panel name="chat">
+            <ChatTab></ChatTab>
+          </q-tab-panel>
+
             </q-tab-panels>
             </div>
             <div class="account__footer">
@@ -118,8 +122,9 @@
     import HomeTab from '../components/HomeTab.vue';
     import BonusesTab from '../components/BonusesTab.vue';
     import ResourcesTab from '../components/ResourcesTab.vue';
+    import ChatTab from '../components/ChatTab.vue';
     export default {
-        components: {HomeTab, BonusesTab, ResourcesTab},
+        components: {HomeTab, BonusesTab, ResourcesTab, ChatTab},
         data() {
             return {
                 points: 100,
