@@ -16,7 +16,7 @@
                 <q-route-tab to="/levels" class="menu__item menu__item--levels" name="levels" label="Уровни" />
                 <q-route-tab to="/bonuses" class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы"/>
                 <q-route-tab to="/resources" class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
-                <!-- <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" /> -->
+                <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" />
         </q-tabs>
         </div>
 

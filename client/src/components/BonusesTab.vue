@@ -1,5 +1,5 @@
 <template>
-    <div class="boneses">
+    <div class="bonuses">
         <p class="bonuses__text">Выбери вознаграждение из доступных тебе учебных курсов.</p>
         <ul class="bonuses__container">
             <li v-for="bonus in bonuses" :key="bonus.id" class="bonuses__item bonus list-reset">
