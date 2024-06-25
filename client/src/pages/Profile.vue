@@ -80,7 +80,7 @@
                         transition-prev="jump-up"
                         transition-next="jump-up"
                         >
-
+                    
                     <q-tab-panel name="profile">
                         <ProfileTab></ProfileTab>
                     </q-tab-panel>
