@@ -8,7 +8,7 @@
             <path d="M11 26.1703V28.383C11 28.5466 11.065 28.7036 11.1807 28.8193C11.2964 28.935 11.4534 29 11.617 29H13.8297C13.9931 29 14.1497 28.9352 14.2654 28.8198L24.755 18.3302L21.6698 15.245L11.1802 25.7346C11.0648 25.8503 11 26.0069 11 26.1703ZM24.0689 12.8459L27.1541 15.9311L28.6387 14.4465C28.87 14.2151 29 13.9013 29 13.574C29 13.2468 28.87 12.933 28.6387 12.7015L27.2985 11.3613C27.067 11.13 26.7532 11 26.426 11C26.0987 11 25.7849 11.13 25.5535 11.3613L24.0689 12.8459Z" stroke="#414143" stroke-width="1.5"/>
             </svg>
         </button>
-        <img class="avatar__img" src="../assets/img/profile-avatar.png" />
+        <img class="avatar__img" :src="getImgUrl(user.avatar)" />
         </div>
 
         <form class="profile__form form">
@@ -48,16 +48,17 @@ export default {
     components: {ChoiceAvatarModal},
     data() {
     return {
-
+        user: {
+            name: 'Иван',
+            surname: 'Иванов',
+            lastname: 'Иванович',
+            classNumber: '8 Б',
+            gender: 'female',
+            avatar: '../assets/img/profile-avatar.png'
+        },
 
       showChoiceAvatar: false,
-      user: {
-        name: 'Иван',
-        surname: 'Иванов',
-        lastname: 'Иванович',
-        classNumber: '8 Б',
-        gender: 'female'
-      }
+
     };
   },
   methods: {
@@ -66,7 +67,14 @@ export default {
     },
     closeChoiceAvatar() {
         this.showChoiceAvatar = false;
+    },
+    getImgUrl(imageNameWithExtension) {
+       return new URL(`${imageNameWithExtension}`, import.meta.url).href
     }
+  },
+
+  computed: {
+
   }
 
 }
@@ -76,7 +84,9 @@ export default {
     .content {
         justify-content: start;
     }
+
     .profile {
+        position: relative;
         flex-direction: column;
         align-items: start;
         gap: 60px;
@@ -157,7 +167,7 @@ export default {
         }
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
         .profile__title {
             font-size: 26px;
             line-height: 31.2px;

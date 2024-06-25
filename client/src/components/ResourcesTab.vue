@@ -112,7 +112,7 @@ export default {
         gap: 60px;
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
         .rosources__title {
             font-size: 26px;
             line-height: 31.2px;
@@ -120,6 +120,57 @@ export default {
 
         .resources {
             gap: 40px;
+        }
+
+        .resource__item {
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .resource__list {
+            gap: 10px;
+        }
+
+        .resources__container {
+            gap: 40px;
+        }
+
+        .resource__title {
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .resource__card {
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .rosources__title {
+            font-size: 24px;
+            line-height: 28.8px;
+        }
+
+        .resource__title {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .resource__card {
+            gap: 12px;
+        }
+
+        .resources {
+            gap: 32px;
+        }
+
+        .resources__container {
+            gap: 20px;
+        }
+
+        .resource__item {
+            font-size: 14px;
+            line-height: 16.8px;
         }
     }
 </style>
