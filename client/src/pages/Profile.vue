@@ -4,7 +4,7 @@
           <div class="menu" :class="{collapse: this.collapse}">
               <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
               <router-link :to="{name: 'home'}" class="menu__logo" href=""><img src="../assets/img/account-logo.svg" alt="Логотип"></router-link>
-              <router-link :to="{name: 'account'}">
+
                 <q-tabs
                     v-model="tab"
                     vertical
@@ -16,7 +16,7 @@
                     <q-tab class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
                     <q-tab class="menu__item menu__item--chat" name="chat" label="Чат" />
                 </q-tabs>
-              </router-link>
+
 
           </div>
 
@@ -80,9 +80,25 @@
                         transition-prev="jump-up"
                         transition-next="jump-up"
                         >
-                    
+
+                        <q-tab-panel name="home">
+                            <HomeTab></HomeTab>
+                        </q-tab-panel>
+
                     <q-tab-panel name="profile">
                         <ProfileTab></ProfileTab>
+                    </q-tab-panel>
+
+                    <q-tab-panel name="bonuses">
+                        <BonusesTab></BonusesTab>
+                    </q-tab-panel>
+
+                    <q-tab-panel name="resources">
+                        <ResourcesTab></ResourcesTab>
+                    </q-tab-panel>
+
+                    <q-tab-panel name="chat">
+                        <ChatTab></ChatTab>
                     </q-tab-panel>
 
               </q-tab-panels>
@@ -101,11 +117,14 @@
   </template>
 
   <script>
-    import { ref } from 'vue'
-    import HomeTab from '../components/HomeTab.vue'
-    import ProfileTab from '../components/ProfileTab.vue'
+    import { ref } from 'vue';
+    import HomeTab from '../components/HomeTab.vue';
+    import ProfileTab from '../components/ProfileTab.vue';
+    import BonusesTab from '../components/BonusesTab.vue';
+    import ResourcesTab from '../components/ResourcesTab.vue';
+    import ChatTab from '../components/ChatTab.vue';
       export default {
-          components: {HomeTab, ProfileTab},
+          components: {HomeTab, ProfileTab, BonusesTab, ResourcesTab, ChatTab},
           data() {
               return {
                   points: 100,

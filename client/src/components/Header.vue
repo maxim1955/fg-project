@@ -3,7 +3,7 @@
         <header class="header" ref="header" :class="{'header-radius': radius}">
             <div class="container">
                 <div class="header__container">
-                    <router-link :to="{name: 'home'}" class="header__logo">
+                    <router-link :to="{name: 'main'}" class="header__logo">
                         <picture class="header__picture">
                             <source srcset="../assets/img/logo-360.svg" media="(max-width:768px)">
                             <source srcset="../assets/img/logo-1024.svg" media="(max-width:1024px)">
@@ -38,7 +38,7 @@
                             </ul>
                         </nav>
 
-                        <router-link :to="{name: 'account'}" class="header__sign sign btn-reset">
+                       <router-link :to="{name: 'home'}" class="header__sign sign btn-reset">
                             <div class="sign__bg">
                                 <svg width="212" height="58" viewBox="0 0 212 58" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M28.5 0.5C12.7599 0.5 0 13.2599 0 29C0 44.7401 12.7599 57.5 28.5 57.5H122.5C133.111 57.5 142.368 51.7011 147.274 43.0996C148.469 41.004 150.588 39.5 153 39.5C155.412 39.5 157.531 41.004 158.726 43.0996C163.632 51.7011 172.889 57.5 183.5 57.5C199.24 57.5 212 44.7401 212 29C212 13.2599 199.24 0.5 183.5 0.5C172.374 0.5 162.738 6.87494 158.044 16.1712C157.065 18.1088 155.171 19.5 153 19.5C150.829 19.5 148.935 18.1088 147.956 16.1712C143.262 6.87493 133.626 0.5 122.5 0.5H28.5Z" fill="white"/>
@@ -52,6 +52,21 @@
                                 </svg>
                             </span>
                         </router-link>
+
+                        <!-- <q-btn @click="modalLogin = !modalLogin">
+                            <div class="sign__bg">
+                                <svg width="212" height="58" viewBox="0 0 212 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M28.5 0.5C12.7599 0.5 0 13.2599 0 29C0 44.7401 12.7599 57.5 28.5 57.5H122.5C133.111 57.5 142.368 51.7011 147.274 43.0996C148.469 41.004 150.588 39.5 153 39.5C155.412 39.5 157.531 41.004 158.726 43.0996C163.632 51.7011 172.889 57.5 183.5 57.5C199.24 57.5 212 44.7401 212 29C212 13.2599 199.24 0.5 183.5 0.5C172.374 0.5 162.738 6.87494 158.044 16.1712C157.065 18.1088 155.171 19.5 153 19.5C150.829 19.5 148.935 18.1088 147.956 16.1712C143.262 6.87493 133.626 0.5 122.5 0.5H28.5Z" fill="white"/>
+                                </svg>
+                            </div>
+                            <span class="sign__text">Войти</span>
+                            <span class="sign__img">
+                                <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="4.66667" cy="4.66667" r="4.66667" transform="matrix(-1 0 0 1 18.666 4)" fill="#414143" stroke="#414143" stroke-width="1.5"/>
+                                <path d="M5.83301 20.2565C5.83301 19.2527 6.464 18.3573 7.40928 18.0197C11.6711 16.4977 16.3283 16.4977 20.5901 18.0197C21.5353 18.3573 22.1663 19.2527 22.1663 20.2565V22.11C22.1663 23.3271 21.0884 24.262 19.8835 24.0899L17.8181 23.7948C15.2853 23.433 12.714 23.433 10.1813 23.7948L8.11585 24.0899C6.91099 24.262 5.83301 23.3271 5.83301 22.11V20.2565Z" fill="#414143" stroke="#414143" stroke-width="1.5"/>
+                                </svg>
+                            </span>
+                        </q-btn> -->
                     </div>
 
                     <button class="burger btn-reset" @click="toggleMenu()">
@@ -64,14 +79,27 @@
             </div>
         </header>
     </q-header>
+    <login
+    :openModal="modalLogin"
+    @closeModal="modalLogin = false"
+    />
 </template>
 
 <script>
 import { ref } from 'vue'
+import Login from "./modal/login.vue";
     export default {
+        components: {Login},
         data() {
             return {
                 radius: false,
+            }
+        },
+        setup(){
+            const modalLogin = ref(false)
+
+            return{
+                modalLogin,
             }
         },
         methods: {
@@ -84,8 +112,6 @@ import { ref } from 'vue'
                 document.body.classList.remove('open-menu');
                 document.querySelector('.header__menu').classList.remove('open');
             }
-
-
         },
 
         created() {

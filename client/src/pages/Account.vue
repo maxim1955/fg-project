@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="">
     <div class="account row justify-between no-wrap">
         <div class="menu" :class="{collapse: this.collapse}">
@@ -14,7 +14,6 @@
           <q-tab class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы" />
           <q-tab class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
           <q-tab class="menu__item menu__item--chat" name="chat" label="Чат" />
-          <!-- <q-tab class="menu__item menu__item--chat" name="profile" label="Профиль" /> -->
         </q-tabs>
         </div>
 
@@ -26,49 +25,49 @@
                         <div class="points__amount">{{ this.points }}</div>
                     </div>
                     <div class="profile">
-
-                        <q-btn class="profile__btn">
-                            <img class="profile__img" src="../assets/img/avatar.webp" alt="">
+                        <button class="profile__btn btn-reset" @click="this.openMenu=!this.openMenu">
+                            <img class="profile__img" :src="getImgUrl(user.avatar)" alt="">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19.9997 36.6673C29.2044 36.6673 36.6663 29.2054 36.6663 20.0007C36.6663 10.7959 29.2044 3.33398 19.9997 3.33398C10.7949 3.33398 3.33301 10.7959 3.33301 20.0007C3.33301 29.2054 10.7949 36.6673 19.9997 36.6673Z" fill="#C9FF22" stroke="#C9FF22" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M14.1162 17.9004L19.9995 23.7671L25.8829 17.9004" stroke="#414143" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-
-                            <q-menu class="profile__menu" :offset="[0, 12]">
-                                <q-list style="min-width: 100px">
-                                    <q-item clickable v-close-popup>
-                                    <q-item-section class="profile__item profile__item--profile">
-                                        <router-link :to="{name: 'profile'}">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10.1322 9.05768C10.0488 9.04935 9.94883 9.04935 9.85716 9.05768C7.87383 8.99102 6.29883 7.36602 6.29883 5.36602C6.29883 3.32435 7.94883 1.66602 9.99883 1.66602C12.0405 1.66602 13.6988 3.32435 13.6988 5.36602C13.6905 7.36602 12.1155 8.99102 10.1322 9.05768Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M5.96563 12.134C3.94896 13.484 3.94896 15.684 5.96563 17.0257C8.25729 18.559 12.0156 18.559 14.3073 17.0257C16.324 15.6757 16.324 13.4757 14.3073 12.134C12.024 10.609 8.26562 10.609 5.96563 12.134Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            Профиль
-                                        </router-link>
-
-
-                                    </q-item-section>
-                                    </q-item>
-                                    <q-item clickable v-close-popup>
-                                    <q-item-section class="profile__item profile__item--chat">
+                        </button>
+                        <ul class="profile__menu list-reset" :class="{open: this.openMenu}">
+                            <li class="profile__item profile__item--profile">
+                                <q-tabs
+                                    v-model="tab"
+                                    vertical
+                                    class=""
+                                    >
+                                    <q-tab class="profile__link" name="profile">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M14.167 17.0827H5.83366C3.33366 17.0827 1.66699 15.8327 1.66699 12.916V7.08268C1.66699 4.16602 3.33366 2.91602 5.83366 2.91602H14.167C16.667 2.91602 18.3337 4.16602 18.3337 7.08268V12.916C18.3337 15.8327 16.667 17.0827 14.167 17.0827Z" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M14.1663 7.5L11.558 9.58333C10.6997 10.2667 9.29134 10.2667 8.433 9.58333L5.83301 7.5" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M10.1322 9.05768C10.0488 9.04935 9.94883 9.04935 9.85716 9.05768C7.87383 8.99102 6.29883 7.36602 6.29883 5.36602C6.29883 3.32435 7.94883 1.66602 9.99883 1.66602C12.0405 1.66602 13.6988 3.32435 13.6988 5.36602C13.6905 7.36602 12.1155 8.99102 10.1322 9.05768Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M5.96563 12.134C3.94896 13.484 3.94896 15.684 5.96563 17.0257C8.25729 18.559 12.0156 18.559 14.3073 17.0257C16.324 15.6757 16.324 13.4757 14.3073 12.134C12.024 10.609 8.26562 10.609 5.96563 12.134Z" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-                                        Чат</q-item-section>
-                                    </q-item>
-                                    <q-item clickable v-close-popup>
-                                    <q-item-section class="profile__item profile__item--exit">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        Профиль</q-tab>
+                                </q-tabs>
+                            </li>
+                            <li class="profile__item profile__item--chat">
+                                <router-link class="profile__link">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14.167 17.0827H5.83366C3.33366 17.0827 1.66699 15.8327 1.66699 12.916V7.08268C1.66699 4.16602 3.33366 2.91602 5.83366 2.91602H14.167C16.667 2.91602 18.3337 4.16602 18.3337 7.08268V12.916C18.3337 15.8327 16.667 17.0827 14.167 17.0827Z" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M14.1663 7.5L11.558 9.58333C10.6997 10.2667 9.29134 10.2667 8.433 9.58333L5.83301 7.5" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                        Чат
+                                </router-link>
+                            </li>
+                            <li class="profile__item profile__item--exit">
+                                <a class="profile__link">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.41699 6.29922C7.67533 3.29922 9.21699 2.07422 12.592 2.07422H12.7003C16.4253 2.07422 17.917 3.56589 17.917 7.29089V12.7242C17.917 16.4492 16.4253 17.9409 12.7003 17.9409H12.592C9.24199 17.9409 7.70033 16.7326 7.42533 13.7826" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M12.499 10H3.01562" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M4.87467 7.20898L2.08301 10.0007L4.87467 12.7923" stroke="#414143" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-                                        Выход</q-item-section>
-                                    </q-item>
-                                </q-list>
-                            </q-menu>
-                        </q-btn>
+                                        Выход
+                                </a>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
             <div class="account__main">
@@ -85,13 +84,24 @@
             </q-tab-panel>
 
           <q-tab-panel name="levels">
-            <div class="text-h4 q-mb-md">Alarms</div>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+            <LevelsTab :points="this.points"></LevelsTab>
           </q-tab-panel>
 
           <q-tab-panel name="bonuses">
             <BonusesTab></BonusesTab>
+          </q-tab-panel>
+
+          <q-tab-panel name="resources">
+            <ResourcesTab></ResourcesTab>
+          </q-tab-panel>
+
+<<<<<<< HEAD
+          <q-tab-panel name="chat">
+            <ChatTab></ChatTab>
+=======
+          <q-tab-panel name="profile">
+            <ProfileTab :user="this.user"></ProfileTab>
+>>>>>>> 5fb1822497972a5797a8af460fafc7b01088f965
           </q-tab-panel>
 
             </q-tab-panels>
@@ -110,18 +120,37 @@
 </template>
 
 <script>
-    import { ref } from 'vue'
-    import HomeTab from '../components/HomeTab.vue'
-    import BonusesTab from '../components/BonusesTab.vue'
+    import { ref } from 'vue';
+    import HomeTab from '../components/HomeTab.vue';
+    import BonusesTab from '../components/BonusesTab.vue';
+    import ResourcesTab from '../components/ResourcesTab.vue';
+<<<<<<< HEAD
+    import ChatTab from '../components/ChatTab.vue';
     export default {
-        components: {HomeTab, BonusesTab},
+        components: {HomeTab, BonusesTab, ResourcesTab, ChatTab},
+=======
+    import LevelsTab from '../components/LevelsTab.vue';
+    import ProfileTab from '../components/ProfileTab.vue';
+    export default {
+        components: {HomeTab, BonusesTab, ResourcesTab, LevelsTab, ProfileTab},
+>>>>>>> 5fb1822497972a5797a8af460fafc7b01088f965
         data() {
             return {
-                points: 100,
+                points: 8,
                 individualPoints: 0,
                 rating: 0,
                 limitTime: 0,
                 collapse: false,
+                openMenu: false,
+                user: {
+                    name: 'Иван',
+                    surname: 'Иванов',
+                    lastname: 'Иванович',
+                    classNumber: '8 Б',
+                    gender: 'female',
+                    avatar: '../assets/img/profile-avatar.png'
+                },
+                tabs: ['home', 'levels', 'bonuses', 'resources', 'chat'],
             }
         },
         setup () {
@@ -134,7 +163,14 @@
         methods: {
             collapseMenu() {
                 this.collapse = !this.collapse;
+            },
+            getImgUrl(imageNameWithExtension) {
+                return new URL(`${imageNameWithExtension}`, import.meta.url).href
             }
+        },
+
+        mounted() {
+
         }
     }
 </script>
@@ -158,12 +194,12 @@
         background-repeat: no-repeat;
     }
 
-    .q-splitter__panel {
+    .menu .q-splitter__panel {
         width: 357px;
     }
 
 
-    .q-tab--active .q-tab__indicator {
+    .menu .q-tab--active .q-tab__indicator {
         display: none;
     }
 
@@ -192,7 +228,7 @@
         margin-bottom: 140px;
     }
 
-    .q-tabs--vertical .q-tab {
+    .menu .q-tabs--vertical .q-tab {
         padding: 0;
         padding: 12px 20px;
         justify-content: start;
@@ -243,11 +279,11 @@
         opacity: 0;
     }
 
-    .q-tabs--vertical .q-tab--active {
+    .menu .q-tabs--vertical .q-tab--active {
         background-color: rgba(255, 255, 255, 0.32);
     }
 
-    .q-tabs--vertical .q-tab:not(:last-child) {
+    .menu .q-tabs--vertical .q-tab:not(:last-child) {
         margin-bottom: 40px;
     }
 
@@ -255,7 +291,7 @@
         padding: 0;
     }
 
-    .q-tab__label {
+    .menu .q-tab__label {
         font-family: Nunito Sans;
         font-size: 20px;
         font-weight: 600;
@@ -268,24 +304,15 @@
         padding: 0;
     }
 
-    .profile__btn .q-btn__content {
-        gap: 8px;
-    }
-
-    .profile__btn.q-btn:before,
-    .profile__btn.q-btn:hover,
-    .q-btn--actionable.q-btn--standard:active:before, .q-btn--actionable.q-btn--standard.q-btn--active:before,
-    .q-btn--actionable.q-btn--standard:before {
-        box-shadow: none;
-    }
 
     body.desktop .q-focusable:focus > .q-focus-helper, body.desktop .q-manual-focusable--focused > .q-focus-helper, body.desktop .q-hoverable:hover > .q-focus-helper {
         background: none;
         opacity: 0;
     }
 
-    .q-tabs--vertical.q-tabs--not-scrollable .q-tabs__content {
+    .menu .q-tabs--vertical.q-tabs--not-scrollable .q-tabs__content {
         min-width: 277px;
+        transition: min-width .3s ease-in-out;
     }
 
     .account__header {
@@ -296,9 +323,24 @@
     }
 
     .profile {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 8px;
+    }
+
+    .profile__menu {
+        top: 100%;
+        z-index: 10;
+        background-color: white;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .3s ease-in-out, visibility .3s ease-in-out;
+    }
+
+    .profile__menu.open {
+        opacity: 1;
+        visibility: visible;
     }
 
     .points__amount {
@@ -392,6 +434,7 @@
     .q-tab-panel {
         padding: 0;
         padding-top: 13px;
+        overflow: hidden;
     }
 
     .cards__text {
@@ -455,6 +498,7 @@
     }
 
     .profile__menu {
+        position: absolute;
         right: 0;
         padding: 12px;
         left: auto;
@@ -465,10 +509,8 @@
     }
 
     .profile__item {
-        flex-direction: row;
-        justify-content: start;
-        align-items: center;
-        gap: 8px;
+        padding: 10px 8px;
+        min-width: 131px;
         font-size: 16px;
         font-weight: 600;
         line-height: 19.2px;
@@ -476,6 +518,38 @@
         background-repeat: no-repeat;
         transition: all .3s ease-in-out;
 
+    }
+
+    .profile__item--profile .q-tabs--vertical .q-tab {
+        padding: 0;
+    }
+
+    .profile__item--profile .q-tab__content {
+        flex-direction: row;
+        justify-content: start;
+        gap: 8px;
+        min-height: auto;
+        width: 100%;
+        text-transform: none;
+        color: var(--text);
+    }
+
+    .profile__item--profile .q-tab--inactive {
+        opacity: 1;
+    }
+
+    .profile__item--profile .q-tab {
+        min-height: auto;
+    }
+
+    .profile__item--profile .q-tabs--vertical .q-tab__indicator {
+        display: none;
+    }
+
+    .profile__link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
 
@@ -567,9 +641,20 @@
         .content {
             padding-left: 80px;
         }
+
+
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
+        .menu .q-tabs--vertical .q-tab:not(:last-child) {
+            margin-bottom: 0;
+        }
+
+        .menu .q-tab__label {
+            font-size: 10px;
+            line-height: 12px;
+        }
+
         .menu {
             padding: 12px 52px;
             position: fixed;
@@ -581,6 +666,12 @@
 
         .q-tabs--vertical .q-tabs__content {
             display: flex !important;
+        }
+
+        .menu .q-tabs--vertical .q-tab {
+            padding: 4px;
+            justify-content: center;
+            border-radius: 16px;
         }
 
         .menu__item .q-tab__content {
@@ -752,6 +843,10 @@
             padding-top: 40px;
         }
 
+        .account {
+            background-image: url(../assets/img/account-bg-1024.webp);
+        }
+
 
     }
 
@@ -885,8 +980,13 @@
             padding-top: 28px;
             background-size: 24px;
         }
+    }
 
+    @media (max-width: 360px) {
+        .account {
+            background-image: url(../assets/img/account-bg-360.webp);
+        }
     }
 
 
-</style>
+</style> -->
