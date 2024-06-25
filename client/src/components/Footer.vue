@@ -12,8 +12,8 @@
                 </div>
                 <div class="footer__middle flex column">
                     <div class="footer__terms flex column">
-                        <a target="_blank" href="https://docs.google.com/document/d/1bvu8LaYXfBBOyenb9K_73980SOiNBdC5Ka6F7HBhro0/edit" class="footer__link">Пользовательское соглашение</a>
-                        <a target="_blank" href="https://docs.google.com/document/d/1Z5DFIfdqGlYQx4WHMDMiMUjkPWbSDQL6sVRE0yvJLh0/edit" class="footer__link">Политика о персональных данных</a>
+                        <a target="_blank" href="/assets/docs/agreement.pdf" class="footer__link">Пользовательское соглашение</a>
+                        <a target="_blank" href="../assets/docs/policy.pdf" class="footer__link">Политика о персональных данных</a>
                     </div>
                     <a target="_blank" href="https://xn--g1ani7c.xn--p1ai/?ysclid=lroyqtkpvl175668603/"><img src="../assets/img/footer-logo-3.svg" alt=""></a>
                 </div>
@@ -51,6 +51,9 @@
 </template>
 
 <script>
+export default {
+
+}
 </script>
 
 

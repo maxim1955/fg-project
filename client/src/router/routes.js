@@ -7,7 +7,7 @@ import ChatTab from '../components/ChatTab.vue'
 import ProfileTab from '../components/ProfileTab.vue'
 import Tasks from '../components/Tasks.vue'
 import Task from '../components/Task.vue'
-import Test from '../components/Test.vue'
+import Test from '../pages/testing.vue'
 
 // import account from '../pages/Account.vue'
 // import profile from '../pages/Profile.vue'
