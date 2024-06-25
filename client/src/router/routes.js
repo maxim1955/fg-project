@@ -7,6 +7,7 @@ import ResourcesTab from '../components/ResourcesTab.vue'
 import ProfileTab from '../components/ProfileTab.vue'
 import Tasks from '../components/Tasks.vue'
 import Task from '../components/Task.vue'
+import Test from '../components/Test.vue'
 const routes = [
   {
     path: '/',
@@ -52,15 +53,21 @@ const routes = [
   },
 
   {
-    path: '/tasks',
+    path: '/levels/:id',
     name: 'tasks',
     component: Tasks,
   },
 
   {
-    path: '/task',
+    path: '/task/:id',
     name: 'task',
     component: Task,
+  },
+
+  {
+    path: '/test',
+    name: 'test',
+    component: Test,
   },
 
 

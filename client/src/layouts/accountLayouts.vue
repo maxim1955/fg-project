@@ -338,11 +338,13 @@
 
     .points__amount {
         padding: 20px 40px;
+        min-width: 124px;
         border-radius: 40px;
         font-size: 24px;
         font-weight: 700;
         line-height: 32.74px;
         background-color: white;
+        text-align: center;
     }
 
     .points {
@@ -704,6 +706,7 @@
 
         .points__amount {
             padding: 6px 12px;
+            min-width: 50px;
             font-size: 14px;
             line-height: 19.1px;
         }
@@ -817,7 +820,7 @@
         }
 
         .content > div {
-            padding-bottom: 100px;
+            padding-bottom: 80px;
         }
 
         .home.cards .card:nth-child(1) .cards__text {
@@ -839,6 +842,7 @@
         .account {
             background-image: url(../assets/img/account-bg-1024.webp);
         }
+
 
 
     }
@@ -973,6 +977,10 @@
             padding-top: 28px;
             background-size: 24px;
         }
+
+        .content > div {
+            padding-bottom: 56px;
+        }
     }
 
     @media (max-width: 360px) {
@@ -980,4 +988,5 @@
             background-image: url(../assets/img/account-bg-360.webp);
         }
     }
+
 </style>

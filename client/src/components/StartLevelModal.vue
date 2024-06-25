@@ -7,7 +7,7 @@
                     <h2 class="modal__title">
                         На&nbsp;прохождение задания у&nbsp;тебя сегодня 30&nbsp;минут</h2>
                         <h2 class="modal__title">Начинаем?</h2>
-                        <router-link :to="{name: 'task'}" class="modal__btn btn-reset">Начать</router-link>
+                        <button @click="openTask()" class="modal__btn btn-reset">Начать</button>
                 </div>
 
             </div>
@@ -29,8 +29,7 @@ export default {
 
     methods: {
         openTask() {
-            this.$emit('close-modal');
-            this.showTask = true;
+            this.$emit('open-task');
         },
     }
 }

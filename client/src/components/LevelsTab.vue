@@ -84,14 +84,16 @@ export default {
         rules: false,
         currentLevel: 2,
         level: {},
-        showTasks: false
+        showTasks: false,
+        points: 30,
 
     }
   },
   methods: {
     getLevel(level) {
         this.level = level;
-        // this.$router.push({name: 'tasks'})
+        this.showTasks = true;
+        // this.$router.push({name: 'tasks', params: {id: level.id}})
     },
     showLevel() {
         this.showTasks = false;
@@ -110,6 +112,10 @@ export default {
         font-weight: 700;
         line-height: 57.6px;
         text-transform: uppercase;
+    }
+
+    .levels__title span {
+        position: relative;
     }
 
     .levels__title span::before {
@@ -146,6 +152,7 @@ export default {
 
     .rules__btn::after {
         content: '';
+        flex-shrink: 0;
         display: inline-block;
         width: 40px;
         height: 40px;
@@ -257,6 +264,122 @@ export default {
     .rules__list {
         margin-bottom: 20px;
         padding-left: 20px;
+    }
+
+    @media (max-width: 1200px) {
+        .levels__title {
+            margin-bottom: 74px;
+            font-size: 26px;
+            line-height: 31.2px;
+        }
+
+        .rules__btn {
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 19.2px;
+            border-radius: 16px;
+        }
+
+        .rules__btn::after {
+            width: 32px;
+            height: 32px;
+            background-size: 32px;
+        }
+
+        .rules__item {
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .rules__text {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .levels__item span {
+            padding: 16px 20px;
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .levels__item {
+            min-height: 52px;
+            border-radius: 16px;
+        }
+
+        .levels__item.levels__item--open::before {
+            height: 52px;
+            content: url(../assets/img/level-open-1024.svg);
+        }
+
+        .levels__error {
+            padding-top: 12px;
+            font-size: 16px;
+            line-height: 19.2px;
+        }
+
+        .levels__list {
+            gap: 20px;
+        }
+
+        .levels__item::before {
+            height: 52px;
+            content: url(../assets/img/level-1024.svg);
+        }
+
+        .levels__container {
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .levels__title {
+            margin-bottom: 60px;
+            font-size: 24px;
+            line-height: 28.8px;
+        }
+
+        .rules__btn {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .levels__item span {
+            padding: 20px 28px;
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .levels__item {
+            min-height: 57px;
+        }
+
+        .levels__item.levels__item--open::before {
+            height: 57px;
+            content: url(../assets/img/level-open-360.svg);
+        }
+
+        .levels__item::before {
+            height: 57px;
+            content: url(../assets/img/level-360.svg);
+        }
+
+        .levels__error {
+            padding-top: 8px;
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .rules__item {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+
+        .rules__text {
+            font-size: 12px;
+            line-height: 14.4px;
+        }
     }
 
 </style>
