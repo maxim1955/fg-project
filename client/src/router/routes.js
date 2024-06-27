@@ -1,11 +1,9 @@
 import home from '../pages/home.vue'
-<<<<<<< HEAD
 import account from '../pages/Account.vue'
 import profile from '../pages/Profile.vue'
 import notfound from '../pages/NotFound.vue'
 import noauth from '../pages/NoAuth.vue'
 
-=======
 import HomeTab from '../components/HomeTab.vue'
 import BonusesTab from '../components/BonusesTab.vue'
 import LevelsTab from '../components/LevelsTab.vue'
@@ -15,7 +13,6 @@ import ProfileTab from '../components/ProfileTab.vue'
 import Tasks from '../components/Tasks.vue'
 import Task from '../components/Task.vue'
 import Test from '../components/Test.vue'
->>>>>>> 5fb1822497972a5797a8af460fafc7b01088f965
 const routes = [
     {
         path: '/',
