@@ -7,7 +7,7 @@
             <router-link class="no-auth__router">
                 <button class="no-auth__button no-auth__button-auth">Авторизоваться</button>
             </router-link>
-            <router-link class="no-auth__router" :to="{ name: 'home' }">
+            <router-link class="no-auth__router" :to="{ name: 'main' }">
                 <button class="no-auth__button no-auth__button-return">Вернуться на главную</button>
             </router-link>
         </div>

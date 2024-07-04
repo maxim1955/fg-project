@@ -7,7 +7,7 @@
 
             <img class="not-found__image" src="../assets/img/NotFoundLarge.svg" alt="" />
         </picture>
-        <router-link :to="{name: 'home'}">
+        <router-link :to="{name: 'main'}">
             <button class="not-found__button">Вернуться на главную</button>
         </router-link>
     </div>

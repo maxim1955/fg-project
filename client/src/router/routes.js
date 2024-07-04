@@ -68,21 +68,21 @@ const routes = [
         component: Task,
     },
 
-  {
-    path: '/test',
-    name: 'test',
-    component: Test,
-  },
-  {
-    path: '/:catchAll(.*)',
-    name: 'notfound',
-    component: notfound
-  },
-  {
-    path: '/unauthorized',
-    name: 'noauth',
-    component: noauth
-  }
+    {
+      path: '/test',
+      name: 'test',
+      component: Test,
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'notfound',
+      component: notfound
+    },
+    {
+      path: '/unauthorized',
+      name: 'noauth',
+      component: noauth
+    }
 
 
 ]
