@@ -7,7 +7,7 @@
             <router-link class="no-auth__router">
                 <button class="no-auth__button no-auth__button-auth">Авторизоваться</button>
             </router-link>
-            <router-link class="no-auth__router" :to="{ name: 'home' }">
+            <router-link class="no-auth__router" :to="{ name: 'main' }">
                 <button class="no-auth__button no-auth__button-return">Вернуться на главную</button>
             </router-link>
         </div>
@@ -18,14 +18,17 @@
             <img class="no-auth__image" src="../assets/img/NoAuthLarge.svg" alt="" />
         </picture>
     </div>
+    <div class="account__footer">
+        <span>&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</span>
+    </div>
 </template>
 
 <script>
-export default {
+  export default {
     name: 'NoAuth',
     props: {
     }
-}
+  }
 </script>
 
 <style scoped>

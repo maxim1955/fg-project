@@ -95,13 +95,12 @@
             <ResourcesTab></ResourcesTab>
           </q-tab-panel>
 
-<<<<<<< HEAD
           <q-tab-panel name="chat">
             <ChatTab></ChatTab>
-=======
+          </q-tab-panel>
+
           <q-tab-panel name="profile">
             <ProfileTab :user="this.user"></ProfileTab>
->>>>>>> 5fb1822497972a5797a8af460fafc7b01088f965
           </q-tab-panel>
 
             </q-tab-panels>
@@ -124,16 +123,11 @@
     import HomeTab from '../components/HomeTab.vue';
     import BonusesTab from '../components/BonusesTab.vue';
     import ResourcesTab from '../components/ResourcesTab.vue';
-<<<<<<< HEAD
     import ChatTab from '../components/ChatTab.vue';
-    export default {
-        components: {HomeTab, BonusesTab, ResourcesTab, ChatTab},
-=======
     import LevelsTab from '../components/LevelsTab.vue';
     import ProfileTab from '../components/ProfileTab.vue';
     export default {
-        components: {HomeTab, BonusesTab, ResourcesTab, LevelsTab, ProfileTab},
->>>>>>> 5fb1822497972a5797a8af460fafc7b01088f965
+        components: {HomeTab, BonusesTab, ResourcesTab, LevelsTab, ChatTab, ProfileTab},
         data() {
             return {
                 points: 8,
@@ -989,4 +983,4 @@
     }
 
 
-</style> -->
+</style>  <--
