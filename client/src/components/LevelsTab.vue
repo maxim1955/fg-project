@@ -38,7 +38,7 @@
         </div>
 
     </div>
-    <Tasks @show-level="showLevel()" :levelNum="this.level" v-else></Tasks>
+    <Tasks @show-task="getShowTask" @level-class="getLevelClass" @task-class="getTaskClass" @show-level="showLevel()" @back-levels-parent="backLevels()" :levelNum="this.level" v-else></Tasks>
 </template>
 
 <script>
@@ -82,23 +82,55 @@ export default {
 
         ],
         rules: false,
-        currentLevel: 2,
+        // currentLevel: 2,
         level: {},
         showTasks: false,
         points: 30,
+        taskClass: null,
+        currentLevel: null,
+        showTask: false,
+        currentTask: null
 
     }
   },
   methods: {
     getLevel(level) {
         this.level = level;
+        this.currentLevel = level.id;
         this.showTasks = true;
-        // this.$router.push({name: 'tasks', params: {id: level.id}})
     },
     showLevel() {
         this.showTasks = false;
+    },
+    backLevels() {
+        this.showTasks = false;
+        this.showTask = false;
+    },
+
+    getShowTask(newValue) {
+        this.showTask = newValue;
+    },
+
+    getTaskClass(newValue) {
+        this.currentTask = newValue;
+    },
+
+  },
+
+  watch: {
+    currentLevel(newValue) {
+      this.$emit("level-class", newValue);
+    },
+
+    currentTask(newValue) {
+      this.$emit("task-class", newValue);
+    },
+
+    showTask(newValue) {
+        this.$emit('show-tasks', newValue)
     }
-  }
+  },
+
 }
 </script>
 
@@ -137,6 +169,7 @@ export default {
         padding: 28px 20px;
         width: 100%;
         box-shadow: none;
+        border: none;
         background-color: white;
         border-radius: 22px;
         font-family: Unbounded;
@@ -147,6 +180,7 @@ export default {
         text-align: left;
         transition: border-radius .3s ease-out;
         text-transform: uppercase;
+        cursor: pointer;
 
     }
 

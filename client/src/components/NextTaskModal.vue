@@ -11,7 +11,7 @@
                     <p class="modal__text">Задание 3: 6 из 6 баллов</p>
 
                 </div>
-                <button class="modal__btn btn-reset flex items-center">
+                <button @click="$emit('next-task')" class="modal__btn btn-reset flex items-center">
                         Следующее задание
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.4297 6.42969L20.4997 12.4997L14.4297 18.5697" stroke="#3A3A3A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>

@@ -7,7 +7,7 @@
             <p class="intro__desc">Поваренная соль (хлорид натрия) известна всем. Поваренная соль — противоречивое вещество, его называют и «белым золотом», и «белой смертью», всё зависит от количества и качества соли. <br><br>
                 Трудно найти подобное вещество, которое является одновременно и полезным ископаемым, и пищевым продуктом, и химическим сырьём, и лекарственным средством. С самых давних времён соль высоко ценилась людьми и даже использовалась в качестве денег во многих странах. В старину караваны с солью охраняли воины, которым платили солью. Их даже стали называть солдатами. Соли на Земле огромное количество. Соль скрыта и в земле, и в воде. Но добыть её не так просто. Да и добывается соль по‑разному, поэтому бывает соль каменная, выварочная, морская, осадочная и др.</p>
             <div class="carousel__btns">
-                <button class="carousel__btn" @click="openNextTaskModal()">Назад</button>
+                <!-- <button class="carousel__btn" @click="$emit('back-levels')">Назад</button> -->
                 <button class="carousel__btn" @click="this.intro = false">Далее</button>
             </div>
         </div>
@@ -120,7 +120,7 @@
                     <form class="task__form form">
                         <div class="form__box">
                             <label class="form__label">
-                                Выберите название второй операции
+                                Выберите название первой операции
                                 <multiselect v-model="value1" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
                             </label>
                             <label class="form__label">
@@ -128,11 +128,11 @@
                                 <multiselect v-model="value2" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
                             </label>
                             <label class="form__label">
-                                Выберите название второй операции
+                                Выберите название третьей операции
                                 <multiselect v-model="value3" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
                             </label>
                             <label class="form__label">
-                                Выберите название второй операции
+                                Выберите название четвёртой операции
                                 <multiselect v-model="value4" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
                             </label>
                         </div>
@@ -204,9 +204,10 @@
                 class="carousel__btns"
                 style="margin: 0;"
             >
-                <q-btn class="carousel__btn" @click="prevSlide()">Назад</q-btn>
+                <!-- <button @click="this.intro=!this.intro" class="carousel__btn" v-if="this.slide == 1">Назад</button>
+                <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
                 <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="openNextTaskModal()">Далее</button>
+                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
             </q-carousel-control>
             </template>
         </q-carousel>
@@ -214,7 +215,7 @@
         </div>
 
     </div>
-    <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/>
+    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
 </template>
 
 <script>
@@ -261,13 +262,23 @@ export default {
     }
   },
 
-  created() {
-    document.body.classList.toggle('task-2');
-  }
 }
 </script>
 
-<style scoped>
+<style>
+
+    .account.level-4-1 {
+        background-image: url(../assets/img/task-bg-4-1.webp);
+        background-size: cover;
+    }
+
+    .task-4 .q-carousel__slide {
+        padding: 0;
+    }
+
+    .task-4 .q-carousel {
+        border-radius: 0;
+    }
     .task-4 .task__form > span {
         display: inline-block;
         margin-bottom: 12px;
@@ -307,6 +318,10 @@ export default {
         .task-4.task .form__label > div {
             max-width: 100%;
         }
+
+        .account.level-4-1 {
+            background-image: url(../assets/img/task-bg-4-1-1024.webp);
+        }
     }
 
     @media (max-width: 640px) {
@@ -316,6 +331,10 @@ export default {
 
         .task-4 .task__img {
             max-height: 100%;
+        }
+
+        .account.level-4-1 {
+            background-image: url(../assets/img/task-bg-4-1-360.webp);
         }
     }
 </style>

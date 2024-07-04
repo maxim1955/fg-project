@@ -1,7 +1,7 @@
 <template>
     <q-layout view="hHh lpR fFf">
         <div class="">
-    <div class="account row justify-between no-wrap">
+    <div class="account row justify-between no-wrap" :class="[this.showTask ? `level-${this.levelClass}-${this.taskClass}` : '']">
         <div class="menu" :class="{collapse: this.collapse}">
             <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
             <router-link :to="{name: 'main'}" class="menu__logo">
@@ -12,11 +12,11 @@
             vertical
             class=""
             >
-                <q-route-tab to="/home" class="menu__item menu__item--home" name="home" label="Главная" />
-                <q-route-tab to="/levels" class="menu__item menu__item--levels" name="levels" label="Уровни" />
-                <q-route-tab to="/bonuses" class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы"/>
-                <q-route-tab to="/resources" class="menu__item menu__item--resources" name="resources" label="Ресурсы" />
-                <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" />
+                <q-route-tab to="/home" class="menu__item menu__item--home" name="home" label="Главная" @click="cleanTask()"/>
+                <q-route-tab to="/levels" class="menu__item menu__item--levels" name="levels" label="Уровни" @click="cleanTask()"/>
+                <q-route-tab to="/bonuses" class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы" @click="cleanTask()"/>
+                <q-route-tab to="/resources" class="menu__item menu__item--resources" name="resources" label="Ресурсы" @click="cleanTask()"/>
+                <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" @click="cleanTask()"/>
         </q-tabs>
         </div>
 
@@ -29,7 +29,7 @@
                     </div>
                     <div class="profile">
                         <button class="profile__btn btn-reset" @click="this.openMenu=!this.openMenu">
-                            <img class="profile__img" :src="getImgUrl(user.avatar)" alt="">
+                            <img class="profile__img" src="../assets/img/profile-avatar.png" alt="">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19.9997 36.6673C29.2044 36.6673 36.6663 29.2054 36.6663 20.0007C36.6663 10.7959 29.2044 3.33398 19.9997 3.33398C10.7949 3.33398 3.33301 10.7959 3.33301 20.0007C3.33301 29.2054 10.7949 36.6673 19.9997 36.6673Z" fill="#C9FF22" stroke="#C9FF22" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M14.1162 17.9004L19.9995 23.7671L25.8829 17.9004" stroke="#414143" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -50,15 +50,15 @@
                                         Профиль</q-route-tab>
                                 </q-tabs>
                             </li>
-                            <!-- <li class="profile__item profile__item--chat">
-                                <router-link class="profile__link">
+                            <li class="profile__item profile__item--chat">
+                                <router-link to="/chat" class="profile__link">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14.167 17.0827H5.83366C3.33366 17.0827 1.66699 15.8327 1.66699 12.916V7.08268C1.66699 4.16602 3.33366 2.91602 5.83366 2.91602H14.167C16.667 2.91602 18.3337 4.16602 18.3337 7.08268V12.916C18.3337 15.8327 16.667 17.0827 14.167 17.0827Z" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M14.1663 7.5L11.558 9.58333C10.6997 10.2667 9.29134 10.2667 8.433 9.58333L5.83301 7.5" stroke="#414143" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                         Чат
                                 </router-link>
-                            </li> -->
+                            </li>
                             <li class="profile__item profile__item--exit">
                                 <a class="profile__link">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,39 +74,7 @@
                     </div>
                 </div>
 
-                <router-view/>
-
-            <!-- <div class="account__main">
-                <q-tab-panels
-                v-model="tab"
-                animated
-                swipeable
-                vertical
-                transition-prev="jump-up"
-                transition-next="jump-up"
-                >
-            <q-tab-panel name="home">
-                <HomeTab></HomeTab>
-            </q-tab-panel>
-
-          <q-tab-panel name="levels">
-            <LevelsTab :points="this.points"></LevelsTab>
-          </q-tab-panel>
-
-          <q-tab-panel name="bonuses">
-            <BonusesTab></BonusesTab>
-          </q-tab-panel>
-
-          <q-tab-panel name="resources">
-            <ResourcesTab></ResourcesTab>
-          </q-tab-panel>
-
-          <q-tab-panel name="profile">
-            <ProfileTab :user="this.user"></ProfileTab>
-          </q-tab-panel>
-
-            </q-tab-panels>
-            </div> -->
+                <router-view @level-class="getLevelClass" @task-class="getTaskClass" @show-tasks="getShowTask"/>
 
             <div class="account__footer">
               <span>&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</span>
@@ -119,13 +87,8 @@
 </template>
 <script>
     import { ref } from 'vue';
-    import HomeTab from '../components/HomeTab.vue';
-    import BonusesTab from '../components/BonusesTab.vue';
-    import ResourcesTab from '../components/ResourcesTab.vue';
-    import LevelsTab from '../components/LevelsTab.vue';
-    import ProfileTab from '../components/ProfileTab.vue';
     export default {
-        components: {HomeTab, BonusesTab, ResourcesTab, LevelsTab, ProfileTab},
+        components: {},
         data() {
             return {
                 points: 8,
@@ -142,6 +105,9 @@
                     gender: 'female',
                     avatar: '../assets/img/profile-avatar.png'
                 },
+                levelClass: 1,
+                taskClass: 1,
+                showTask: false
             }
         },
         setup () {
@@ -157,12 +123,24 @@
             },
             getImgUrl(imageNameWithExtension) {
                 return new URL(`${imageNameWithExtension}`, import.meta.url).href
+            },
+            getLevelClass(newValue) {
+                this.levelClass = newValue;
+            },
+
+            getTaskClass(newValue) {
+                this.taskClass = newValue;
+            },
+
+            getShowTask(newValue) {
+                this.showTask = newValue;
+            },
+
+            cleanTask() {
+                this.showTask = false;
             }
         },
 
-        mounted() {
-
-        }
     }
 </script>
 <style>
@@ -186,6 +164,8 @@
         background-position: top right;
         background-repeat: no-repeat;
     }
+
+
 
     .menu .q-splitter__panel {
         width: 357px;
@@ -211,7 +191,7 @@
 
     .content {
         padding: 0 80px;
-        padding-left: 168px;
+        /* padding-left: 168px; */
         overflow-y: auto;
         width: 100%;
     }
@@ -418,12 +398,14 @@
         grid-column: 5 span;
         background-image: url(../assets/img/home-card-4.svg);
         background-position: bottom;
+        background-size: 100%;
     }
 
     .home.cards .card:nth-child(5) {
         grid-column: 4 span;
         background-image: url(../assets/img/home-card-5.svg);
         background-position: bottom;
+        background-size: 100%;
     }
 
     .q-tab-panel {
