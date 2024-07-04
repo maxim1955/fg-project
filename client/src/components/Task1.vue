@@ -232,15 +232,17 @@
             class="carousel__btns"
             style="margin: 0;"
           >
-            <q-btn class="carousel__btn" @click="prevSlide()">Назад</q-btn>
+            <!-- <button @click="$emit('back-levels')" class="carousel__btn" v-if="this.slide == 1">Назад</button>
+            <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
             <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="openNextTaskModal()">Далее</button>
+
+            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
           </q-carousel-control>
         </template>
       </q-carousel>
     </div>
     </div>
-    <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/>
+    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" @open-task="openNextTask()" v-if="showNextTaskModal"/> -->
   </template>
 
 <script>
@@ -251,7 +253,7 @@ export default {
     data() {
         return {
             slidesCount: 3,
-            showNextTaskModal: false,
+            // showNextTaskModal: false,
         }
     },
     setup () {
@@ -277,19 +279,36 @@ export default {
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
-    }
+    },
+
   },
 
-  created() {
-    document.body.classList.add('task-1');
-  }
 }
 </script>
 
-<style scoped>
+<style>
+
+    .account.level-1-1 {
+        background-image: url(../assets/img/task-1-1.webp);
+        background-size: cover;
+    }
+
 
     .task__table tbody tr {
         flex-wrap: nowrap;
+    }
+
+    @media (max-width: 1200px) {
+        .account.level-1-1 {
+            background-image: url(../assets/img/task-1-1-1024.webp);
+            background-position: left top;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .account.level-1-1 {
+            background: url(../assets/img/task-1-1-top.webp) no-repeat top, url(../assets/img/task-1-1-bottom.webp) no-repeat bottom;
+        }
     }
 
 

@@ -5,7 +5,7 @@
             <p class="intro__text">Прочитайте введение. Затем приступайте к выполнению заданий.</p>
             <p class="intro__desc">Для обозначения различных вариантов недоброжелательного речевого поведения учёные предложили название «речевая агрессия». Речевая агрессия захватила множество сфер современного общества: её примеры можно найти в политике и СМИ, она проникла в бизнес и рекламу, закрепилась в семье и школе. Грубое и обидное общение, словесное недоброжелательство, резкость высказываний становятся едва ли не нормой повседневности. Мы ругаемся, ссоримся, злословим, сплетничаем. Нам угрожают, нас обвиняют, над нами насмехаются. Но существуют и стратегии сдерживания грубости в речи, приёмы защиты от словесных нападок.</p>
             <div class="carousel__btns">
-                <button class="carousel__btn" @click="openNextTaskModal()">Назад</button>
+                <!-- <button class="carousel__btn" @click="$emit('back-levels')">Назад</button> -->
                 <button class="carousel__btn" @click="this.intro = false">Далее</button>
             </div>
         </div>
@@ -120,7 +120,33 @@
                         участникам Дня вежливости продемонстрировать это качество?</p>
                         <form class="task__form form">
                             <span>Выберите нужные варианты ответа в выпадающих меню.</span>
-                            <table class="task__table">
+                            <div class="task__selects selects">
+                                    <span>Выражать расположенность, быть
+                                        доброжелательным.</span>
+                                    <multiselect v-model="value1" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Использовать ехидные и колкие замечания, но улыбаться, когда произносишь их.</span>
+                                    <multiselect v-model="value2" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Никогда не участвовать в разговоре: «всегда
+                                        лучше молчать, чем говорить»</span>
+                                    <multiselect v-model="value3" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Внимательно
+                                        слушать собеседника и не перебивать его.</span>
+                                    <multiselect v-model="value4" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Исключить из употребления нецензурные и бранные слова.</span>
+                                    <multiselect v-model="value5" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Надеть наушники и избегать общения.</span>
+                                    <multiselect v-model="value6" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Употреблять формулы
+                                        соответствии с ситуацией.</span>
+                                    <multiselect v-model="value7" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+                            </div>
+                            <!-- <table class="task__table">
                                 <tbody>
                                     <tr>
                                         <td><span>Выражать расположенность, быть
@@ -155,7 +181,7 @@
                                         <td><multiselect v-model="value7" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                             <button class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
@@ -177,7 +203,26 @@
                     <p class="task__question">Какой из типов поведения показан на каждом рисунке?</p>
                         <form class="task__form form">
                             <span>Выберите нужные варианты ответа в выпадающих меню.</span>
-                            <table class="task__table">
+                            <div class="task__selects selects">
+                                    <img src="../assets/img/task-5-1.webp" alt="">
+                                    <multiselect v-model="value41" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <img src="../assets/img/task-5-2.webp" alt="">
+                                    <multiselect v-model="value42" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <img src="../assets/img/task-5-3.webp" alt="">
+                                    <multiselect v-model="value43" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <img src="../assets/img/task-5-4.webp" alt="">
+                                    <multiselect v-model="value44" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <img src="../assets/img/task-5-5.webp" alt="">
+                                    <multiselect v-model="value45" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <img src="../assets/img/task-5-6.webp" alt="">
+                                    <multiselect v-model="value46" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+                            </div>
+                            <!-- <table class="task__table">
                                 <tbody>
                                     <tr>
                                         <td><img src="../assets/img/task-5-1.webp" alt=""></td>
@@ -204,7 +249,7 @@
                                         <td><multiselect v-model="value46" select-label="" :searchable="false" :options="options1" placeholder="Выберите ответ"></multiselect></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
                             <button class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
@@ -219,36 +264,29 @@
             </q-carousel-slide>
 
             <q-carousel-slide :name="5">
-                <div class="">
+                <div class="task__last">
                     <p class="task__info">Отметьте в таблице нужные варианты ответа.</p>
                     <p class="task__question">На занятии с восьмиклассниками школьный психолог привёл высказывание из книги «Речевая защита. Учимся управлять агрессией»: «Вполне очевидно, что полностью изжить речевую агрессию, избавиться от неё ни в повседневно-бытовом, ни в профессионально — деловом общении невозможно. Однако предупреждать, сдерживать, контролировать агрессию в своей и чужой речи — вполне посильная задача для каждого из нас».
                         <br><br>Какие из предложенных ниже суждений объясняют, почему можно контролировать или научиться контролировать речевую агрессию, а какие — не объясняют?</p>
                         <form class="task__form form">
                             <span>Выберите нужные варианты ответа в выпадающих меню.</span>
-                            <table class="task__table">
-                                <tbody>
-                                    <tr>
-                                        <td><span>Всем людям свойственно вести себя агрессивно.</span></td>
-                                        <td><multiselect v-model="value51" select-label="" :searchable="false" :options="options2" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Речь отражает уровень образования и культуры человека, его мышление.</span></td>
-                                        <td><multiselect v-model="value52" select-label="" :searchable="false" :options="options2" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>В общении помогает эмпатия — умение сопереживать людям, понимать, что они чувствуют в данный момент, она помогает сдерживаться, даже когда человек раздражён или обижен.</span></td>
-                                        <td><multiselect v-model="value53" select-label="" :searchable="false" :options="options2" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Знать бранные слова и грубые выражения вовсе не означает употреблять их в речи.</span></td>
-                                        <td><multiselect v-model="value54" select-label="" :searchable="false" :options="options2" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Существуют социальные группы, в которых грубость и сквернословие являются нормой поведения.</span></td>
-                                        <td><multiselect v-model="value55" select-label="" :searchable="false" :options="options2" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="task__selects task__selects--auto selects">
+                                    <span>Всем людям свойственно вести себя агрессивно.</span>
+                                    <multiselect v-model="value51" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Речь отражает уровень образования и культуры человека, его мышление.</span>
+                                    <multiselect v-model="value52" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>В общении помогает эмпатия — умение сопереживать людям, понимать, что они чувствуют в данный момент, она помогает сдерживаться, даже когда человек раздражён или обижен.</span>
+                                    <multiselect v-model="value53" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Знать бранные слова и грубые выражения вовсе не означает употреблять их в речи.</span>
+                                    <multiselect v-model="value54" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                                    <span>Существуют социальные группы, в которых грубость и сквернословие являются нормой поведения.</span>
+                                    <multiselect v-model="value55" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+
+                            </div>
                             <button class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
@@ -262,9 +300,10 @@
                 class="carousel__btns"
                 style="margin: 0;"
             >
-                <q-btn class="carousel__btn" @click="prevSlide()">Назад</q-btn>
+                <!-- <button @click="this.intro=!this.intro" class="carousel__btn" v-if="this.slide == 1">Назад</button>
+                <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
                 <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="openNextTaskModal()">Далее</button>
+                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
             </q-carousel-control>
             </template>
         </q-carousel>
@@ -272,7 +311,7 @@
         </div>
 
     </div>
-    <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/>
+    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
 </template>
 
 <script>
@@ -335,13 +374,46 @@ export default {
     }
   },
 
-  created() {
-    document.body.classList.toggle('task-2');
-  }
 }
 </script>
 
-<style scoped>
+<style>
+    .task__last {
+        margin-bottom: 40px;
+    }
+
+    .account.level-5-1 {
+        background-image: url(../assets/img/task-bg-5-1.webp);
+        background-size: cover;
+    }
+
+    .task__selects {
+        margin-bottom: 40px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px 12px;
+        align-items: center;
+        padding: 12px 20px;
+        border-radius: 20px;
+        background-color: var(--bg);
+    }
+
+    .task__selects--auto {
+        grid-template-columns: repeat(2, auto);
+    }
+
+    .selects__item {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .q-carousel__slide {
+        padding: 0;
+    }
+
+    .q-carousel {
+        border-radius: 0;
+    }
     .task-5 .task__form > .task__table tr {
         margin-bottom: 0;
     }
@@ -354,14 +426,69 @@ export default {
         flex-wrap: nowrap;
     }
 
+    .task-5 .task__form > .task__table {
+        overflow: visible;
+    }
+
+    .task-5 .task__form > .task__table--5 {
+        overflow: hidden;
+    }
+
+    @media (max-width: 1660px) {
+        .task__selects {
+            grid-template-columns: 1fr;
+        }
+
+        .task__selects--auto {
+            grid-template-columns: repeat(2, auto);
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .task__selects span {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 19.2px;
+        }
+
+        .task__selects {
+            margin-bottom: 20px;
+        }
+
+        .account.level-5-1 {
+            background-image: url(../assets/img/task-bg-5-1-1024.webp);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .task__selects--auto {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+
     @media (max-width: 640px) {
         .task-5 .task__form > .task__table {
             margin-bottom: 20px;
         }
 
         .task-5.task .form__btn {
-            margin-bottom: 40px;
+            /* margin-bottom: 40px; */
             width: 100%;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .task__selects span {
+            font-size: 14px;
+            line-height: 16.8px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .account.level-5-1 {
+            background-image: url(../assets/img/task-bg-5-1-360.webp);
         }
     }
 

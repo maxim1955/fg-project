@@ -8,7 +8,7 @@
                 <br><br>
                 Обыкновенные воздушные шары имеют большую историю и хранят немало тайн.</p>
             <div class="carousel__btns">
-                <button class="carousel__btn" @click="openNextTaskModal()">Назад</button>
+                <!-- <button class="carousel__btn" @click="$emit('back-levels')">Назад</button> -->
                 <button class="carousel__btn" @click="this.intro = false">Далее</button>
             </div>
         </div>
@@ -220,9 +220,10 @@
                     class="carousel__btns"
                     style="margin: 0;"
                 >
-                    <q-btn class="carousel__btn" @click="prevSlide()">Назад</q-btn>
+                    <!-- <button @click="this.intro=!this.intro" class="carousel__btn" v-if="this.slide == 1">Назад</button>
+                    <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
                     <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-                    <button class="carousel__btn" v-if="this.slide == slidesCount" @click="openNextTaskModal()">Далее</button>
+                    <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
                 </q-carousel-control>
                 </template>
             </q-carousel>
@@ -230,7 +231,7 @@
         </div>
 
     </div>
-    <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/>
+    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
 </template>
 
 <script>
@@ -267,33 +268,93 @@ export default {
         this.$refs.carousel.previous();
     },
 
-    openNextTaskModal() {
-        this.showNextTaskModal = true;
-    },
+    // openNextTaskModal() {
+    //     this.showNextTaskModal = true;
+    // },
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
     }
   },
 
-  created() {
-    document.body.classList.toggle('task-2');
-  }
 }
 </script>
 
-<style scoped>
-    /* .task-2 .task__form > span {
-        display: inline-block;
-        margin-bottom: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 19.2px;
+<style>
+    .level-2 .task__right > .task__table {
+        max-width: 320px
     }
 
-    .task-2 .task__right .task__table {
-        max-width: 320px;
-    } */
+    .account.level-2-1 {
+        background-image: url(../assets/img/task-2-1.webp);
+        background-size: cover;
+    }
+
+    .level-2 .task__form > .task__table {
+        display: block;
+        overflow: visible;
+    }
+
+    .level-2 tbody, .level-2 thead {
+        display: block;
+    }
+
+    .level-2 thead {
+        border-radius: 20px 20px 0 0;
+    }
+
+    .level-2 tbody {
+        border-radius: 0 0 20px 20px;
+        overflow: hidden;
+    }
+
+    .level-2 .task__form > .task__table td, .level-2 .task__form > .task__table th {
+        display: inline-block;
+    }
+
+    .level-2 .task__form > .task__table tr {
+        display: flex;
+    }
+
+    @media (max-width: 1660px) {
+        .level-2 .task__form > .task__table tr {
+            flex-direction: column;
+            align-items: start;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .account.level-2-1 {
+            background-image: url(../assets/img/task-2-1-1024.webp);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .level-2 .task__form > .task__table {
+            display: table;
+        }
+
+        .level-2 .task__form > .task__table tbody,
+        .level-2 .task__form > .task__table thead {
+            display: table-row-group;
+        }
+
+        .level-2 .task__form > .task__table tr {
+            display: table-row;
+        }
+
+        .level-2 .task__form > .task__table td,
+        .level-2 .task__form > .task__table th {
+            display: table-cell;
+            padding: 12px 20px;
+        }
+
+        .level-2 .task__form {
+            overflow: auto;
+            display: block;
+        }
+
+    }
 
     @media (max-width: 640px) {
         .task-2 .task__right .task__table {
@@ -319,18 +380,12 @@ export default {
             width: 200px;
         }
 
-        /* .task-2 .task__form > .task__table tbody,
-        .task-2 .task__form > .task__table thead {
-            display: table-row-group;
-        } */
+    }
 
-        /* .task-2 .task__form > .task__table {
-            display: table;
+    @media (max-width: 360px) {
+        .account.level-2-1 {
+            background-image: url(../assets/img/task-2-1-360.webp);
         }
-
-        .task-2 .task__form > .task__table tr {
-            display: table-row;
-        } */
     }
 </style>
 
