@@ -110,7 +110,7 @@
                             </span>
                         </router-link>
 
-                        <!-- <q-btn @click="modalLogin = !modalLogin">
+                         <q-btn @click="modalLogin = !modalLogin">
                             <div class="sign__bg">
                                 <svg
                                     width="212"
@@ -151,7 +151,7 @@
                                     />
                                 </svg>
                             </span>
-                        </q-btn> -->
+                        </q-btn>
                     </div>
 
                     <button class="burger btn-reset" @click="toggleMenu()">
