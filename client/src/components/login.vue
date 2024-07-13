@@ -1,6 +1,10 @@
 <template>
     <div class="q-pa-md q-gutter-sm">
-        <q-dialog v-model="dialog" class="q-dialog">
+        <q-dialog
+            v-model="dialog"
+            class="q-dialog"
+            :maximized="$q.platform.is.mobile?maximizedToggle:false"
+        >
             <q-card class="modal-auth">
                 <q-card-actions align="right">
                     <q-btn
@@ -88,7 +92,7 @@ const props = defineProps({
 const emit = defineEmits(["closeModal"]);
 
 const dialog = computed(() => props.openModal);
-
+const maximizedToggle = ref(true)
 const login = ref("");
 const password = ref("");
 const showPassword = ref(false);
@@ -213,6 +217,9 @@ label {
 }
 
 @media (max-width: 1120px) {
+    .q-dialog__inner--minimized{
+        padding: 0!important;
+    }
     .q-dialog__inner--minimized > div {
         max-width: 462px;
     }
