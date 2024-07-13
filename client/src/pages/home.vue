@@ -495,12 +495,13 @@
 
             },
         },
-        created() {
-            window.addEventListener("load", this.resizeHeader);
+
+        mounted() {
+            this.resizeHeader();
         },
-        destroyed() {
-            window.removeEventListener("resize", this.resizeHeader)
-        },
+        // destroyed() {
+        //     window.removeEventListener("resize", this.resizeHeader)
+        // },
     }
 
 
@@ -1187,7 +1188,7 @@
 
 .auditorium {
     position: relative;
-    overflow: hidden;
+    overflow: clip;
 }
 
 .auditorium::before {

@@ -56,6 +56,16 @@
                             <button class="btn-reset form__btn">Принять ответ</button>
                         </form>
 
+                        <form v-if="question.questiontуpes == 3" class="task__form form">
+                        <div class="form__box">
+                            <label v-for="item in promt" :key="item.id" class="form__label form__label--select">
+                                {{ item.text }}
+                                <multiselect select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
+                            </label>
+                        </div>
+                        <button class="btn-reset form__btn">Принять ответ</button>
+                    </form>
+
                     </div>
                     <div class="task__right">
                         <h3 class="task__title">{{ task.name }}</h3>
@@ -205,7 +215,9 @@ export default {
                     text: 'Текст 3',
                     idanswer: 3,
                 },
-            ]
+            ],
+
+            options: ['Отбор пробы соли', 'Растворение', 'Фильтрование', 'Выпаривание'],
         }
     },
     setup () {
@@ -237,7 +249,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .intro__img {
     max-width: 380px;
 }
@@ -248,6 +260,15 @@ export default {
 
 .tasks .q-carousel {
     border-radius: 0;
+}
+
+body .form__label--select .multiselect__tags {
+    min-height: 64px;
+    display: block;
+    padding: 20px 40px 0 20px;
+    border-radius: 50px;
+    border: 1px solid #E8E8E8;
+    background-color: rgba(242, 241, 236, 1);
 }
 
 @media (max-width: 1200px) {

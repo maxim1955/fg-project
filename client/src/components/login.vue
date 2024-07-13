@@ -75,6 +75,9 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const props = defineProps({
     openModal: {
@@ -116,6 +119,8 @@ function submitForm() {
     if (validateForm()) {
         console.log("Логин:", login.value);
         console.log("Пароль:", password.value);
+
+        router.push({name: 'home'});
     }
 }
 
@@ -123,6 +128,8 @@ console.log(props.openModal);
 </script>
 
 <style scoped>
+
+
 .q-card__section--vert {
     padding: 0;
 }

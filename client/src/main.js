@@ -11,6 +11,8 @@ import route from "./router/index.js";
 
 const myApp = createApp(App)
 
+
+
 myApp.use(Quasar, {
     plugins: {},
 })

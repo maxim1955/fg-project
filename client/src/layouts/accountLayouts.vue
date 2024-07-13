@@ -24,6 +24,9 @@
             <div>
                 <div class="account__header">
                     <router-link :to="{name: 'main'}" class="account__logo"><img src="../assets/img/account-logo-1024.svg" alt="Логотип"></router-link>
+                    <div v-if="this.$route.name == 'levels'" class="timer">
+                        <div class="timer__amount">{{ this.timer }}</div>
+                    </div>
                     <div class="points">
                         <div class="points__amount">{{ this.points }}</div>
                     </div>
@@ -107,7 +110,8 @@
                 },
                 levelClass: 1,
                 taskClass: 1,
-                showTask: false
+                showTask: false,
+                timer: 0
             }
         },
         setup () {
@@ -138,8 +142,14 @@
 
             cleanTask() {
                 this.showTask = false;
-            }
+            },
+
+
+
+
+
         },
+
 
     }
 </script>
@@ -316,7 +326,8 @@
         visibility: visible;
     }
 
-    .points__amount {
+    .points__amount,
+    .timer__amount {
         padding: 20px 40px;
         min-width: 124px;
         border-radius: 40px;
@@ -327,13 +338,18 @@
         text-align: center;
     }
 
-    .points {
+    .points,
+    .timer {
         display: flex;
         align-items: center;
         padding-left: 60px;
         background-image: url(../assets/img/points.svg);
         background-position: left center;
         background-repeat: no-repeat;
+    }
+
+    .timer {
+        background-image: url(../assets/img/timer.svg);
     }
 
     .profile__img {
