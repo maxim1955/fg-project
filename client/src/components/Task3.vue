@@ -189,7 +189,7 @@
                     </ul>
                 </div>
 
-                <form class="task__form form">
+                <form class="task__form task__form--4 form">
                     <span>Выберите нужные варианты ответа в выпадающих меню.</span>
                     <table class="task__table">
                         <thead>
@@ -246,15 +246,16 @@
             class="carousel__btns"
             style="margin: 0;"
           >
-            <q-btn class="carousel__btn" @click="prevSlide()">Назад</q-btn>
+            <!-- <button @click="$emit('back-levels')" class="carousel__btn" v-if="this.slide == 1">Назад</button>
+            <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
             <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="openNextTaskModal()">Далее</button>
+            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
           </q-carousel-control>
         </template>
       </q-carousel>
     </div>
     </div>
-    <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/>
+    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
   </template>
 
 <script>
@@ -301,13 +302,33 @@ export default {
     }
   },
 
-  created() {
-    document.body.classList.add('task-1');
-  }
 }
 </script>
 
 <style>
+
+
+    .level-3 .form__label {
+        max-width: max-content;
+    }
+
+    .account.level-3-1 {
+        background-image: url(../assets/img/task-3-1.webp);
+        background-size: cover;
+    }
+
+    .task-3 .q-carousel__slide {
+        padding: 0;
+    }
+
+    .task-3 .q-carousel {
+        border-radius: 0;
+    }
+
+    .task-3 .task__left .form__label.form__label--radio {
+        max-width: 100%;
+    }
+
     .task__list {
         margin-bottom: 40px;
         padding-left: 20px;
@@ -328,9 +349,9 @@ export default {
         overflow: auto;
     }
 
-    .task-3 .task__form {
+    /* .task-3 .task__form {
         overflow: auto;
-    }
+    } */
 
     .task-3 tbody,
     .task-3 thead {
@@ -350,11 +371,39 @@ export default {
         justify-content: center;
     }
 
+    @media (max-width: 1440px) {
+        .level-3 .task__form {
+            overflow-x: auto;
+        }
+    }
+
     @media (max-width: 1200px) {
         .task.task-3 .task__table td,
         .task.task-3 .task__table th {
             padding: 12px 20px;
+
         }
+
+
+
+        .account.level-3-1 {
+            background-image: url(../assets/img/task-3-1-1024.webp);
+        }
+
+        .task-3 .task__form--4 > .task__table {
+            display: block;
+        }
+
+        .task-3 .task__form--4 tbody,
+        .task-3 .task__form--4 thead {
+            display: block;
+        }
+
+        .task-3 .task__form--4 > .task__table tr {
+            display: flex;
+        }
+
+
     }
 
     @media (max-width: 640px) {
@@ -364,6 +413,33 @@ export default {
 
         .task-3 .task__form {
             display: block;
+        }
+    }
+
+    @media (max-width: 576px) {
+
+        .task-3 .task__form--4 > .task__table {
+            display: table;
+        }
+
+        .task-3 .task__form--4 tbody,
+        .task-3 .task__form--4 thead {
+            display: table-row-group;
+        }
+
+        .task-3 .task__form--4 > .task__table tr {
+            display: table-row;
+        }
+
+        .task.task-3 .task__form--4 .task__table td,
+        .task.task-3 .task__form--4 .task__table th {
+            display: table-cell;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .account.level-3-1 {
+            background-image: url(../assets/img/task-3-1-360.webp);
         }
     }
 </style>

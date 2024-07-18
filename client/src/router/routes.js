@@ -55,14 +55,9 @@ const routes = [
         component: ProfileTab,
     },
 
-    {
-        path: '/tasks',
-        name: 'tasks',
-        component: Tasks,
-    },
 
     {
-        path: '/task',
+        path: '/levels/task',
         name: 'task',
         component: Task,
     },

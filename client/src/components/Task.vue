@@ -1,10 +1,18 @@
 <template>
-    <div :class="`task task-${this.getLevelId}`">
-        <Task1 v-if="this.getTaskId == 1 && this.getLevelId == 1"/>
-        <Task2 v-if="this.getTaskId == 1 && this.getLevelId == 2"/>
-        <Task3 v-if="this.getTaskId == 1 && this.getLevelId == 3"/>
-        <Task4 v-if="this.getTaskId == 1 && this.getLevelId == 4"/>
-        <Task5 v-if="this.getTaskId == 1 && this.getLevelId == 5"/>
+
+
+</template>
+
+<!-- <template>
+    <div>
+        <Task1 @back-levels="backLevels()" @open-modal="openModal()" v-if="this.currentTask.id == 1 && this.currentLevel == 1"/>
+        <Task2 @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.currentLevel == 2"/>
+        <Task3 @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.currentLevel == 3"/>
+        <Task4 @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.currentLevel == 4"/>
+        <Task5 @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.currentLevel == 5"/>
+        <TaskTemplate @open-modal="openModal()" :task="this.currentTask" v-else/>
+
+        <NextTaskModal @next-task="nextTask()" @close-modal="closeModal()" v-show="this.showNextTaskModal"/>
     </div>
 
 </template>
@@ -15,18 +23,47 @@ import Task2 from './Task2.vue'
 import Task3 from './Task3.vue'
 import Task4 from './Task4.vue'
 import Task5 from './Task5.vue'
+import TaskTemplate from './TaskTemplate.vue'
+import NextTaskModal from './NextTaskModal.vue'
 
     export default {
-        components: {Task1, Task2, Task3, Task4, Task5},
+        data() {
+            return {
+                currentClass: null,
+                showNextTaskModal: false,
+            }
+        },
+        components: {Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal},
         props: ['currentTask', 'currentLevel'],
         computed: {
-            getTaskId() {
-                return this.currentTask;
+            getCurrentTask() {
+
             },
-            getLevelId() {
-                return this.currentLevel;
+            getClass() {
+                return this.currentClass = `task-${this.currentLevel}-${this.currentTask.id}`
             }
+        },
+        created() {
+                document.querySelector('.account').classList.add(this.getClass)
+
+        },
+       methods: {
+        openModal() {
+            this.showNextTaskModal = true;
+        },
+        closeModal() {
+            this.showNextTaskModal = false;
+        },
+        nextTask() {
+            this.currentTask.id += 1;
+            this.showNextTaskModal = false;
+        },
+
+        backLevels() {
+            this.$emit('back-levels-parent');
         }
+       }
+
     }
 </script>
 
@@ -42,6 +79,7 @@ import Task5 from './Task5.vue'
 
     .q-panel {
         overflow: visible;
+        border-radius: 0;
     }
 
     .task {
@@ -341,6 +379,7 @@ import Task5 from './Task5.vue'
         min-height: 64px;
         border-radius: 50px;
         border: none;
+        background-color: white;
     }
 
     .task .multiselect__placeholder {
@@ -883,4 +922,4 @@ import Task5 from './Task5.vue'
     }
 
 
-</style>
+</style> -->

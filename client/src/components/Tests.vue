@@ -19,24 +19,24 @@
                 У Артура возникло много вопросов о том, как правильно пользоваться таким самокатом.
                  Первым делом он решил узнать, распространяются ли на электросамокаты правила дорожного движения (ПДД).
                Прочитай о недавно вступивших в силу изменениях в ПДД, рассмотри фотографии и ответь на вопрос.</b></p>
-          
-          <p class="text_low">С 1 марта 2023 года в ПДД появился новый термин — средство индивидуальной мобильности (СИМ). 
-            Так обозначают транспортные средства с двигателем, который приводят в движение колёса или ролики. 
-            Помимо электросамокатов, к СИМ относятся ещё электровелосипеды, электроскейтборды, гироскутеры, сегвеи, 
+
+          <p class="text_low">С 1 марта 2023 года в ПДД появился новый термин — средство индивидуальной мобильности (СИМ).
+            Так обозначают транспортные средства с двигателем, который приводят в движение колёса или ролики.
+            Помимо электросамокатов, к СИМ относятся ещё электровелосипеды, электроскейтборды, гироскутеры, сегвеи,
             моноколёса и т.д.</p>
-            <p class="text_low">Согласно правилам, все водители электросамокатов должны перемещаться по специально оборудованным 
-            велосипедным или велопешеходным дорожкам. Если специальных дорожек нет, то всё зависит от массы СИМ, возраста водителя 
-            и оснащения самоката специальными приборами.</p> 
-            <p class="text_low">На электросамокатах, которые весят менее 35 кг, разрешается ехать по пешеходной 
+            <p class="text_low">Согласно правилам, все водители электросамокатов должны перемещаться по специально оборудованным
+            велосипедным или велопешеходным дорожкам. Если специальных дорожек нет, то всё зависит от массы СИМ, возраста водителя
+            и оснащения самоката специальными приборами.</p>
+            <p class="text_low">На электросамокатах, которые весят менее 35 кг, разрешается ехать по пешеходной
             зоне всем вне зависимости от возраста.</p>
-            <p class="text_low">Если водитель старше 14 лет, а его самокат весит более 35 кг, он может ехать по выделенной 
-            полосе для велосипедистов или по обочине, а в крайнем случае — по правой стороне проезжей части. С 18 лет на тяжёлом электросамокате можно ехать 
-            рядом с автомобилями, но только там, где максимальная скорость движения ограничена 60 км/ч.</p>  
-            <p class="text_low">Если электросамокат перемещается по проезжей части рядом  с автомобилями, у него должны работать тормоза, звуковой сигнал, фары белого цвета, белые световозвращатели спереди и красные — сзади.</p>  
-            <p class="text_low">В отличие от автомобилистов, водители электросамокатов не должны предъявлять водительские права и отвечают перед законом по тем же правилам, что и пешеходы. 
+            <p class="text_low">Если водитель старше 14 лет, а его самокат весит более 35 кг, он может ехать по выделенной
+            полосе для велосипедистов или по обочине, а в крайнем случае — по правой стороне проезжей части. С 18 лет на тяжёлом электросамокате можно ехать
+            рядом с автомобилями, но только там, где максимальная скорость движения ограничена 60 км/ч.</p>
+            <p class="text_low">Если электросамокат перемещается по проезжей части рядом  с автомобилями, у него должны работать тормоза, звуковой сигнал, фары белого цвета, белые световозвращатели спереди и красные — сзади.</p>
+            <p class="text_low">В отличие от автомобилистов, водители электросамокатов не должны предъявлять водительские права и отвечают перед законом по тем же правилам, что и пешеходы.
             Но нужно помнить, что электросамокат может быть опасен как для самого водителя, так и для других людей. Перемещаться на нём можно со скоростью не выше 25 км/ч.
             А если человек на электросамокате мешает движению пешеходов, он должен снизить скорость или сойти с СИМ. Спешиться нужно и при пересечении дороги по пешеходному переходу.</p>
-            <p class="text_mar">Важно, что водителю электросамоката запрещено перевозить пассажиров: если вы видите на одном электросамокате двух или даже трёх человек, то знайте, 
+            <p class="text_mar">Важно, что водителю электросамоката запрещено перевозить пассажиров: если вы видите на одном электросамокате двух или даже трёх человек, то знайте,
             что это не только травмоопасно, но и грозит штрафом.</p>
 
 
@@ -58,16 +58,16 @@
 
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_2' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -77,9 +77,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_2' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -107,13 +107,13 @@
           </div>
           <div class="pdd_inner gap_2">
             <p class="choice_pad">На электросамокате нужно ездить в шлеме: с ним безопаснее.
-             </p> 
+             </p>
              <multiselect v-model="value2" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
           <div class="pdd_inner gap_3">
             <p class="choice_pad">На одном электросамокате можно ездить вдвоём.
-             </p> 
+             </p>
              <multiselect v-model="value3" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
@@ -129,18 +129,18 @@
              placeholder="Выберите ответ" ></multiselect>
           </div>
             </div>
-         
+
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_3' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -150,13 +150,13 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_3' },
-           
+
           ]"
         />
 
-        
+
         </q-carousel-slide>
         <q-carousel-slide name="question_3" class="">
           <div class="main_mar">
@@ -179,13 +179,13 @@
           </div>
           <div class="pdd_inner gap_2 gap_fix2">
             <p class="choice_pad">Во время езды на самокате тренируется вестибулярный аппарат, укрепляются мышцы спины, ног и живота.
-             </p> 
+             </p>
              <multiselect v-model="value7" :options="options1" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
           <div class="pdd_inner gap_3 gap_fix3">
             <p class="choice_pad">Любой камень или яма может стать причиной падения и получения травм.
-             </p> 
+             </p>
              <multiselect v-model="value8" :options="options1" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
@@ -202,16 +202,16 @@
           </div>
             </div>
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_4' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -221,9 +221,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_4' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -242,17 +242,17 @@
                 <p class="text_mar"><b>Посмотри на неё и ответь на вопрос: сколько раз будет использована такая форма, чтобы выложить всю дорожку?</b></p>
                 <p>Запишите свой ответ.</p>
                 <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
-          </div> 
-          <q-btn-toggle 
+          </div>
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_5' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -262,9 +262,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_5' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -288,16 +288,16 @@
             <p class="enter_answer">Запишите свой ответ.</p>
             <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_6' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -334,16 +334,16 @@
           <p class="enter_answer">Запишите свой ответ.</p>
             <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_7' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -353,9 +353,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_7' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -392,16 +392,16 @@
           </div>
 
 
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_8' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -411,9 +411,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_8' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -444,7 +444,7 @@
               </p>
           </div>
             <p class="text_mar"><b>Посмотри на таблицу и реши, какой велосипед лучше всего подходит каждому из друзей Егора?</b></p>
-            
+
           <div class="check_list">
             <div class="q8_1">
           <p class="bike_name">Thorn:</p>
@@ -456,7 +456,7 @@
           </div>
 
 
-          <div class="q8_2">           
+          <div class="q8_2">
           <p class="bike_name">Veneto:</p>
           <div class="checkbox_style">
           <q-radio v-model="name1" val="Влад1" label="Влад" color="purple-9" class="kekw" />
@@ -478,16 +478,16 @@
 
           </div>
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_9' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -497,9 +497,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_9' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -535,16 +535,16 @@
           </div>
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_10' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -554,9 +554,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_10' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -584,26 +584,26 @@
               Рассмотри схему и заполни пропуски в предложениях.
             </b>
           </p>
-          
+
           <img src="../assets/img/tea_info.svg" alt="" class="img_mar tea_pc">
           <img src="../assets/img/tea_info_tab.svg" alt="" class="img_mar tea_tab">
           <img src="../assets/img/tea_info_mob.svg" alt="" class="img_mar tea_mob">
           <div class="choices opt_3">
           <div class="choice">
-          <p class="choice_pad">Листья для чёрного и зелёного чая собирают с растений</p> 
+          <p class="choice_pad">Листья для чёрного и зелёного чая собирают с растений</p>
           <multiselect v-model="value11" :options="options2" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
               placeholder="Выберите ответ"></multiselect>
           <p class="choice_pad">.</p>
           </div>
           <div class="choice">
-          <p class="choice_pad">Для изготовления чёрного чая требуется</p> 
+          <p class="choice_pad">Для изготовления чёрного чая требуется</p>
           <multiselect v-model="value12" :options="options3" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
               placeholder="Выберите ответ"></multiselect>
           <p class="choice_pad">этапов, чем для зелёного.</p>
           </div>
 
           <div class="choice">
-          <p class="choice_pad">Именно этап</p> 
+          <p class="choice_pad">Именно этап</p>
           <multiselect v-model="value13" :options="options4" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
           placeholder="Выберите ответ"></multiselect>
           <p class="choice_pad">определяет тёмный цвет чёрного чая.</p>
@@ -612,16 +612,16 @@
         </div>
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_11' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -631,9 +631,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_11' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -662,16 +662,16 @@
 
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_12' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -681,13 +681,13 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_12' },
-           
+
           ]"
         />
         </q-carousel-slide>
-        
+
 
 
         <q-carousel-slide name="question_12" class="">
@@ -739,13 +739,13 @@
           </div>
           <div class="pdd_inner gap_2 tea_gap_2">
             <p class="choice_pad">Содержание кофеина в чёрном чае выше, чем в зелёном.
-             </p> 
+             </p>
              <multiselect v-model="value15" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
           <div class="pdd_inner gap_3 tea_gap_3">
             <p class="choice_pad">Только чёрный чай может вызывать бессонницу.
-             </p> 
+             </p>
              <multiselect v-model="value16" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
              placeholder="Выберите ответ" ></multiselect>
           </div>
@@ -756,16 +756,16 @@
           </div>
             </div>
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_13' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -775,9 +775,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_13' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -804,7 +804,7 @@
           <p class="text_mar"><b>
             Какие две идеи являются наиболее креативными — неожиданными, необычными, вызывающими эмоции?
           </b></p>
-          
+
           <p class="enter_answer">Выбери верные варианты ответа.</p>
           <div class=" checkbox_pos">
         <q-checkbox dense v-model="q_13_1" label="Прислать Алисе сообщение на телефон: «Я подготовил тебе подарок, но его нужно найти».
@@ -819,16 +819,16 @@
 
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_14' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -838,9 +838,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_14' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -901,7 +901,7 @@
 
             </div>
 
-            
+
           </div>
           <p class="text_mar"><b>Найди в списке третью головоломку, которая больше всего отличается от двух уже выбранных Серёжей.</b></p>
 
@@ -913,16 +913,16 @@
           <q-radio v-model="name3" val="Ваза" label="Вот интересно, А сможешь ли ты угадать, Зачем именно так, А не иначе записано предложение. (Ваза)" color="purple-9" />
           </div>
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_15' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -932,9 +932,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_15' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -976,16 +976,16 @@
           </div>
 
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_16' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -995,9 +995,9 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_16' },
-           
+
           ]"
         />
         </q-carousel-slide>
@@ -1022,27 +1022,27 @@
           </b></p>
           <div class="choices opt_4">
           <div class="choice">
-          <p class="choice_pad">Исчезнувшие в дикой природе виды описываются на</p> 
+          <p class="choice_pad">Исчезнувшие в дикой природе виды описываются на</p>
           <multiselect v-model="value18" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
             placeholder="Выберите ответ" ></multiselect>
           <p class="choice_pad">странице.</p>
           </div>
           <div class="choice">
-          <p class="choice_pad">Если о виде недостаточно данных — страница будет</p> 
+          <p class="choice_pad">Если о виде недостаточно данных — страница будет</p>
           <multiselect v-model="value19" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
           placeholder="Выберите ответ" ></multiselect>
           <p class="choice_pad">.</p>
           </div>
 
           <div class="choice">
-          <p class="choice_pad">Страница с находящимися в опасности видами будет —</p> 
+          <p class="choice_pad">Страница с находящимися в опасности видами будет —</p>
           <multiselect v-model="value20" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
             placeholder="Выберите ответ" ></multiselect>
           <p class="choice_pad">.</p>
           </div>
 
           <div class="choice">
-          <p class="choice_pad">Если популяция вида уже вызывает опасения, о нём книга расскажет на</p> 
+          <p class="choice_pad">Если популяция вида уже вызывает опасения, о нём книга расскажет на</p>
           <multiselect v-model="value21" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
           placeholder="Выберите ответ" ></multiselect>
           <p class="choice_pad">странице.</p>
@@ -1050,16 +1050,16 @@
 
         </div>
           </div>
-          <q-btn-toggle 
+          <q-btn-toggle
           size="24px"
           type="submit"
           form=""
           class="btn_pc"
           v-model="slide"
           :options="[
-          
+
             { label:'Далее', value: 'question_17' },
-           
+
           ]"
         />
         <q-btn-toggle
@@ -1069,16 +1069,16 @@
           class="btn_mob"
           v-model="slide"
           :options="[
-           
+
             { label:'Далее', value: 'question_17' },
-           
+
           ]"
         />
         </q-carousel-slide>
       </q-carousel>
     </div>
   </template>
-  
+
   <script>
   import { ref } from 'vue'
   import Multiselect from 'vue-multiselect'
@@ -1146,7 +1146,7 @@
       }
     }
   }
-  
+
   </script>
   <style scoped>
  h4{
@@ -1158,7 +1158,7 @@
   }
   }
   @media(max-width:1024px){
- 
+
   *{
   font-size:14px;
 }
@@ -1930,5 +1930,5 @@ width: 100%;
 .checkbox_style{
   gap:10px
 }
- } 
+ }
 </style>

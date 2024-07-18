@@ -7,9 +7,12 @@
 
             <img class="not-found__image" src="../assets/img/NotFoundLarge.svg" alt="" />
         </picture>
-        <router-link :to="{name: 'home'}">
+        <router-link :to="{name: 'main'}">
             <button class="not-found__button">Вернуться на главную</button>
         </router-link>
+    </div>
+    <div class="account__footer">
+        <span>&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</span>
     </div>
 </template>
 
