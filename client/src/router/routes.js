@@ -8,10 +8,6 @@ import ProfileTab from '../components/ProfileTab.vue'
 import Tasks from '../components/Tasks.vue'
 import Task from '../components/Task.vue'
 import Test from '../pages/testing.vue'
-<<<<<<< HEAD
-=======
-
->>>>>>> 851b2dd8ca4348b9d79a399285c276e9681deaf2
 // import account from '../pages/Account.vue'
 // import profile from '../pages/Profile.vue'
 import notfound from '../pages/NotFound.vue'
