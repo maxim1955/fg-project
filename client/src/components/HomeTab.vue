@@ -4,7 +4,7 @@
                         <div class="card">
                             <h2 class="cards__title">Пройди тест</h2>
                             <p class="cards__text">Определи свой уровень функциональной грамотности.</p>
-                            <img class="cards__img" src="../assets/img/home-card-1-360.webp" alt="">
+                            <img class="cards__img" src="../assets/img/home-card-1-360.png" alt="">
                             <router-link :to="{name: 'test'}" class="cards__btn" href="">Пройти</router-link>
                         </div>
                         <div class="card">

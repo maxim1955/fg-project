@@ -313,11 +313,17 @@
     }
 
     .profile__menu {
+        position: absolute;
+        right: 0;
+        padding: 12px;
+        left: auto;
         top: 100%;
         z-index: 10;
         background-color: white;
         opacity: 0;
         visibility: hidden;
+        border-radius: 20px;
+        box-shadow: 4px 5px 50px 0px #ECEAE1;
         transition: opacity .3s ease-in-out, visibility .3s ease-in-out;
     }
 
@@ -393,8 +399,9 @@
 
     .home.cards .card:nth-child(1) {
         grid-column: 9 span;
-        background-image: url(../assets/img/home-card-1.webp);
+        background-image: url(../assets/img/home-card-1.png);
         background-position: calc(100% - 40px) center;
+        background-size: 349px auto;
     }
 
     .home.cards .card:nth-child(2) {
@@ -490,23 +497,13 @@
         transition: width .3s ease-in-out;
     }
 
-    .profile__menu {
-        position: absolute;
-        right: 0;
-        padding: 12px;
-        left: auto;
-        max-width: 140px !important;
-        border-radius: 20px;
-        box-shadow: 4px 5px 50px 0px #ECEAE1;
-
-    }
-
     .profile__item {
         padding: 10px 8px;
         min-width: 131px;
         font-size: 16px;
         font-weight: 600;
         line-height: 19.2px;
+        border-radius: 12px;
         background-position: left center;
         background-repeat: no-repeat;
         transition: all .3s ease-in-out;
@@ -553,19 +550,28 @@
         transition: all .3s ease-in-out;
     }
 
-    .profile__menu .q-item:hover {
-        background-color: var(--red);
+    .profile__menu .profile__item .q-tab__content,
+    .profile__menu .profile__item .profile__link {
+        transition: color .3s ease-in-out;
     }
 
-    .profile__menu .q-item:hover .profile__item {
+    .profile__menu .profile__item:hover .q-tab__content,
+    .profile__menu .profile__item:hover .profile__link {
         color: white;
     }
 
-    .profile__menu .q-item .profile__item path {
+
+    .profile__menu .profile__item:hover {
+        background-color: var(--red);
+    }
+
+    .profile__menu .profile__item .q-tab__content path,
+    .profile__menu .profile__item .profile__link path {
         transition: all .3s ease-in-out;
     }
 
-    .profile__menu .q-item:hover .profile__item path {
+    .profile__menu .profile__item:hover .q-tab__content path,
+    .profile__menu .profile__item:hover .profile__link path {
         stroke: white;
     }
 
@@ -702,14 +708,16 @@
             margin-right: auto;
         }
 
-        .points__amount {
+        .points__amount,
+        .timer__amount {
             padding: 6px 12px;
             min-width: 50px;
             font-size: 14px;
             line-height: 19.1px;
         }
 
-        .points {
+        .points,
+        .timer {
             padding-left: 28px;
             background-size: 28px;
         }
@@ -777,8 +785,9 @@
 
         .home.cards .card:nth-child(1) {
             grid-column: 2 span;
-            background-image: url(../assets/img/home-card-1-1024.webp);
+            background-image: url(../assets/img/home-card-1-1024.png);
             background-position: calc(100% - 18px) center;
+            background-size: 309px auto;
         }
 
         .home.cards .card:nth-child(2) {
@@ -879,6 +888,7 @@
         .account__header {
             padding: 12px 0;
         }
+
 
         .q-tab-panel {
             padding-top: 28px;
