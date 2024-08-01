@@ -64,7 +64,7 @@
                             </ul>
                         </nav>
 
-                        <router-link
+                        <!-- <router-link
                             :to="{ name: 'home' }"
                             class="header__sign sign btn-reset"
                         >
@@ -108,9 +108,9 @@
                                     />
                                 </svg>
                             </span>
-                        </router-link>
+                        </router-link> -->
 
-                        <!-- <q-btn @click="modalLogin = !modalLogin">
+                        <q-btn class="header__sign sign" @click="modalLogin = !modalLogin">
                             <div class="sign__bg">
                                 <svg
                                     width="212"
@@ -151,7 +151,7 @@
                                     />
                                 </svg>
                             </span>
-                        </q-btn> -->
+                        </q-btn>
                     </div>
 
                     <button class="burger btn-reset" @click="toggleMenu()">
@@ -212,6 +212,17 @@ export default {
 </script>
 
 <style>
+
+.q-btn:before,
+.q-btn--actionable.q-btn--standard:active:before, .q-btn--actionable.q-btn--standard.q-btn--active:before {
+    box-shadow: none;
+}
+
+.q-btn {
+    padding: 0;
+}
+
+
 .header-radius {
     border-radius: 0px 0px 60px 60px;
 }
@@ -265,6 +276,7 @@ export default {
     font-size: 24px;
     color: var(--text);
     transition: color 0.3s ease-in-out;
+    text-transform: none;
 }
 
 .sign__img {

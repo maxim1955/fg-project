@@ -96,36 +96,36 @@
                             }">
                             <swiper-slide>
                                 <picture>
-                                    <source srcset="../assets/img/training-21-360.webp" media="(max-width:576px)">
-                                    <source srcset="../assets/img/training-21-1024.webp" media="(max-width:1024px)">
+                                    <source srcset="../assets/img/training-21-360.png" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-21-1024.png" media="(max-width:1024px)">
                                     <img src="../assets/img/training-21.webp" alt="">
                                 </picture>
                             </swiper-slide>
                             <swiper-slide>
                                 <picture>
-                                    <source srcset="../assets/img/training-22-360.webp" media="(max-width:576px)">
-                                    <source srcset="../assets/img/training-22-1024.webp" media="(max-width:1024px)">
+                                    <source srcset="../assets/img/training-22-360.png" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-22-1024.png" media="(max-width:1024px)">
                                     <img src="../assets/img/training-22.webp" alt="">
                                 </picture>
                             </swiper-slide>
                             <swiper-slide>
                                 <picture>
-                                    <source srcset="../assets/img/training-23-360.webp" media="(max-width:576px)">
-                                    <source srcset="../assets/img/training-23-1024.webp" media="(max-width:1024px)">
+                                    <source srcset="../assets/img/training-23-360.png" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-23-1024.png" media="(max-width:1024px)">
                                     <img src="../assets/img/training-23.webp" alt="">
                                 </picture>
                             </swiper-slide>
                             <swiper-slide>
                                 <picture>
-                                    <source srcset="../assets/img/training-24-360.webp" media="(max-width:576px)">
-                                    <source srcset="../assets/img/training-24-1024.webp" media="(max-width:1024px)">
+                                    <source srcset="../assets/img/training-24-360.png" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-24-1024.png" media="(max-width:1024px)">
                                     <img src="../assets/img/training-24.webp" alt="">
                                 </picture>
                             </swiper-slide>
                             <swiper-slide>
                                 <picture>
-                                    <source srcset="../assets/img/training-25-360.webp" media="(max-width:576px)">
-                                    <source srcset="../assets/img/training-25-1024.webp" media="(max-width:1024px)">
+                                    <source srcset="../assets/img/training-25-360.png" media="(max-width:576px)">
+                                    <source srcset="../assets/img/training-25-1024.png" media="(max-width:1024px)">
                                     <img src="../assets/img/training-25.webp" alt="">
                                 </picture>
                             </swiper-slide>
@@ -495,12 +495,13 @@
 
             },
         },
-        created() {
-            window.addEventListener("load", this.resizeHeader);
+
+        mounted() {
+            this.resizeHeader();
         },
-        destroyed() {
-            window.removeEventListener("resize", this.resizeHeader)
-        },
+        // destroyed() {
+        //     window.removeEventListener("resize", this.resizeHeader)
+        // },
     }
 
 
@@ -673,10 +674,11 @@
     padding: 0;
     grid-column: 8 span;
     grid-row: 1;
-    background-image: url(../assets/img/advantages-1.webp);
+    background: right url(../assets/img/advantages-mask.webp), url(../assets/img/advantages-1.webp);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top left;
+    /* background-position: right; */
     filter: drop-shadow(0 0 20px #ECEAE1);
 }
 
@@ -688,8 +690,8 @@
     display: flex;
     align-items: end;
     justify-content: space-between;
-    -webkit-clip-path: polygon(64px 0, 100% 0%, 100% 100%, 0 100%, 0 64px);
-    clip-path: polygon(64px 0, 100% 0%, 100% 100%, 0 100%, 0 64px);
+    /* -webkit-clip-path: polygon(64px 0, 100% 0%, 100% 100%, 0 100%, 0 64px);
+    clip-path: polygon(64px 0, 100% 0%, 100% 100%, 0 100%, 0 64px); */
 }
 
 .advantages__box > div {
@@ -1187,7 +1189,7 @@
 
 .auditorium {
     position: relative;
-    overflow: hidden;
+    overflow: clip;
 }
 
 .auditorium::before {
@@ -1222,6 +1224,14 @@
 
 .form__block > div {
     width: 100%;
+}
+
+.feedback__form .form__input {
+    padding-right: 50px;
+}
+
+.feedback__form textarea {
+    resize: vertical;
 }
 
 @media (max-width: 1400px) {
@@ -1268,6 +1278,14 @@
     .advantages__card--one {
         grid-column: 2 span;
         grid-row: 1;
+        padding: 0;
+        background: right url(../assets/img/advantages-mask-1.webp), left top / cover url(../assets/img/advantages-1.webp);
+        background-repeat: no-repeat;
+    }
+
+    .advantages__card--one img {
+        padding-top: 0;
+        max-width: 324px;
     }
 
     .advantages__card--two {
@@ -1410,10 +1428,6 @@
         padding: 28px 20px;
     }
 
-    .advantages__card--one {
-        padding: 0;
-        background-image: url(../assets/img/advantages-1-1024.webp);
-    }
 
     .advantages__card--two {
         padding-top: 88px;
@@ -1900,6 +1914,10 @@
         width: 180px;
     }
 
+    .hero picture img {
+        max-width: 216px;
+    }
+
     .hero {
         padding-top: 16px;
         padding-bottom: 28px;
@@ -1936,6 +1954,17 @@
         top: 32rem;
         width: 18px;
     }
+
+    .advantages__card--one .advantages__box img {
+        max-width: 132px;
+    }
+
+    .advantages__card--one {
+        background: right url(../assets/img/advantages-mask-2.webp), left top / cover url(../assets/img/advantages-1.webp);
+        background-repeat: no-repeat;
+    }
+
+
 }
 
 @media (max-width: 360px) {
