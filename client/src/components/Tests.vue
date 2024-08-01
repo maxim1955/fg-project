@@ -8,6 +8,50 @@
         control-color="primary"
         class="rounded-borders"
       >
+      <q-carousel-slide name="question_0" class="">
+          <div class="start_flex">
+            <div class="start_left">
+            <h2 class="question_num start_head">Правила прохождения теста</h2>
+            <ul class="ul_start">
+              <li class="list_start">Тест состоит из 16 вопросов. </li>
+              <li class="list_start">На прохождение теста у тебя есть 40 минут. Если время закончится в процессе выполнения заданий, то результат будет определён на основании завершённых заданий.</li>
+              <li class="list_start">Каждый правильный ответ на вопрос оценивается в 1 балл.</li>
+              <li class="list_start">В зависимости от набранных баллов по тестированию, тебе будут открыты соответствующие уровни сложности заданий по функциональной грамотности.</li>
+            </ul>
+            <p class="list_start">Используй доступное время эффективно, так как от результатов теста зависит твой стартовый уровень. Удачи!</p>
+
+         
+          <q-btn-toggle
+          size="24px"
+          type="submit"
+          form=""
+          class="btn_pc start_btn"
+          v-model="slide"
+          :options="[
+
+            { label:'Начать тест', value: 'question_1' },
+
+          ]"
+        />
+        <q-btn-toggle
+          size="20px"
+          type="submit"
+          form=""
+          class="btn_mob start_btn"
+          v-model="slide"
+          :options="[
+
+            { label:'Начать тест', value: 'question_1' },
+
+          ]"
+        /> 
+      </div>
+      <div class="start_girl">
+        <img src="../assets/img/start.png" alt="" class="girl_inner">
+      </div>
+      </div>
+        </q-carousel-slide>
+
         <q-carousel-slide name="question_1" class="">
           <div class="main_mar">
             <div class="q-pos">
@@ -48,11 +92,51 @@
             </p>
 
             <div class="vehicle_flex">
+              <div class="custom">
+                <label for="photo1" class="avatars__label">
+                  <input type="checkbox" name="avatar" id="photo1" class="avatars__input">
+                  <span class="avatars__check"></span>
+                  <span class="empty"></span>
               <img src="../assets/img/vehicle.svg" alt="" class="vehicles">
+            </label>
+          </div>
+
+          <div class="custom">
+              <label for="photo2">
+                <input type="checkbox" name="avatar" id="photo2" class="avatars__input">
+                <span class="avatars__check"></span>
+                <span class="empty"></span>
               <img src="../assets/img/vehicle_1.svg" class="vehicles" alt="">
+            </label>
+          </div>
+
+          <div class="custom">
+              <label for="photo3">
+                <input type="checkbox" name="avatar" id="photo3" class="avatars__input">
+                <span class="avatars__check"></span>
+                <span class="empty"></span>
               <img src="../assets/img/vehicle_2.svg" class="vehicles" alt="">
+            </label>
+            </div>
+
+            <div class="custom">
+              <label for="photo4">
+                <input type="checkbox" name="avatar" id="photo4" class="avatars__input">
+                <span class="avatars__check"></span>
+                <span class="empty"></span>
               <img src="../assets/img/vehicle_3.svg"  class="vehicles" alt="">
+            </label>
+          </div>
+
+
+            <div class="custom">
+            <label for="photo5"> 
+              <input type="checkbox" name="avatar" id="photo5" class="avatars__input">
+                <span class="avatars__check"></span>
+                <span class="empty"></span> 
               <img src="../assets/img/vehicle_4.svg" class="vehicles" alt="">
+            </label>
+          </div>
             </div>
 
 
@@ -593,7 +677,7 @@
           <p class="choice_pad">Листья для чёрного и зелёного чая собирают с растений</p>
           <multiselect v-model="value11" :options="options2" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
               placeholder="Выберите ответ"></multiselect>
-          <p class="choice_pad">.</p>
+          <p class="choice_pad dot">.</p>
           </div>
           <div class="choice">
           <p class="choice_pad">Для изготовления чёрного чая требуется</p>
@@ -1020,7 +1104,7 @@
           <p class="text_mar"><b>
             Выбери верные варианты из списков.
           </b></p>
-          <div class="choices opt_4">
+          <div class="choices opt_4 last_padd">
           <div class="choice">
           <p class="choice_pad">Исчезнувшие в дикой природе виды описываются на</p>
           <multiselect v-model="value18" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
@@ -1031,14 +1115,14 @@
           <p class="choice_pad">Если о виде недостаточно данных — страница будет</p>
           <multiselect v-model="value19" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
           placeholder="Выберите ответ" ></multiselect>
-          <p class="choice_pad">.</p>
+          <p class="choice_pad dot">.</p>
           </div>
 
           <div class="choice">
           <p class="choice_pad">Страница с находящимися в опасности видами будет —</p>
           <multiselect v-model="value20" :options="options5" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
             placeholder="Выберите ответ" ></multiselect>
-          <p class="choice_pad">.</p>
+          <p class="choice_pad dot">.</p>
           </div>
 
           <div class="choice">
@@ -1085,7 +1169,7 @@
   export default {
     setup () {
       return {
-        slide: ref('question_1'),
+        slide: ref('question_0'),
         lorem: 'lorem',
         q_7_1: ref(false),
         q_7_2: ref(false),
@@ -1172,7 +1256,15 @@
   fieldset[disabled] .multiselect {
   pointer-events: none;
 }
-
+.list_start{
+  font-weight: 600;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+.q-checkbox__bg{
+  border: none !important;
+  background-color: #6a1b9a !important;
+}
 .multiselect__spinner {
   position: absolute;
   right: 1px;
@@ -1216,7 +1308,10 @@
   transition: opacity 0.4s ease-in-out;
   opacity: 1;
 }
-
+.start_btn{
+  background-color: rgba(201, 255, 34, 1);
+  margin-left: 0% !important;
+}
 .multiselect__loading-enter,
 .multiselect__loading-leave-active {
   opacity: 0;
@@ -1307,7 +1402,9 @@
 .multiselect__tags-wrap {
   display: inline
 }
-
+.start_head{
+  margin-bottom: 40px;
+}
 .multiselect__tags {
   min-height: 64px;
   display: block;
@@ -1363,12 +1460,28 @@
 .multiselect__tag-icon:hover {
   background:white;
 }
-
+.vehicle_flex{
+  display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
   color: white;
 }
-
+.empty{
+  background-image: url(../assets/img/Checkbox.svg);
+  width: 40px;
+ height: 40px;
+ display: inline-block;
+ background-repeat: no-repeat;
+ position: absolute;
+   margin-top: 262px;
+    margin-left: 279px; 
+}
+.avatars__input:checked ~ .empty{
+  display: none;
+}
 .multiselect__current {
   line-height: 16px;
   min-height: 40px;
@@ -1384,7 +1497,9 @@
   border: 1px solid #E8E8E8;
   cursor: pointer;
 }
-
+.ul_start{
+  padding-left:23px;
+}
 .multiselect__select {
   line-height: 16px;
   display: block;
@@ -1413,7 +1528,18 @@
   border-color: #999999 transparent transparent transparent;
   content: "";
 }
-
+.avatars__input{
+  display: none;
+}
+.avatars__input:checked ~ .avatars__check {
+       position: absolute;
+       margin-top: 260px;
+    margin-left: 276px; 
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-image: url(../assets/img/check-avatar.svg);
+    }
 .multiselect__placeholder {
   color: #ADADAD;
   display: inline-block;
@@ -1439,7 +1565,13 @@
   -webkit-overflow-scrolling: touch;
   margin-top: 10px;
 }
-
+.start_girl{
+  width:67%;
+}
+.start_flex{
+  display: flex;
+  gap:40px;
+}
 .multiselect__content {
   list-style: none;
   display: inline-block;
@@ -1461,7 +1593,9 @@
 .multiselect__content::webkit-scrollbar {
   display: none;
 }
-
+.custom{
+  width:fit-content
+}
 .multiselect__element {
   display: block;
   padding:10px;
@@ -1675,7 +1809,10 @@
     width: 100%;
     margin-bottom: 20px;
   }
-
+  .block{
+    font-weight: 700;
+    text-transform: none
+  }
   .custom-select {
     display: flex;
     align-items: center;
@@ -1817,8 +1954,26 @@
   .btn_mob{
     display: initial !important;
   }
+  .start_flex{
+    flex-direction: column;
+  }
+  .start_girl{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .girl_inner{
+    width:30%;
+  }
+  .start_head{
+    font-size: 26px;
+    margin-bottom: 20px  !important;
+  }
   .pdd_pc{
     display: none;
+  }
+  .list_start{
+    font-size: 16px;
   }
   .pdd_tab{
     display: initial;
@@ -1865,6 +2020,9 @@
   .tea_tab{
   display: none;
 }
+.dot{
+  display: none;
+}
 .tea_mob{
   display: initial;
 }
@@ -1888,6 +2046,19 @@
   .red_pc{
     display: none;
   }
+  .start_head{
+    font-size: 24px;
+    line-height: 28.8px;
+  }
+  .list_start{
+    font-size: 14px;
+  }
+  .last_padd{
+    margin-bottom: 70px !important;
+  }
+.girl_inner{
+  width:60%;
+}
 .bikes_wd{
   max-width: unset !important;
 }
