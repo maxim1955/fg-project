@@ -89,11 +89,7 @@
                             :slides-per-view="1"
                             @swiper="onSwiper"
                             @slideChange="onSlideChange"
-                            :pagination="{ clickable: true }"
-                            :autoplay="{
-                            delay: 2500,
-                            disableOnInteraction: false,
-                            }">
+                            :pagination="{ clickable: true }">
                             <swiper-slide>
                                 <picture>
                                     <source srcset="../assets/img/training-21-360.png" media="(max-width:576px)">
