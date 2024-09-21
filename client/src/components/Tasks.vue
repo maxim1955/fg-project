@@ -77,6 +77,7 @@ import Task4 from './Task4.vue'
 import Task5 from './Task5.vue'
 import TaskTemplate from './TaskTemplate.vue'
 import NextTaskModal from './NextTaskModal.vue'
+import {getTasks} from "../dbquery/getTasks";
 export default {
   props: ['points', 'levelNum'],
   components: {StartLevelModal, Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal},
@@ -385,6 +386,23 @@ export default {
         if (this.getLevelNum == 5) return this.tasks5
     }
   },
+
+    // ТУТ ПОЛУЧАЕМ ЗАДАНИЯ
+
+  //   mounted() {
+//     let getTasksOb = async () => {
+//             try {
+//                 let tasks = await getTasks();
+//                 console.log(tasks) // Надо проверить что приходит и опдставить правильные данные
+//                 this.tasks = tasks.data
+
+//                 console.log('Data from API:', this.tasks);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getTasksOb();
+//   }
 
 }
 </script>

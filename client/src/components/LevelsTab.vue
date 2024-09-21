@@ -43,6 +43,7 @@
 
 <script>
 import Tasks from './Tasks.vue';
+import {getLevels} from "../dbquery/getLevels";
 export default {
   props: ['points'],
   components: {Tasks},
@@ -130,6 +131,23 @@ export default {
         this.$emit('show-tasks', newValue)
     }
   },
+
+    // ТУТ ПОЛУЧАЕМ УРОВНИ
+
+//   mounted() {
+//     let getLevelsOb = async () => {
+//             try {
+//                 let levels = await getLevels();
+//                 console.log(levels) // Надо проверить что приходит и опдставить правильные данные
+//                 this.levels = levels.data
+
+//                 console.log('Data from API:', this.levels);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getLevelsOb();
+//   }
 
 }
 </script>

@@ -101,6 +101,7 @@
 import { ref } from 'vue'
 import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
+import {getQuestions, getAnswers, getPromts} from "../dbquery/getQuestions";
 export default {
     components: {NextTaskModal, Multiselect },
     props: ['task'],
@@ -245,6 +246,54 @@ export default {
         this.showNextTaskModal = false;
     }
   },
+
+      // ТУТ ПОЛУЧАЕМ ВОПРОСЫ И ОТВЕТЫ К ЗАДАНИЯМ
+
+  //   mounted() {
+//     let getQuestionsOb = async () => {
+//             try {
+//                 let questions = await getQuestions();
+//                 console.log(questions) // Надо проверить что приходит и опдставить правильные данные
+//                 this.questions = questions.data
+
+//                 console.log('Data from API:', this.questions);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getQuestionsOb();
+
+
+    // ТУТ ПОЛУЧАЕМ ВАРИАНТЫ ОТВЕТОВ ДЛЯ questiontypes=1,2,3
+
+        //  let getAnswersOb = async () => {
+//             try {
+//                 let answers = await getAnswers();
+//                 console.log(answers) // Надо проверить что приходит и опдставить правильные данные
+//                 this.answers = answers.data
+
+//                 console.log('Data from API:', this.answers);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getAnswersOb();
+
+//  ТУТ ПОЛУЧАЕМ ВАРИАНТЫ УТВЕРРЖДЕНИЙ ДЛЯ questiontypes = 3
+
+//  let getPromtsOb = async () => {
+//             try {
+//                 let promts = await getPromts();
+//                 console.log(promts) // Надо проверить что приходит и опдставить правильные данные
+//                 this.promts = promts.data
+
+//                 console.log('Data from API:', this.promts);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getPromtsOb();
+//   }
 
 }
 </script>
