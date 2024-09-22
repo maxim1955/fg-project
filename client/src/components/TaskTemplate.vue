@@ -102,9 +102,10 @@ import { ref } from 'vue'
 import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
 import {getQuestions, getAnswers, getPromts} from "../dbquery/getQuestions";
+import levelsStore from "../store/LevelsStore.js";
 export default {
     components: {NextTaskModal, Multiselect },
-    props: ['task'],
+    props: ['task', 'levelNum', 'taskNum'],
     data() {
         return {
             // slidesCount: 4,
@@ -245,6 +246,15 @@ export default {
     closeNextTaskModal() {
         this.showNextTaskModal = false;
     }
+  },
+
+  computed: {
+    getLevel() {
+        const level = levelsStore().levels.find((level) => {
+            return level.id == this.levelNum
+        })
+    }
+
   },
 
       // ТУТ ПОЛУЧАЕМ ВОПРОСЫ И ОТВЕТЫ К ЗАДАНИЯМ

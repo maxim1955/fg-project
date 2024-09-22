@@ -27,11 +27,11 @@
 
 
             <div class="levels__list">
-                <div v-for="level of levels" :key="level.id">
+                <div v-for="level of levels" :key="level.level_id">
                     <button class="levels__item btn-reset" :class="{'levels__item--open': this.points >= level.min}" @click="getLevel(level)" :disabled="this.points < level.min">
                         <span>{{ level.name }}</span>
                     </button>
-                    <span v-if="this.points < level.minpoints && this.currentLevel == level.id" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
+                    <span v-if="this.points < level.minpoints && this.currentLevel == level.level_id" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
                 </div>
 
             </div>
@@ -43,7 +43,7 @@
 
 <script>
 import Tasks from './Tasks.vue';
-import {getLevels} from "../dbquery/getLevels";
+import levelsStore from "../store/LevelsStore.js";
 export default {
   props: ['points'],
   components: {Tasks},
@@ -134,20 +134,11 @@ export default {
 
     // ТУТ ПОЛУЧАЕМ УРОВНИ
 
-//   mounted() {
-//     let getLevelsOb = async () => {
-//             try {
-//                 let levels = await getLevels();
-//                 console.log(levels) // Надо проверить что приходит и опдставить правильные данные
-//                 this.levels = levels.data
-
-//                 console.log('Data from API:', this.levels);
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//         getLevelsOb();
-//   }
+// computed: {
+//     levels() {
+//         return levelsStore().levels;
+//     }
+// }
 
 }
 </script>

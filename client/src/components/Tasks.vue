@@ -57,7 +57,7 @@
         <Task3 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 3"/>
         <Task4 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 4"/>
         <Task5 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 5"/>
-        <TaskTemplate @back-levels="backLevels()" @open-modal="openModal()" :task="this.currentTask" v-else/>
+        <TaskTemplate @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask" v-else/>
 
         <NextTaskModal @next-task="nextTask()" @close-modal="closeModal()" v-show="this.showNextTaskModal"/>
     </div>
@@ -77,7 +77,6 @@ import Task4 from './Task4.vue'
 import Task5 from './Task5.vue'
 import TaskTemplate from './TaskTemplate.vue'
 import NextTaskModal from './NextTaskModal.vue'
-import {getTasks} from "../dbquery/getTasks";
 export default {
   props: ['points', 'levelNum'],
   components: {StartLevelModal, Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal},
