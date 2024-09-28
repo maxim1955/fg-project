@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TasksController;
 use App\Http\Controllers\Api\TestResultController;
 use App\Http\Controllers\Api\TaskResultController;
+use App\Http\Controllers\Api\ChatController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,3 +31,6 @@ Route::get('/tasks', [TasksController::class, 'index']);
 
 Route::post('/testresults',  [TestResultController::class, 'index']);
 Route::post('/taskresults',  [TaskResultController::class, 'index']);
+
+Route::get('/chat',  [ChatController::class, 'index']);
+Route::post('/chat/newmessage',  [ChatController::class, 'create']);
