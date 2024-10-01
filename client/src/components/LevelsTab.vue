@@ -134,11 +134,11 @@ export default {
 
     // ТУТ ПОЛУЧАЕМ УРОВНИ
 
-// computed: {
-//     levels() {
-//         return levelsStore().levels;
-//     }
-// }
+computed: {
+    levels() {
+        return levelsStore().levels;
+    }
+}
 
 }
 </script>

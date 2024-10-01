@@ -4,7 +4,6 @@ import api from "../dbquery/dbConnect";
 // Функция для выполнения GET-запроса для авторизации
 export const getUser = async (login, password) => {
     try {
-        console.log(import.meta.env)
         const response = await api.get('/api/login', {
             params: {
                 login: login,
