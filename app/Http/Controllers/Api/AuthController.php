@@ -26,20 +26,32 @@ class AuthController extends RestController
             $success['gende'] = $authUser->gende;
             $success['avatar'] = $authUser->avatar;
             $success['role_id'] = $authUser->role_id;
+            
             if($authUser->role_id=='4'){
-                $authPupil = DB::table('pupils')->where('user_id','=', $authUser->id)->first();
-                $success['scoretest'] = $authPupil->scoretest;
-                $success['sumpoint'] = $authPupil->sumpoint;
-                $success['spendpoints'] = $authPupil->spendpoints;
-                $success['starttime'] = $authPupil->starttime;
-            }
-            // if($authUser->role_id=='5'){
-            //     $authPupil = Pupil::find('parent_id', $authUser->id);
-            //     $success['scoretest'] = $authPupil->scoretest;
-            //     $success['sumpoint'] = $authPupil->sumpoint;
-            //     $success['spendpoints'] = $authPupil->spendpoints;
-            //     $success['starttime'] = $authPupil->starttime;
-            // }
+                $authPupil = DB::table('pupils')->where('user_id', $authUser->id)->first();
+                if ($authPupil) 
+                {
+                    $success['scoretest'] = $authPupil->scoretest;
+                    $success['sumpoint'] = $authPupil->sumpoint;
+                    $success['spendpoints'] = $authPupil->spendpoints;
+                    $success['starttime'] = $authPupil->starttime;
+                    
+                    $pupils = Pupil::where('klass_id', $authPupil->klass_id)->orderBy('sumpoint', 'DESC')->get();
+                    $results = json_decode($pupils,true);
+                    $c=count($results);
+                    for($i = 0; $i<$c; $i++)
+                    {
+                        if ($results[$i]['user_id']==$authPupil->user_id)
+                        {
+                            $rating = $i+1;
+                        }
+                    }
+                    $success['rating'] =  $rating;
+                }
+                else {
+                    return $this->sendError('No such pupil.', ['error' => 'Unauthorised']);
+                }
+            }           
             return $this->sendResponse($success, 'User signed in');
         } else {
             return $this->sendError('Unauthorised.', ['error' => 'Unauthorised']);
