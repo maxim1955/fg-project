@@ -26,11 +26,11 @@ import avatarFemale3 from '../assets/img/female-avatar-3.webp'
 import avatarMale1 from '../assets/img/male-avatar-1.webp'
 import avatarMale2 from '../assets/img/male-avatar-2.webp'
 import avatarMale3 from '../assets/img/male-avatar-3.webp'
+import userStore from "../store/UserStore.js";
 export default {
     props: ['user'],
     data() {
         return {
-            avatars: [],
             female: [
                 {
                     id: 1,
@@ -62,6 +62,9 @@ export default {
         }
     },
     computed: {
+        user() {
+            return userStore().user;
+        },
         filteredAvatars() {
             if (this.user.gender == 'female') return this.female
             if (this.user.gender == 'male') return this.male

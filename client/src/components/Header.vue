@@ -110,7 +110,7 @@
                             </span>
                         </router-link> -->
 
-                        <q-btn class="header__sign sign" @click="modalLogin = !modalLogin">
+                        <q-btn class="header__sign sign" @click="openAuth()">
                             <div class="sign__bg">
                                 <svg
                                     width="212"
@@ -169,18 +169,13 @@
 <script>
 import { ref } from "vue";
 import Login from "./login.vue";
+
 export default {
     components: { Login },
     data() {
         return {
             radius: false,
-        };
-    },
-    setup() {
-        const modalLogin = ref(false);
-
-        return {
-            modalLogin,
+            modalLogin: false,
         };
     },
     methods: {
@@ -193,7 +188,15 @@ export default {
             document.body.classList.remove("open-menu");
             document.querySelector(".header__menu").classList.remove("open");
         },
+
+        openAuth() {
+            if (sessionStorage.getItem('user') !== null) {
+                this.$router.push({name: 'home'});
+            } else this.modalLogin = true;
+        }
     },
+
+
 
     created() {
         window.addEventListener("scroll", () => {

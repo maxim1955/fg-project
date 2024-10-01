@@ -49,39 +49,39 @@ export default {
   components: {Tasks},
   data() {
     return {
-        levels: [
-            {
-                id: 1,
-                name: 'Уровень 1',
-                min: 0,
-                minpoints: 7
-            },
-            {
-                id: 2,
-                name: 'Уровень 2',
-                min: 8,
-                minpoints: 10
-            },
-            {
-                id: 3,
-                name: 'Уровень 3',
-                min: 11,
-                minpoints: 12
-            },
-            {
-                id: 4,
-                name: 'Уровень 4',
-                min: 13,
-                minpoints: 14
-            },
-            {
-                id: 5,
-                name: 'Уровень 5',
-                min: 15,
-                minpoints: 16
-            },
+        // levels: [
+        //     {
+        //         id: 1,
+        //         name: 'Уровень 1',
+        //         min: 0,
+        //         minpoints: 7
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Уровень 2',
+        //         min: 8,
+        //         minpoints: 10
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'Уровень 3',
+        //         min: 11,
+        //         minpoints: 12
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'Уровень 4',
+        //         min: 13,
+        //         minpoints: 14
+        //     },
+        //     {
+        //         id: 5,
+        //         name: 'Уровень 5',
+        //         min: 15,
+        //         minpoints: 16
+        //     },
 
-        ],
+        // ],
         rules: false,
         // currentLevel: 2,
         level: {},

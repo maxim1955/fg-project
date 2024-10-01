@@ -15,6 +15,7 @@ const useLevelsStore = defineStore('LevelsStore' , {
             try {
                 const response = await axios.get('/api/tasks');
                 this.levels = response.data
+                console.log(this.levels)
             }
             catch (error) {
                 console.log(error)

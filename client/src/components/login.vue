@@ -123,26 +123,24 @@ function validateForm() {
 }
 
 function submitForm() {
-    if (validateForm()) {
+        if (validateForm()) {
 
-        let loginOb = async () => {
-            try {
-                let response = await getUser(login.value, password.value);
-                console.log(response)
-                userStore().updateUserInfo(login.data);
-                // router.push({name: 'home'});
-            } catch (error) {
-                console.log(error)
-            }
+    let loginOb = async () => {
+        try {
+            let response = await getUser(login.value, password.value);
+            console.log(response.data)
+            userStore().updateUserInfo(response.data);
+            console.log(userStore().user);
+            router.push({name: 'home'});
+        } catch (error) {
+            console.log(error)
         }
-        loginOb();
-
-
     }
+        loginOb();
+    }
+
 }
 
-
-console.log(props.openModal);
 </script>
 
 <style scoped>

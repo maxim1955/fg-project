@@ -32,7 +32,7 @@
                     </div>
                     <div class="profile">
                         <button class="profile__btn btn-reset" @click="this.openMenu=!this.openMenu">
-                            <img class="profile__img" src="../assets/img/profile-avatar.png" alt="">
+                            <img class="profile__img" :src="user.avatar" alt="">
                             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M19.9997 36.6673C29.2044 36.6673 36.6663 29.2054 36.6663 20.0007C36.6663 10.7959 29.2044 3.33398 19.9997 3.33398C10.7949 3.33398 3.33301 10.7959 3.33301 20.0007C3.33301 29.2054 10.7949 36.6673 19.9997 36.6673Z" fill="#C9FF22" stroke="#C9FF22" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M14.1162 17.9004L19.9995 23.7671L25.8829 17.9004" stroke="#414143" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -101,14 +101,14 @@
                 limitTime: 0,
                 collapse: false,
                 openMenu: false,
-                user: {
-                    name: 'Иван',
-                    surname: 'Иванов',
-                    lastname: 'Иванович',
-                    classNumber: '8 Б',
-                    gender: 'female',
-                    avatar: '../assets/img/profile-avatar.png'
-                },
+                // user: {
+                //     name: 'Иван',
+                //     surname: 'Иванов',
+                //     lastname: 'Иванович',
+                //     classNumber: '8 Б',
+                //     gender: 'female',
+                //     avatar: '../assets/img/profile-avatar.png'
+                // },
                 levelClass: 1,
                 taskClass: 1,
                 showTask: false,
@@ -148,11 +148,10 @@
         },
 
         computed: {
-            getUser() {
+            user() {
                 return userStore().user;
             }
         }
-
 
     }
 </script>
