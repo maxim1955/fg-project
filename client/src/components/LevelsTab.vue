@@ -27,11 +27,11 @@
 
 
             <div class="levels__list">
-                <div v-for="level of levels" :key="level.id">
+                <div v-for="level of levels" :key="level.level_id">
                     <button class="levels__item btn-reset" :class="{'levels__item--open': this.points >= level.min}" @click="getLevel(level)" :disabled="this.points < level.min">
                         <span>{{ level.name }}</span>
                     </button>
-                    <span v-if="this.points < level.minpoints && this.currentLevel == level.id" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
+                    <span v-if="this.points < level.minpoints && this.currentLevel == level.level_id" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
                 </div>
 
             </div>
@@ -43,6 +43,7 @@
 
 <script>
 import Tasks from './Tasks.vue';
+import levelsStore from "../store/LevelsStore.js";
 export default {
   props: ['points'],
   components: {Tasks},
@@ -130,6 +131,14 @@ export default {
         this.$emit('show-tasks', newValue)
     }
   },
+
+    // ТУТ ПОЛУЧАЕМ УРОВНИ
+
+// computed: {
+//     levels() {
+//         return levelsStore().levels;
+//     }
+// }
 
 }
 </script>

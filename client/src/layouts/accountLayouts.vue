@@ -90,6 +90,7 @@
 </template>
 <script>
     import { ref } from 'vue';
+    import userStore from "../store/UserStore.js";
     export default {
         components: {},
         data() {
@@ -144,11 +145,13 @@
                 this.showTask = false;
             },
 
-
-
-
-
         },
+
+        computed: {
+            getUser() {
+                return userStore().user;
+            }
+        }
 
 
     }

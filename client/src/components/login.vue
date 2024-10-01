@@ -78,9 +78,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRouter } from 'vue-router'
-
+import userStore from "../store/UserStore.js";
+import {getUser} from '../dbquery/Login'
 const router = useRouter();
 
 const props = defineProps({
@@ -90,6 +91,8 @@ const props = defineProps({
     },
 });
 const emit = defineEmits(["closeModal"]);
+
+
 
 const dialog = computed(() => props.openModal);
 const maximizedToggle = ref(true)
@@ -124,9 +127,24 @@ function submitForm() {
         console.log("Логин:", login.value);
         console.log("Пароль:", password.value);
 
-        router.push({name: 'home'});
+        let loginOb = async () => {
+            try {
+                let response = await getUser(login.value, password.value);
+                console.log(response)
+                userStore().updateUserInfo(login.data);
+
+                console.log('Data from API:', response);
+                router.push({name: 'home'});
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        loginOb();
+
+
     }
 }
+
 
 console.log(props.openModal);
 </script>

@@ -57,7 +57,7 @@
         <Task3 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 3"/>
         <Task4 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 4"/>
         <Task5 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 5"/>
-        <TaskTemplate @back-levels="backLevels()" @open-modal="openModal()" :task="this.currentTask" v-else/>
+        <TaskTemplate @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask" v-else/>
 
         <NextTaskModal @next-task="nextTask()" @close-modal="closeModal()" v-show="this.showNextTaskModal"/>
     </div>
@@ -385,6 +385,23 @@ export default {
         if (this.getLevelNum == 5) return this.tasks5
     }
   },
+
+    // ТУТ ПОЛУЧАЕМ ЗАДАНИЯ
+
+  //   mounted() {
+//     let getTasksOb = async () => {
+//             try {
+//                 let tasks = await getTasks();
+//                 console.log(tasks) // Надо проверить что приходит и опдставить правильные данные
+//                 this.tasks = tasks.data
+
+//                 console.log('Data from API:', this.tasks);
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//         getTasksOb();
+//   }
 
 }
 </script>
