@@ -4,7 +4,9 @@ import axios from "axios";
 const useLevelsStore = defineStore('LevelsStore' , {
     state: () => {
         return {
-            levels: []
+            levels: [],
+            currentLevel: 1,
+            currentTask: 1
         }
     },
 

@@ -17,6 +17,9 @@ const useUserStore = defineStore('UserStore' , {
             catch (error) {
                 console.log(error)
             }
+        },
+        updateUserInfo(obj) {
+            this.user = obj;
         }
     }
 })
