@@ -20,6 +20,8 @@ class TasksController extends RestController
         $tasks = DB::table('tasks')->get();
         $questions = DB::table('questions')->get();
         $promts = DB::table('promts')->get();
+        $answers = DB::table('answers')->get();
+        $points = DB::table('points')->get();
         $result = [];
         $response = [];
         foreach ($levels as $level) {
@@ -40,6 +42,22 @@ class TasksController extends RestController
                             foreach ($promts as $promt) {
                                 if ($question->id == $promt->question_id) {
                                     array_push($question->promts, $promt);
+                                    // $question->promts = []; 
+                                    // $result['tasks']['questions'] = $question;
+                                }
+                            }
+                            $question->answers = [];
+                            foreach ($answers as $answer) {
+                                if ($question->id == $answer->question_id) {
+                                    array_push($question->answers, $answer);
+                                    // $question->promts = []; 
+                                    // $result['tasks']['questions'] = $question;
+                                }
+                            }
+                            $question->points = [];
+                            foreach ($points as $point) {
+                                if ($question->id == $point->question_id) {
+                                    array_push($question->points, $point);
                                     // $question->promts = []; 
                                     // $result['tasks']['questions'] = $question;
                                 }
