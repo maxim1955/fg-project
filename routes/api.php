@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\TasksController;
 use App\Http\Controllers\Api\TestResultController;
 use App\Http\Controllers\Api\TaskResultController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\BonusController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,3 +35,5 @@ Route::post('/taskresults',  [TaskResultController::class, 'index']);
 
 Route::get('/chat',  [ChatController::class, 'index']);
 Route::post('/chat/newmessage',  [ChatController::class, 'create']);
+
+Route::get('/bonus',  [BonusController::class, 'index']);
