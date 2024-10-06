@@ -4,11 +4,11 @@
             <div class="modal__window">
                 <button @click="$emit('close-modal')" class="btn-reset modal__close"></button>
                 <div class="modal__block">
-                    <h2 class="modal__title">Ты прошёл задание «Абонемент в бассейн»</h2>
+                    <h2 class="modal__title">Ты прошёл задание «{{ currentTask.name }}»</h2>
                     <p class="modal__text">У тебя 20 из 30 баллов. Тебе доступно следующее задание. Ты также можешь пройти задание заново, но тогда текущий результат будет аннулирован.</p>
-                    <p class="modal__text">Задание 1: 4 из 6 баллов</p>
-                    <p class="modal__text">Задание 2: 6 из 6 баллов</p>
-                    <p class="modal__text">Задание 3: 6 из 6 баллов</p>
+                    <div v-if="currentTask.questions">
+                        <p  v-for="question in currentTask.questions" :key="question.position" class="modal__text">Задание {{ question.position }}: 0  из {{ question.point1 }} баллов</p>
+                    </div>
 
                 </div>
                 <button @click="$emit('next-task')" class="modal__btn btn-reset flex items-center">
@@ -18,7 +18,7 @@
                         <path d="M3.5 12.5H20.33" stroke="#3A3A3A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                 </button>
-                <button class="btn-reset modal__btn modal__btn--reset">Пройти заново</button>
+                <button @click="$emit('try-again')" class="btn-reset modal__btn modal__btn--reset">Пройти заново</button>
 
             </div>
         </div>
@@ -26,13 +26,43 @@
 </template>
 
 <script>
+import levelsStore from "../store/LevelsStore.js";
+import {getPoints} from '../dbquery/getPoints.js'
 export default {
     data() {
         return {
             showTask: false,
+            points: null
         }
     },
-    props: [''],
+
+    props: ['currentTask'],
+
+    // computed: {
+    //     task() {
+    //         const level = levelsStore().levels.find(level => level.level_id === levelsStore().currentLevel)
+    //         if (level) {
+    //             const task = level.tasks.find(task => task.id === levelsStore().currentTask);
+    //             if (task) return task
+    //             else return null;
+    //         } else {
+    //             return null
+    //         }
+    //     }
+    // },
+
+    mounted() {
+        let pointsOb = async () => {
+        try {
+            let response = await getPoints();
+            console.log(response.data)
+            this.points = response.data;
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    pointsOb();
+    },
 
     methods: {
 

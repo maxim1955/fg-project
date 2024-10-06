@@ -28,7 +28,7 @@
                         <div class="timer__amount">{{ this.timer }}</div>
                     </div>
                     <div class="points">
-                        <div class="points__amount">{{ this.points }}</div>
+                        <div class="points__amount">{{ user.sumpoint }}</div>
                     </div>
                     <div class="profile">
                         <button class="profile__btn btn-reset" @click="this.openMenu=!this.openMenu">

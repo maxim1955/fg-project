@@ -47,7 +47,7 @@
                                     Она удивилась, потому что не ожидала увидеть на тренинге участников пожилого и старшего возраста.
                                 </label>
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -99,7 +99,7 @@
                                     Участвовать в тренингах совершенно бесполезно, для развития речи нужно больше читать.
                                 </label>
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -182,7 +182,7 @@
                                     </tr>
                                 </tbody>
                             </table> -->
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -250,7 +250,7 @@
                                     </tr>
                                 </tbody>
                             </table> -->
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -287,7 +287,7 @@
                                     <multiselect v-model="value55" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
 
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
 
@@ -302,8 +302,8 @@
             >
                 <!-- <button @click="this.intro=!this.intro" class="carousel__btn" v-if="this.slide == 1">Назад</button>
                 <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
-                <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
+                <q-btn :disabled="disabledNext" class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
+                <button :disabled="disabledNext" class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
             </q-carousel-control>
             </template>
         </q-carousel>
@@ -346,6 +346,8 @@ export default {
             options1: ['«Красная тряпка»', '«Боксёрская груша»', '«Белая ворона»'],
             options2: ['Объясняет', 'Не объясняет'],
             intro: true,
+            slide: 1,
+            disabledNext: true,
         }
     },
     setup () {
@@ -357,12 +359,10 @@ export default {
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
+        this.disabledNext = true;
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
-    },
-    prevSlide() {
-        this.$refs.carousel.previous();
     },
 
     openNextTaskModal() {
@@ -371,6 +371,10 @@ export default {
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
+    },
+
+    submitAnswer() {
+        this.disabledNext = false;
     }
   },
 
@@ -382,7 +386,7 @@ export default {
         margin-bottom: 40px;
     }
 
-    .account.level-5-1 {
+    .account.level-5-0 {
         background-image: url(../assets/img/task-bg-5-1.webp);
         background-size: cover;
     }

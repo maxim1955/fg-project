@@ -10,7 +10,7 @@
                 </svg>
             </button>
             /
-            <span>Уровень {{ this.getLevelNum }}</span>
+            <span>Уровень {{ this.levelNum }}</span>
         </div>
         <div class="tasks__container">
             <div class="rules">
@@ -38,13 +38,21 @@
 
 
             <div class="tasks__list">
-                <div v-for="task of filteredTasks" :key="task.id">
-                    <button class="tasks__item task" :class="{'tasks__item--violet': task.id == 1, 'tasks__item--orange': task.id == 2, 'tasks__item--green': task.id == 3, 'tasks__item--red': task.id == 4, 'tasks__item--lightgreen': task.id == 5}" @click="openModalStart(task)" :disabled="this.points < level.min">
-                        <span v-if="task.id == 1" class="task__name">{{ task.name }}</span>
-                        <span v-else class="task__name">Задание {{ task.id }}</span>
+                <div>
+                    <button class="tasks__item task" :class="{'tasks__item--violet': filteredTask.id == 1, 'tasks__item--orange': filteredTask.id == 2, 'tasks__item--green': filteredTask.id == 3, 'tasks__item--red': filteredTask.id == 4, 'tasks__item--lightgreen': filteredTask.id == 5}" @click="openModalStart(filteredTask)">
+                        <span class="task__name">{{ filteredTask.name }}</span>
+                        <!-- <span v-else class="task__name">Задание 1</span> -->
                         <span class="task__points">0 из 20 баллов</span>
                     </button>
-                    <span v-if="this.points < level.minpoints && this.getLevelNum == level.id" class="tasks__error">Чтобы получить доступ к следующим заданиям, вам необходимо ответить на все вопросы в предыдущем</span>
+                    <span v-if="this.points < this.level.minpoints && this.levelNum == this.level.level_id" class="tasks__error">Чтобы получить доступ к следующим заданиям, вам необходимо ответить на все вопросы в предыдущем</span>
+                </div>
+                <div v-for="task of level.tasks" :key="task.id">
+                    <button class="tasks__item task" :class="{'tasks__item--violet': task.id == 1, 'tasks__item--orange': task.id == 2, 'tasks__item--green': task.id == 3, 'tasks__item--red': task.id == 4, 'tasks__item--lightgreen': task.id == 5}" @click="openModalStart(task)" :disabled="this.points < this.level.min">
+                        <!-- <span v-if="task.id == 1" class="task__name">{{ task.name }}</span> -->
+                        <span class="task__name">Задание {{ task.id + 1}}</span>
+                        <span class="task__points">0 из 20 баллов</span>
+                    </button>
+                    <span v-if="this.points < this.level.minpoints && this.levelNum == this.level.level_id" class="tasks__error">Чтобы получить доступ к следующим заданиям, вам необходимо ответить на все вопросы в предыдущем</span>
                 </div>
 
             </div>
@@ -52,19 +60,16 @@
         <StartLevelModal :currentTask="this.currentTask" @close-modal="closeModalStart()" @open-task="handleOpenTask()" v-show="this.showModalStart"></StartLevelModal>
         </div>
         <div class="task" :class="`task-${this.levelNum.id}`" v-else>
-        <Task1 @back-levels="backLevels()" @open-modal="openModal()" v-if="this.currentTask.id == 1 && this.levelNum.id == 1"/>
-        <Task2 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 2"/>
-        <Task3 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 3"/>
-        <Task4 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 4"/>
-        <Task5 @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 1 && this.levelNum.id == 5"/>
-        <TaskTemplate @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask" v-else/>
+        <Task1 ref="childComponent" :slide="slide" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-if="this.currentTask.id == 0 && this.currentTask.level_id == 1 && !showTaskTemplate" />
+        <Task2 ref="childComponent" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 2 && !showTaskTemplate" />
+        <Task3 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 3 && !showTaskTemplate"/>
+        <Task4 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 4 && !showTaskTemplate"/>
+        <Task5 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 5 && !showTaskTemplate"/>
+        <TaskTemplate @try-again="tryAgain" v-if="showTaskTemplate || this.currentTask.id != 0" @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask"/>
 
-        <NextTaskModal @next-task="nextTask()" @close-modal="closeModal()" v-show="this.showNextTaskModal"/>
+        <NextTaskModal :currentTask="this.task" @next-task="nextTask()" @close-modal="closeModal()" @try-again="tryAgain()" v-if="this.showNextTaskModal"/>
     </div>
-
     </div>
-    <!-- <Task :currentLevel="this.getLevelNum" :currentTask="this.currentTask" v-else/> -->
-
 
 </template>
 
@@ -77,228 +82,50 @@ import Task4 from './Task4.vue'
 import Task5 from './Task5.vue'
 import TaskTemplate from './TaskTemplate.vue'
 import NextTaskModal from './NextTaskModal.vue'
+import levelsStore from "../store/LevelsStore.js";
 export default {
   props: ['points', 'levelNum'],
   components: {StartLevelModal, Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal},
+
   data() {
     return {
-        tasks1: [
+        tasks1:
             {
-                id: 1,
-                idlevels: 1,
+                id: 0,
+                level_id: 1,
                 name: 'Абонемент в бассейн',
                 intro: 'Здесь должен быть текст',
-                url: '',
-                position: 1,
             },
+        tasks2:
             {
-                id: 2,
-                idlevels: 1,
-                name: 'Задание 2',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 2,
-            },
-            {
-                id: 3,
-                idlevels: 1,
-                name: 'Задание 3',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 3,
-            },
-            {
-                id: 4,
-                idlevels: 1,
-                name: 'Задание 4',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 4,
-            },
-            {
-                id: 5,
-                idlevels: 1,
-                name: 'Задание 5',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 5,
-            },
-
-        ],
-        tasks2: [
-            {
-                id: 1,
-                idlevels: 1,
+                id: 0,
+                level_id: 2,
                 name: 'Воздушные шары',
                 intro: 'Здесь должен быть текст',
-                url: '',
-                position: 1,
             },
+        tasks3:
             {
-                id: 2,
-                idlevels: 1,
-                name: 'Задание 2',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 2,
-            },
-            {
-                id: 3,
-                idlevels: 1,
-                name: 'Задание 3',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 3,
-            },
-            {
-                id: 4,
-                idlevels: 1,
-                name: 'Задание 4',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 4,
-            },
-            {
-                id: 5,
-                idlevels: 1,
-                name: 'Задание 5',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 5,
-            },
-
-        ],
-        tasks3: [
-            {
-                id: 1,
-                idlevels: 1,
+                id: 0,
+                level_id: 3,
                 name: 'Продажи по регионам',
                 intro: 'Здесь должен быть текст',
-                url: '',
-                position: 1,
             },
+        tasks4:
             {
-                id: 2,
-                idlevels: 1,
-                name: 'Задание 2',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 2,
-            },
-            {
-                id: 3,
-                idlevels: 1,
-                name: 'Задание 3',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 3,
-            },
-            {
-                id: 4,
-                idlevels: 1,
-                name: 'Задание 4',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 4,
-            },
-            {
-                id: 5,
-                idlevels: 1,
-                name: 'Задание 5',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 5,
-            },
-
-        ],
-        tasks4: [
-            {
-                id: 1,
-                idlevels: 1,
+                id: 0,
+                level_id: 4,
                 name: 'Солёное золото',
                 intro: 'Здесь должен быть текст',
-                url: '',
-                position: 1,
             },
+        tasks5:
             {
-                id: 2,
-                idlevels: 1,
-                name: 'Задание 2',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 2,
-            },
-            {
-                id: 3,
-                idlevels: 1,
-                name: 'Задание 3',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 3,
-            },
-            {
-                id: 4,
-                idlevels: 1,
-                name: 'Задание 4',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 4,
-            },
-            {
-                id: 5,
-                idlevels: 1,
-                name: 'Задание 5',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 5,
-            },
-
-        ],
-        tasks5: [
-            {
-                id: 1,
-                idlevels: 1,
+                id: 0,
+                level_id: 5,
                 name: 'Вопросы к специалисту',
                 intro: 'Здесь должен быть текст',
-                url: '',
-                position: 1,
             },
-            {
-                id: 2,
-                idlevels: 1,
-                name: 'Задание 2',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 2,
-            },
-            {
-                id: 3,
-                idlevels: 1,
-                name: 'Задание 3',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 3,
-            },
-            {
-                id: 4,
-                idlevels: 1,
-                name: 'Задание 4',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 4,
-            },
-            {
-                id: 5,
-                idlevels: 1,
-                name: 'Задание 5',
-                intro: 'Здесь должен быть текст',
-                url: '',
-                position: 5,
-            },
-
-        ],
         rules: false,
-        level: {},
+        // level: {},
         showTasks: false,
         PointsPupils: [
             {
@@ -325,8 +152,10 @@ export default {
         currentTask: {},
         showTask: false,
         showNextTaskModal: false,
-        currentTaskId: null
-
+        currentTaskId: null,
+        showTaskTemplate: false,
+        showLevels: false,
+        slide: 1
     }
   },
   methods: {
@@ -334,6 +163,7 @@ export default {
         this.showModalStart = true;
         this.currentTask = task;
         this.currentTaskId = task.id;
+        levelsStore().updateCurrentTask(task.id);
     },
     closeModalStart() {
         this.showModalStart = false;
@@ -349,10 +179,54 @@ export default {
     closeModal() {
         this.showNextTaskModal = false;
     },
+
     nextTask() {
-        this.currentTask.id += 1;
+        if (levelsStore().currentTask === 0) {
+            levelsStore().levels.forEach(level => {
+                if (level.level_id == levelsStore().currentLevel) {
+                    if (level.tasks.length) {
+                        this.currentTaskId = level.tasks[0].id;
+                        this.showTaskTemplate = true;
+                        levelsStore().updateCurrentTask(this.currentTaskId);
+                    } else {
+                        this.showTaskTemplate = false;
+                        this.$emit('show-levels');
+                    }
+
+                }
+            })
+        } else {
+            levelsStore().levels.forEach(level => {
+                if (level.level_id == levelsStore().currentLevel) {
+                    const task = level.tasks.find(task => {
+                        task.id == this.currentTaskId
+                    })
+                    if (!task) {
+                        this.showTaskTemplate = false;
+                        this.$emit('show-levels');
+
+                    }
+                    else {
+                        this.currentTaskId += 1;
+                        levelsStore().updateCurrentTask(this.currentTaskId);
+                        this.showTaskTemplate = true;
+                    }
+                }
+            })
+        }
+
         this.showNextTaskModal = false;
     },
+
+    tryAgain() {
+        this.showNextTaskModal = false;
+        this.$refs.childComponent.slide = 1;
+        this.$refs.childComponent.disabledNext = true;
+        this.$refs.childComponent.showMessage = false;
+        this.$refs.childComponent.answer = '';
+
+    },
+
     backLevels() {
         this.$emit('back-levels-parent');
     }
@@ -369,39 +243,36 @@ export default {
     },
   },
 
-
-
   computed: {
-    getLevelNum() {
-        return this.levelNum.id;
+    level() {
+        this.levels = levelsStore().levels;
+        const level = this.levels.filter(el => el.level_id == this.levelNum);
+        console.log(JSON.parse(JSON.stringify(level)))
+        console.log(JSON.parse(JSON.stringify(level))[0].tasks)
+        return JSON.parse(JSON.stringify(level))[0];
     },
 
+    task() {
+        let currentTask
+        if (this.currentTaskId === 0) currentTask = this.currentTask
+        else {
+            const task = this.level.tasks.find(task => task.id === this.currentTaskId);
+            currentTask = task
+        }
 
-    filteredTasks() {
-        if (this.getLevelNum == 1) return this.tasks1
-        if (this.getLevelNum == 2) return this.tasks2
-        if (this.getLevelNum == 3) return this.tasks3
-        if (this.getLevelNum == 4) return this.tasks4
-        if (this.getLevelNum == 5) return this.tasks5
+        return currentTask
+    },
+
+    filteredTask() {
+        if (this.levelNum == 1) return this.tasks1
+        if (this.levelNum == 2) return this.tasks2
+        if (this.levelNum == 3) return this.tasks3
+        if (this.levelNum == 4) return this.tasks4
+        if (this.levelNum == 5) return this.tasks5
     }
+
   },
 
-    // ТУТ ПОЛУЧАЕМ ЗАДАНИЯ
-
-  //   mounted() {
-//     let getTasksOb = async () => {
-//             try {
-//                 let tasks = await getTasks();
-//                 console.log(tasks) // Надо проверить что приходит и опдставить правильные данные
-//                 this.tasks = tasks.data
-
-//                 console.log('Data from API:', this.tasks);
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//         }
-//         getTasksOb();
-//   }
 
 }
 </script>
@@ -665,9 +536,9 @@ export default {
     }
 
     .task .form__label span {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
-        line-height: 19.2px;
+        line-height: 21.6px;
     }
 
     .task .form__input {
@@ -705,7 +576,6 @@ export default {
     }
 
     .task__tables .task__table {
-        /* width: calc((100% - 20px)/2); */
         max-width: 284px;
     }
 
@@ -732,6 +602,7 @@ export default {
     .task__table thead {
         background-color: var(--violet);
     }
+
 
     .task__table td,
     .task__table th {
@@ -794,10 +665,20 @@ export default {
         color: #414143;
         text-transform: none;
         cursor: pointer;
+        transition: border-color .3s ease-in-out;
     }
 
     .carousel__btns .carousel__btn::before {
         content: none;
+    }
+
+    .carousel__btns .carousel__btn:hover {
+        border-color: #B4E321;
+    }
+
+    .carousel__btns .carousel__btn:active {
+        border-color: #C9FF22;
+        background: linear-gradient(109.56deg, rgba(201, 255, 34, 0.42) 14.7%, rgba(201, 255, 34, 0) 66.8%);
     }
 
     .task .form__input--radio,

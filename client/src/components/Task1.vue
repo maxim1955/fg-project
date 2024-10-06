@@ -8,27 +8,27 @@
         v-model="slide"
         ref="carousel"
       >
-        <q-carousel-slide :name="1">
+        <q-carousel-slide v-for="question in task.questions" :key="question.id" :name="question.position">
             <div class="task__box">
                 <div class="task__left">
-                <p class="task__info">Прочитайте текст «Абонемент в бассейн». Запишите свой ответ на вопрос в виде числа.</p>
-                <p class="task__question">Сколько рублей сэкономила Анна при покупке абонемента по сравнению с покупкой такого же числа разовых тренировок без учёта кешбэка?</p>
-                <form class="task__form form">
+                <p class="task__info">Прочитайте текст «{{ task.name }}». Запишите свой ответ на вопрос в виде числа.</p>
+                <p class="task__question">{{ question.textquestion }}</p>
+                <form v-if="question.questiontype == 0" class="task__form form">
                     <label class="form__label">
                         <span>Запишите свой ответ</span>
                         <div class="flex items-center">
-                            <input placeholder="Введите ответ" type="text" class="form__input">
+                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
                             руб.
                         </div>
 
                     </label>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
+                    <button :disabled="showMessage" @click.prevent="submitAnswer(question)" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
-                <h3 class="task__title">Абонемент в бассейн</h3>
-                <p class="task__desc">В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента.</p>
-                <p class="task__desc">Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов</p>
+                <h3 class="task__title">{{ task.name }}</h3>
+                <p class="task__desc">{{ question.textright }}</p>
                 <div class="task__tables">
                     <table class="task__table">
                         <thead>
@@ -80,7 +80,7 @@
 
         </q-carousel-slide>
 
-        <q-carousel-slide :name="2">
+        <!-- <q-carousel-slide :name="2">
             <div class="task__box">
                 <div class="task__left">
                 <p class="task__info">Воспользуйтесь текстом «Абонемент в бассейн». Запишите свой ответ на вопрос.</p>
@@ -90,12 +90,13 @@
                     <label class="form__label">
                         <span>Запишите свой ответ</span>
                         <div class="flex items-center">
-                            <input placeholder="Введите ответ" type="text" class="form__input">
+                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
                             руб.
                         </div>
 
                     </label>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
+                    <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -162,12 +163,13 @@
                     <label class="form__label">
                         <span>Запишите свой ответ</span>
                         <div class="flex items-center">
-                            <input placeholder="Введите ответ" type="text" class="form__input">
+                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
                             руб.
                         </div>
 
                     </label>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
+                    <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -223,72 +225,151 @@
             </div>
             </div>
 
-        </q-carousel-slide>
-
-
+        </q-carousel-slide> -->
         <template v-slot:control>
 
-          <q-carousel-control
-            class="carousel__btns"
-            style="margin: 0;"
-          >
-            <!-- <button @click="$emit('back-levels')" class="carousel__btn" v-if="this.slide == 1">Назад</button>
-            <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
-            <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-
-            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
+          <q-carousel-control class="carousel__btns" style="margin: 0;">
+            <q-btn :disabled="disabledNext" class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
+            <button :disabled="disabledNext" class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
           </q-carousel-control>
         </template>
       </q-carousel>
     </div>
     </div>
-    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" @open-task="openNextTask()" v-if="showNextTaskModal"/> -->
   </template>
 
 <script>
-import { ref } from 'vue'
 import NextTaskModal from './NextTaskModal.vue'
+import axios from 'axios';
+import userStore from "../store/UserStore.js";
 export default {
     components: {NextTaskModal},
     data() {
         return {
             slidesCount: 3,
-            // showNextTaskModal: false,
+            slide: 1,
+            disabledNext: true,
+            answer: '',
+            showMessage: false,
+            task: {
+                id: 0,
+                name: 'Абонемент в бассейн',
+                intro: '',
+                position: 1,
+                level_id: 1,
+                questions: [
+                    {
+                        answer1: '',
+                        answer2: '',
+                        id: 1,
+                        point1: 0,
+                        point2: 0,
+                        position: 1,
+                        questiontype: 0,
+                        textquestion: 'Сколько рублей сэкономила Анна при покупке абонемента по сравнению с покупкой такого же числа разовых тренировок без учёта кешбэка?',
+                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
+                    },
+                    {
+                        answer1: '',
+                        answer2: '',
+                        id: 2,
+                        point1: 0,
+                        point2: 0,
+                        position: 2,
+                        questiontype: 0,
+                        textquestion: 'На первое занятие Анна с ребёнком пришли во вторник 8 декабря. Какого числа и какого месяца закончится действие абонемента? Запишите дату в формате: ДД.ММ',
+                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
+                    },
+                    {
+                        answer1: '',
+                        answer2: '',
+                        id: 3,
+                        point1: 0,
+                        point2: 0,
+                        position: 3,
+                        questiontype: 0,
+                        textquestion: 'В январе Анна купила абонемент на 12 занятий и использовала кешбэк от покупки абонемента, купленного в декабре. Сколько рублей заплатила Анна за абонемент в январе с учётом кешбэка?',
+                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
+                    },
+
+                ]
+            }
+
         }
     },
-    setup () {
-    return {
-      slide: ref(1),
-    }
-  },
 
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
+        this.answer = '';
+        this.showMessage = false;
+        this.disabledNext = true;
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
     },
-    prevSlide() {
-        this.$refs.carousel.previous();
-    },
 
-    openNextTaskModal() {
-        this.showNextTaskModal = true;
-    },
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
     },
 
+    async submitAnswer(question) {
+        console.log(question)
+        let point
+        if (question.questiontype === 0) {
+            if (this.answer === question.answer1) {
+                point = question.point1
+            } else
+            if (this.answer === question.answer2) {
+                point = question.point2
+            } else point = 0
+        }
+
+        if (question.questiontype === 1) {
+            const checkboxes = document.querySelectorAll('.form__input--checkbox')
+            console.log(checkboxes)
+        }
+
+
+        this.showMessage = true;
+            this.disabledNext = false;
+
+        let result = {
+            user_id: this.user.id,
+            task_id: this.task.id,
+            question_id: question.id,
+            points: point
+        }
+
+        console.log(result)
+
+        // try {
+        //     const response = await axios.post('/api/taskresults', result);
+        //     console.log(response.data)
+        //     this.showMessage = true;
+        //     this.disabledNext = false;
+
+        // }
+        // catch (error) {
+        //     console.log(error)
+        // }
+    }
+
   },
+
+  computed: {
+    user() {
+        return userStore().user;
+    }
+  }
 
 }
 </script>
 
 <style>
 
-    .account.level-1-1 {
+    .account.level-1-0 {
         background-image: url(../assets/img/task-1-1.webp);
         background-size: cover;
     }

@@ -64,7 +64,7 @@
                                     Дистилляция
                                 </label>
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -94,7 +94,7 @@
                                     Этого не могло быть.
                                 </label>
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -136,7 +136,7 @@
                                 <multiselect v-model="value4" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect>
                             </label>
                         </div>
-                        <button class="btn-reset form__btn">Принять ответ</button>
+                        <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                     </form>
                 </div>
                 <div class="task__right">
@@ -159,32 +159,32 @@
                             <span>Отметьте один верный вариант ответа.</span>
                             <div class="form__box form__box--radio">
                                 <label class="form__label form__label--radio">
-                                    <input name="lake-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="0" v-model="lake1" name="lake-1" type="radio" class="form__input form__input--radio">
                                     <span class="radio"></span>
                                     В соляной пещере поддерживается постоянные температура.
                                 </label>
                                 <label class="form__label form__label--radio">
-                                    <input name="lake-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="1" v-model="lake1" name="lake-1" type="radio" class="form__input form__input--radio">
                                     <span class="radio"></span>
                                     В соляной пещере влажность сохраняется на одном уровне.
                                 </label>
                                 <label class="form__label form__label--radio">
-                                    <input name="lake-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="2" v-model="lake1" name="lake-1" type="radio" class="form__input form__input--radio">
                                     <span class="radio"></span>
                                     В соляной пещере воздух насыщен ионами натрия и хлора.
                                 </label>
                                 <label class="form__label form__label--radio">
-                                    <input name="lake-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="3" v-model="lake1" name="lake-1" type="radio" class="form__input form__input--radio">
                                     <span class="radio"></span>
                                     В соляной пещере сохраняется определённое давление.
                                 </label>
                                 <label class="form__label form__label--radio">
-                                    <input name="lake-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="4" v-model="lake1" name="lake-1" type="radio" class="form__input form__input--radio">
                                     <span class="radio"></span>
                                     В соляной пещере отсутствуют вредные микроорганизмы.
                                 </label>
                             </div>
-                            <button class="btn-reset form__btn">Принять ответ</button>
+                            <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                 </div>
                 <div class="task__right">
@@ -194,28 +194,18 @@
                     <p class="task__desc">Поэтому в соляных залах можно десятилетиями хранить запасы продуктов, и они не будут портиться. Хранят в таких подземельях и киноленты старых фильмов, древние книги, ценные меха и многое другое. Соль оберегает доверенные ей ценности от разрушения и порчи.</p>
                 </div>
                 </div>
-
             </q-carousel-slide>
-
-
             <template v-slot:control>
 
-            <q-carousel-control
-                class="carousel__btns"
-                style="margin: 0;"
-            >
-                <!-- <button @click="this.intro=!this.intro" class="carousel__btn" v-if="this.slide == 1">Назад</button>
-                <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
-                <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-                <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
+            <q-carousel-control class="carousel__btns" style="margin: 0;" >
+                <q-btn :disabled="disabledNext" class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
+                <button :disabled="disabledNext" class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
             </q-carousel-control>
             </template>
         </q-carousel>
             </div>
         </div>
-
     </div>
-    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
 </template>
 
 <script>
@@ -234,23 +224,19 @@ export default {
             value4: null,
             options: ['Отбор пробы соли', 'Растворение', 'Фильтрование', 'Выпаривание'],
             intro: true,
+            disabledNext: true,
+            slide: 1,
+            lake1: 0
         }
     },
-    setup () {
-    return {
-      slide: ref(1),
-    }
-  },
 
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
+        this.disabledNext = true;
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
-    },
-    prevSlide() {
-        this.$refs.carousel.previous();
     },
 
     openNextTaskModal() {
@@ -259,6 +245,10 @@ export default {
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
+    },
+
+    submitAnswer() {
+        this.disabledNext = false;
     }
   },
 
@@ -267,7 +257,7 @@ export default {
 
 <style>
 
-    .account.level-4-1 {
+    .account.level-4-0 {
         background-image: url(../assets/img/task-bg-4-1.webp);
         background-size: cover;
     }
@@ -291,6 +281,17 @@ export default {
         max-width: 320px;
     }
 
+    .level-4-0 .task__img {
+        box-shadow: 4px 5px 50px 0px #ECEAE1;
+    }
+
+    .level-4-0 .task__images {
+        margin-bottom: 40px;
+    }
+
+    .level-4-0 .task .multiselect__tags {
+        background-color: rgba(242, 241, 236, 1);
+    }
 
 
     @media (max-width: 1400px) {

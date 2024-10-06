@@ -27,23 +27,25 @@
 
 
             <div class="levels__list">
-                <div v-for="level of levels" :key="level.level_id">
-                    <button class="levels__item btn-reset" :class="{'levels__item--open': this.points >= level.min}" @click="getLevel(level)" :disabled="this.points < level.min">
+                <div v-for="level in levels" :key="level.level_id">
+                    <button class="levels__item btn-reset" :class="{'levels__item--open': user.sumpoint >= level.minpoints}" @click="getLevelId(level.level_id)">
+                       <!-- :disabled="user.sumpoint < level.minpoints" -->
                         <span>{{ level.name }}</span>
                     </button>
-                    <span v-if="this.points < level.minpoints && this.currentLevel == level.level_id" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
+                    <span v-if="user.sumpoint < level.minpoints && this.currentLevel == level.level_id && level !== levels[levels.length - 1]" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
                 </div>
 
             </div>
         </div>
 
     </div>
-    <Tasks @show-task="getShowTask" @level-class="getLevelClass" @task-class="getTaskClass" @show-level="showLevel()" @back-levels-parent="backLevels()" :levelNum="this.level" v-else></Tasks>
+    <Tasks @show-levels="showLevels()" @show-task="getShowTask" @level-class="getLevelClass" @task-class="getTaskClass" @show-level="showLevel()" @back-levels-parent="backLevels()" :levelNum="this.levelId" v-else></Tasks>
 </template>
 
 <script>
 import Tasks from './Tasks.vue';
 import levelsStore from "../store/LevelsStore.js";
+import userStore from "../store/UserStore.js";
 export default {
   props: ['points'],
   components: {Tasks},
@@ -84,21 +86,24 @@ export default {
         // ],
         rules: false,
         // currentLevel: 2,
-        level: {},
+        levelId: null,
         showTasks: false,
         points: 30,
         taskClass: null,
         currentLevel: null,
         showTask: false,
-        currentTask: null
+        currentTask: null,
+        levels: null
 
     }
   },
   methods: {
-    getLevel(level) {
-        this.level = level;
-        this.currentLevel = level.id;
+    getLevelId(levelId) {
+        this.levelId = levelId;
+        this.currentLevel = levelId;
         this.showTasks = true;
+        console.log(this.levelId)
+        levelsStore().updateCurrentLevel(levelId);
     },
     showLevel() {
         this.showTasks = false;
@@ -116,6 +121,20 @@ export default {
         this.currentTask = newValue;
     },
 
+    showLevels() {
+        this.showTasks = false;
+    },
+
+    async fetchLevels() {
+        try {
+            await levelsStore().getLevels(); // Ожидаем разрешения промиса
+            this.levels = levelsStore().levels; // Получаем данные из хранилища
+            console.log(this.levels);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
   },
 
   watch: {
@@ -129,16 +148,22 @@ export default {
 
     showTask(newValue) {
         this.$emit('show-tasks', newValue)
+    },
+
+
+  },
+
+  computed: {
+    user() {
+        return userStore().user;
     }
   },
 
     // ТУТ ПОЛУЧАЕМ УРОВНИ
 
-computed: {
-    levels() {
-        return levelsStore().levels;
+    mounted() {
+        this.fetchLevels();
     }
-}
 
 }
 </script>

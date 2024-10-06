@@ -42,7 +42,7 @@
                             Для столбчатой диаграммы нужны числовые данные, а их, наверное, нет.
                         </label>
                     </div>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -125,7 +125,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                     </form>
             </div>
             <div class="task__right">
@@ -156,7 +156,7 @@
                         </div>
 
                     </label>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -221,7 +221,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button class="btn-reset form__btn">Принять ответ</button>
+                    <button @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -238,28 +238,18 @@
             </div>
 
         </q-carousel-slide>
-
-
         <template v-slot:control>
-
-          <q-carousel-control
-            class="carousel__btns"
-            style="margin: 0;"
-          >
-            <!-- <button @click="$emit('back-levels')" class="carousel__btn" v-if="this.slide == 1">Назад</button>
-            <q-btn class="carousel__btn" @click="prevSlide()" v-if="this.slide > 1">Назад</q-btn> -->
-            <q-btn class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
-            <button class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
+          <q-carousel-control class="carousel__btns" style="margin: 0;">
+            <q-btn :disabled="disabledNext" class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
+            <button :disabled="disabledNext" class="carousel__btn" v-if="this.slide == slidesCount" @click="$emit('open-modal')">Далее</button>
           </q-carousel-control>
         </template>
       </q-carousel>
     </div>
     </div>
-    <!-- <NextTaskModal @close-modal="closeNextTaskModal()" v-if="showNextTaskModal"/> -->
   </template>
 
 <script>
-import { ref } from 'vue'
 import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
 export default {
@@ -274,31 +264,28 @@ export default {
             value4: null,
             value5: null,
             options: [820, 110, 60, 170, 40],
+            disabledNext: true,
+            slide: 1,
         }
     },
-    setup () {
-    return {
-      slide: ref(1),
-    }
-  },
-
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
+        this.disabledNext = true;
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
     },
-    prevSlide() {
-        this.$refs.carousel.previous();
-    },
-
     openNextTaskModal() {
         this.showNextTaskModal = true;
     },
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
+    },
+
+    submitAnswer() {
+        this.disabledNext = false;
     }
   },
 
@@ -312,7 +299,7 @@ export default {
         max-width: max-content;
     }
 
-    .account.level-3-1 {
+    .account.level-3-0 {
         background-image: url(../assets/img/task-3-1.webp);
         background-size: cover;
     }
