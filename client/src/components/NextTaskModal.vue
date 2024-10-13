@@ -11,7 +11,7 @@
                     </div>
 
                 </div>
-                <button @click="$emit('next-task')" class="modal__btn btn-reset flex items-center">
+                <button v-if="currentLevel < levels.length" @click="$emit('next-task')" class="modal__btn btn-reset flex items-center">
                         Следующее задание
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.4297 6.42969L20.4997 12.4997L14.4297 18.5697" stroke="#3A3A3A" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
@@ -38,19 +38,6 @@ export default {
 
     props: ['currentTask'],
 
-    // computed: {
-    //     task() {
-    //         const level = levelsStore().levels.find(level => level.level_id === levelsStore().currentLevel)
-    //         if (level) {
-    //             const task = level.tasks.find(task => task.id === levelsStore().currentTask);
-    //             if (task) return task
-    //             else return null;
-    //         } else {
-    //             return null
-    //         }
-    //     }
-    // },
-
     mounted() {
         let pointsOb = async () => {
         try {
@@ -64,8 +51,13 @@ export default {
     pointsOb();
     },
 
-    methods: {
-
+    computed: {
+        currentLevel() {
+            return levelsStore().currentLevel;
+        },
+        levels() {
+            return levelsStore().levels;
+        }
     }
 }
 </script>

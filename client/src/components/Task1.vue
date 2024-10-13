@@ -13,17 +13,17 @@
                 <div class="task__left">
                 <p class="task__info">Прочитайте текст «{{ task.name }}». Запишите свой ответ на вопрос в виде числа.</p>
                 <p class="task__question">{{ question.textquestion }}</p>
-                <form v-if="question.questiontype == 0" class="task__form form">
+                <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 0" class="task__form form">
                     <label class="form__label">
                         <span>Запишите свой ответ</span>
                         <div class="flex items-center">
-                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
+                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input" @change="checkAnswer(question)" :disabled="disabledInput">
                             руб.
                         </div>
 
                     </label>
-                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                    <button :disabled="showMessage" @click.prevent="submitAnswer(question)" class="btn-reset form__btn">Принять ответ</button>
+                    <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                    <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                 </form>
             </div>
             <div class="task__right">
@@ -79,153 +79,6 @@
             </div>
 
         </q-carousel-slide>
-
-        <!-- <q-carousel-slide :name="2">
-            <div class="task__box">
-                <div class="task__left">
-                <p class="task__info">Воспользуйтесь текстом «Абонемент в бассейн». Запишите свой ответ на вопрос.</p>
-                <p class="task__question">На первое занятие Анна с ребёнком пришли во вторник 8 декабря.</p>
-                <p class="task__question">Какого числа и какого месяца закончится действие абонемента? Запишите дату в формате: ДД.ММ</p>
-                <form class="task__form form">
-                    <label class="form__label">
-                        <span>Запишите свой ответ</span>
-                        <div class="flex items-center">
-                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
-                            руб.
-                        </div>
-
-                    </label>
-                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                    <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
-                </form>
-            </div>
-            <div class="task__right">
-                <h3 class="task__title">Абонемент в бассейн</h3>
-                <p class="task__desc">В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента.</p>
-                <p class="task__desc">Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов</p>
-                <div class="task__tables">
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость отдельных занятий:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Пробное занятие</td>
-                                <td>700&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>Разовая тренировка</td>
-                                <td>1&nbsp;900&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость абонементов:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>4&nbsp;занятия</td>
-                                <td>6&nbsp;000&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>8&nbsp;занятий</td>
-                                <td>11&nbsp;200&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>12&nbsp;занятий</td>
-                                <td>15&nbsp;600&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>24&nbsp;занятия</td>
-                                <td>28&nbsp;800&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="task__info">Абонемент действителен в течение 30 дней со дня первого занятия.</p>
-                <p class="task__info">5 декабря Анна купила абонемент на 4 занятия для своего ребёнка.</p>
-            </div>
-            </div>
-
-        </q-carousel-slide>
-
-        <q-carousel-slide :name="3">
-            <div class="task__box">
-                <div class="task__left">
-                <p class="task__info">Воспользуйтесь текстом «Абонемент в бассейн». Запишите свой ответ на вопрос в виде числа, а затем объясните свой ответ.</p>
-                <p class="task__question">В январе Анна купила абонемент на 12 занятий и использовала кешбэк от покупки абонемента, купленного в декабре. Сколько рублей заплатила Анна за абонемент в январе с учётом кешбэка?</p>
-                <form class="task__form form">
-                    <label class="form__label">
-                        <span>Запишите свой ответ</span>
-                        <div class="flex items-center">
-                            <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
-                            руб.
-                        </div>
-
-                    </label>
-                    <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                    <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
-                </form>
-            </div>
-            <div class="task__right">
-                <h3 class="task__title">Абонемент в бассейн</h3>
-                <p class="task__desc">В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента.</p>
-                <p class="task__desc">Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов</p>
-                <div class="task__tables">
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость отдельных занятий:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Пробное занятие</td>
-                                <td>700&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>Разовая тренировка</td>
-                                <td>1&nbsp;900&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость абонементов:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>4&nbsp;занятия</td>
-                                <td>6&nbsp;000&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>8&nbsp;занятий</td>
-                                <td>11&nbsp;200&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>12&nbsp;занятий</td>
-                                <td>15&nbsp;600&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>24&nbsp;занятия</td>
-                                <td>28&nbsp;800&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="task__info">Абонемент действителен в течение 30 дней со дня первого занятия.</p>
-                <p class="task__info">5 декабря Анна купила абонемент на 4 занятия для своего ребёнка.</p>
-            </div>
-            </div>
-
-        </q-carousel-slide> -->
         <template v-slot:control>
 
           <q-carousel-control class="carousel__btns" style="margin: 0;">
@@ -259,10 +112,10 @@ export default {
                 level_id: 1,
                 questions: [
                     {
-                        answer1: '',
-                        answer2: '',
+                        answer1: 1600,
+                        answer2: null,
                         id: 1,
-                        point1: 0,
+                        point1: 1,
                         point2: 0,
                         position: 1,
                         questiontype: 0,
@@ -270,10 +123,10 @@ export default {
                         textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
                     },
                     {
-                        answer1: '',
-                        answer2: '',
+                        answer1: '06.01',
+                        answer2: null,
                         id: 2,
-                        point1: 0,
+                        point1: 1,
                         point2: 0,
                         position: 2,
                         questiontype: 0,
@@ -281,10 +134,10 @@ export default {
                         textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
                     },
                     {
-                        answer1: '',
-                        answer2: '',
+                        answer1: 15000,
+                        answer2: null,
                         id: 3,
-                        point1: 0,
+                        point1: 1,
                         point2: 0,
                         position: 3,
                         questiontype: 0,
@@ -293,7 +146,11 @@ export default {
                     },
 
                 ]
-            }
+            },
+            validate: false,
+            showMessage: false,
+            messageText: '',
+            disabledInput: false,
 
         }
     },
@@ -304,6 +161,7 @@ export default {
         this.answer = '';
         this.showMessage = false;
         this.disabledNext = true;
+        this.disabledInput = false;
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
@@ -316,44 +174,81 @@ export default {
 
     async submitAnswer(question) {
         console.log(question)
-        let point
+        let points = 0;
         if (question.questiontype === 0) {
-            if (this.answer === question.answer1) {
-                point = question.point1
+            if (this.answer == question.answer1) {
+                points = question.point1
             } else
-            if (this.answer === question.answer2) {
-                point = question.point2
-            } else point = 0
+            if (question.answer2 !== null && this.answer == question.answer2) {
+                points = question.point2
+            } else points = 0
         }
 
         if (question.questiontype === 1) {
-            const checkboxes = document.querySelectorAll('.form__input--checkbox')
-            console.log(checkboxes)
+            this.checkboxes.forEach(el => {
+                question.points.forEach(point => {
+                    if (point.id === el) {
+                        points += point.points;
+                    }
+                })
+            })
         }
 
+        if (question.questiontype === 2) {
+            question.points.forEach(el => {
+                if (el.id === this.radio) points = el.points
+            })
+        }
 
-        this.showMessage = true;
-            this.disabledNext = false;
+        if (question.questiontype === 3) {
+            this.options.forEach(option => {
+                const promt = question.promts.find(promt => promt.id === option.promt_id);
+                if (option.answer_id === promt.answer_id) {
+                    const point = question.points.find(point => point.id === promt.id)
+                    points += point.points;
+
+                }
+            })
+        }
+
 
         let result = {
             user_id: this.user.id,
             task_id: this.task.id,
             question_id: question.id,
-            points: point
+            points: points
         }
 
         console.log(result)
 
-        // try {
-        //     const response = await axios.post('/api/taskresults', result);
-        //     console.log(response.data)
-        //     this.showMessage = true;
-        //     this.disabledNext = false;
+        console.log(question, this.answer, question.answer1.toString())
 
-        // }
-        // catch (error) {
-        //     console.log(error)
-        // }
+
+            try {
+                const response = await axios.post('/api/taskresults', result)
+                .then(response => {
+                    console.log(response.data)
+                    this.showMessage = true;
+                    this.messageText = 'Ваш ответ принят';
+                    this.disabledNext = false;
+                    this.validate = false;
+                    this.disabledInput = true;
+                })
+                .catch(error => {
+                            console.error('Ошибка:', error);
+                });
+                return response
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+
+
+    },
+
+    checkAnswer(question) {
+        this.validate = true;
     }
 
   },

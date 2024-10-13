@@ -23,49 +23,50 @@ const routes = [
         path: '/home',
         name: 'home',
         component: HomeTab,
+        meta: { layout: 'accountLayouts' },
     },
 
     {
         path: '/bonuses',
         name: 'bonuses',
         component: BonusesTab,
+        meta: { layout: 'accountLayouts' },
     },
 
     {
         path: '/levels',
         name: 'levels',
         component: LevelsTab,
+        meta: { layout: 'accountLayouts' },
     },
 
     {
         path: '/resources',
         name: 'resources',
         component: ResourcesTab,
+        meta: { layout: 'accountLayouts' },
     },
 
     {
         path: '/chat',
         name: 'chat',
         component: ChatTab,
+        meta: { layout: 'accountLayouts' },
     },
 
     {
         path: '/profile',
         name: 'profile',
         component: ProfileTab,
+        meta: { layout: 'accountLayouts' },
     },
 
-
-    {
-        path: '/levels/task',
-        name: 'task',
-        component: Task,
-    },
 
     {
         path: '/test',
         name: 'test',
         component: Test,
+        meta: { layout: 'accountLayouts' },
     },
     {
         path: '/:catchAll(.*)',

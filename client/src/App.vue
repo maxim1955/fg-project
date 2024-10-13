@@ -1,8 +1,8 @@
 <template>
-    <main-layouts v-if="$route.meta.layout == 'mainLayouts'">
+    <main-layouts v-if="$route.meta.layout === 'mainLayouts'">
         <router-view/>
     </main-layouts>
-    <account-layouts v-else>
+    <account-layouts v-if="$route.meta.layout === 'accountLayouts'">
         <router-view/>
     </account-layouts>
 </template>

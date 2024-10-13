@@ -62,10 +62,10 @@
         <div class="task" :class="`task-${this.levelNum.id}`" v-else>
         <Task1 ref="childComponent" :slide="slide" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-if="this.currentTask.id == 0 && this.currentTask.level_id == 1 && !showTaskTemplate" />
         <Task2 ref="childComponent" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 2 && !showTaskTemplate" />
-        <Task3 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 3 && !showTaskTemplate"/>
-        <Task4 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 4 && !showTaskTemplate"/>
-        <Task5 @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 5 && !showTaskTemplate"/>
-        <TaskTemplate @try-again="tryAgain" v-if="showTaskTemplate || this.currentTask.id != 0" @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask"/>
+        <Task3 ref="childComponent" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 3 && !showTaskTemplate"/>
+        <Task4 ref="childComponent" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 4 && !showTaskTemplate"/>
+        <Task5 ref="childComponent" @try-again="tryAgain" @back-levels="backLevels()" @open-modal="openModal()" v-else-if="this.currentTask.id == 0 && this.currentTask.level_id == 5 && !showTaskTemplate"/>
+        <TaskTemplate ref="childComponent" @try-again="tryAgain" v-if="showTaskTemplate || this.currentTask.id != 0" @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask"/>
 
         <NextTaskModal :currentTask="this.task" @next-task="nextTask()" @close-modal="closeModal()" @try-again="tryAgain()" v-if="this.showNextTaskModal"/>
     </div>
@@ -224,6 +224,11 @@ export default {
         this.$refs.childComponent.disabledNext = true;
         this.$refs.childComponent.showMessage = false;
         this.$refs.childComponent.answer = '';
+        this.$refs.childComponent.radio = null;
+        this.$refs.childComponent.checkboxes = [];
+        this.$refs.childComponent.options = [];
+        this.$refs.childComponent.radio1 = [];
+        this.$refs.childComponent.disabledInput = false;
 
     },
 

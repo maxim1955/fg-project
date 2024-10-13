@@ -20,7 +20,80 @@
                 v-model="slide"
                 ref="carousel"
             >
-            <q-carousel-slide :name="1">
+
+            <q-carousel-slide v-for="question in task.questions" :key="question.id" :name="question.position">
+                    <div class="task__box">
+                        <div class="task__left">
+                        <p class="task__info">Прочитайте текст «{{ task.name }}». Для ответа на вопрос отметьте нужный вариант ответа.</p>
+                        <p class="task__question">{{ task.textquestion }}</p>
+                        <div v-if="task.images" class="task__images">
+                                <img v-for="(img, index) in task.images" :key="index" class="task__img" :src="getImgUrl(img)" alt="">
+                        </div>
+                        <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 0" class="task__form form">
+                            <label class="form__label">
+                                <span>{{ question.btntext }}</span>
+                                <div class="flex items-center">
+                                    <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input" @change="checkAnswer(question)" :disabled="disabledInput">
+                                </div>
+                            </label>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 1" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                            <div class="form__box form__box--checkboxes">
+                                <label class="form__label form__label--checkbox" v-for="answer in question.answers" :key="answer.id">
+                                    <input @change="addCheckbox(answer.id)" :value="answer.id" name="checkbox" type="checkbox" class="form__input form__input--checkbox" :disabled="disabledInput">
+                                    <span class="checkbox"></span>
+                                    {{ answer.text }}
+                                </label>
+                            </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 2" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                            <div class="form__box form__box--radio">
+                                <label class="form__label form__label--radio" v-for="answer in question.answers" :key="answer.position">
+                                    <input :value="answer.id" v-model="radio" type="radio" class="form__input form__input--radio" @change="checkAnswer(question)" :disabled="disabledInput">
+                                    <span class="radio"></span>
+                                    {{ answer.text }}
+                                </label>
+                            </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 3" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                                <div class="form__box">
+                                    <label class="form__label" v-for="(item, index) in question.promts" :key="item.id">
+                                        {{ item.text }}
+                                        <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                        </multiselect>
+                                    </label>
+                                </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                    </div>
+                    <div class="task__right">
+                        <h3 class="task__title">{{ task.name }}</h3>
+                        <p class="task__desc" v-html="question.textright"></p>
+
+                        <div v-if="question.images">
+                            <div class="task__images">
+                                <img v-for="(img, index) in question.images.img" :key="index" :class="{task__img: question.images.img.length > 1}" :src="getImgUrl(img)" alt="">
+                            </div>
+                            <p class="task__info">{{ question.images.desc }}</p>
+                        </div>
+
+                    </div>
+                    </div>
+
+            </q-carousel-slide>
+
+
+            <!-- <q-carousel-slide :name="1">
                 <div class="task__box">
                     <div class="task__left">
                     <p class="task__info">Прочитайте текст «Солёное золото». Для ответа на вопрос отметьте нужные варианты ответа.</p>
@@ -194,7 +267,7 @@
                     <p class="task__desc">Поэтому в соляных залах можно десятилетиями хранить запасы продуктов, и они не будут портиться. Хранят в таких подземельях и киноленты старых фильмов, древние книги, ценные меха и многое другое. Соль оберегает доверенные ей ценности от разрушения и порчи.</p>
                 </div>
                 </div>
-            </q-carousel-slide>
+            </q-carousel-slide> -->
             <template v-slot:control>
 
             <q-carousel-control class="carousel__btns" style="margin: 0;" >
@@ -209,47 +282,513 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
+import userStore from "../store/UserStore.js";
+import axios from 'axios';
 export default {
     components: {NextTaskModal, Multiselect },
     data() {
         return {
             slidesCount: 4,
             showNextTaskModal: false,
-            value1: null,
-            value2: null,
-            value3: null,
-            value4: null,
             options: ['Отбор пробы соли', 'Растворение', 'Фильтрование', 'Выпаривание'],
             intro: true,
             disabledNext: true,
             slide: 1,
-            lake1: 0
+            answer: '',
+            radio: null,
+            checkboxes: [],
+            showMessage: false,
+            messageText: '',
+
+            task: {
+                id: 0,
+                name: 'Солёное золото',
+                intro: `<p class="intro__desc">Поваренная соль (хлорид натрия) известна всем. Поваренная соль&nbsp;— противоречивое вещество, его&nbsp;называют и&nbsp;«белым золотом», и&nbsp;«белой смертью», всё&nbsp;зависит от&nbsp;количества и&nbsp;качества соли. <br><br> Трудно найти подобное вещество, которое является одновременно и&nbsp;полезным ископаемым, и&nbsp;пищевым продуктом, и&nbsp;химическим сырьём, и&nbsp;лекарственным средством. С&nbsp;самых давних времён соль высоко ценилась людьми и&nbsp;даже&nbsp;использовалась в&nbsp;качестве денег во&nbsp;многих странах. В&nbsp;старину караваны с&nbsp;солью охраняли воины, которым платили солью. Их&nbsp;даже&nbsp;стали называть солдатами. Соли на&nbsp;Земле огромное количество. Соль скрыта и&nbsp;в&nbsp;земле, и&nbsp;в&nbsp;воде. Но&nbsp;добыть её&nbsp;не&nbsp;так&nbsp;просто. Да&nbsp;и&nbsp;добывается соль по‑разному, поэтому бывает соль каменная, выварочная, морская, осадочная&nbsp;и&nbsp;др.</p>`,
+                position: 1,
+                level_id: 4,
+
+                questions: [
+                    {
+                        answers: [
+                            {
+                                id: 1,
+                                question_id: 1,
+                                text: 'Кристаллизация',
+                                trueorfalse: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 1,
+                                text: 'Замерзание',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 3,
+                                question_id: 1,
+                                text: 'Плавление',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 4,
+                                question_id: 1,
+                                text: 'Испарение',
+                                trueorfalse: 1,
+                            },
+                            {
+                                id: 5,
+                                question_id: 1,
+                                text: 'Возгонка',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 6,
+                                question_id: 1,
+                                text: 'Сублимация',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 7,
+                                question_id: 1,
+                                text: 'Дистилляция',
+                                trueorfalse: 0,
+                            },
+                        ],
+                        points: [
+                            {
+                                id: 1,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 0,
+                            },
+                            {
+                                id: 3,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 0,
+                            },
+                            {
+                                id: 4,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 1,
+                            },
+                            {
+                                id: 5,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 0,
+                            },
+                            {
+                                id: 6,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 0,
+                            },
+                            {
+                                id: 7,
+                                question_id: 1,
+                                truecount: 1,
+                                points: 0,
+                            },
+
+                        ],
+                        id: 1,
+                        position: 1,
+                        questiontype: 1,
+                        btntext: 'Отметьте все верные варианты ответа.',
+                        textquestion: 'Какие процессы происходят при образовании соли на берегу соляного озера?',
+                        textright: `
+                        Тысячи рек и ручейков вымывают соль из недр земли и приносят в озёра и моря. Самое известное соляное озеро в России — озеро Баскунчак. Вода в озере испаряется, и соль остаётся по берегам и на отмелях в виде кристаллов. После купания в этом озере тело человека покрывается тонким белым слоем соли, который быстро осыпается.`,
+                    },
+                    {
+                        answers: [
+                            {
+                                id: 1,
+                                question_id: 2,
+                                text: 'Это могло быть.',
+                                trueorfalse: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 2,
+                                text: 'Этого не могло быть.',
+                                trueorfalse: 0,
+                            },
+                        ],
+                        points: [
+                            {
+                                id: 1,
+                                question_id: 2,
+                                truecount: 1,
+                                points: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 2,
+                                truecount: 1,
+                                points: 0,
+                            },
+                        ],
+                        id: 2,
+                        position: 2,
+                        questiontype: 1,
+                        btntext: 'Отметьте один верный вариант ответа.',
+                        textquestion: 'Правдива ли эта легенда с научной точки зрения?',
+                        textright: `
+                        <p class="task__desc">Соль обладает лечебными свойствами, поэтому многие соляные озера стали курортами.</p>
+                        <p class="task__desc">В&nbsp;районе соляного озера Шира существует легенда, по&nbsp;которой охотник случайно ранил на&nbsp;охоте вблизи озера свою собаку. Он&nbsp;оставил её&nbsp;местному жителю, так&nbsp;как&nbsp;был&nbsp;уверен, что&nbsp;она&nbsp;не&nbsp;выживет. Но&nbsp;собака, купаясь в&nbsp;озере, залечила все&nbsp;раны, и&nbsp;через&nbsp;некоторое время прибежала домой совершенно здоровой.</p>`,
+                    },
+                    {
+                        id: 3,
+                        position: 3,
+                        questiontype: 3,
+                        images: {
+                            desc: '',
+                            img: ['../assets/img/task-4-1.webp', '../assets/img/task-4-2.webp', '../assets/img/task-4-3.webp', '../assets/img/task-4-4.webp']
+                        },
+                        answers: [
+                            {
+                                id: 1,
+                                question_id: 4,
+                                text: 'Отбор пробы соли',
+                                trueorfalse: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 4,
+                                text: 'Растворение',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 3,
+                                question_id: 4,
+                                text: 'Фильтрование',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 4,
+                                question_id: 4,
+                                text: 'Выпаривание',
+                                trueorfalse: 0,
+                            },
+                        ],
+                        points: [
+                            {
+                                id: 1,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 3,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 4,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                        ],
+                        promts: [
+                            {
+                                id: 1,
+                                question_id: 4,
+                                text: 'Выберите название первой операции',
+                                answer_id: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 4,
+                                text: 'Выберите название второй операции',
+                                answer_id: 2,
+
+                            },
+                            {
+                                id: 3,
+                                question_id: 4,
+                                text: 'Выберите название третьей операции',
+                                answer_id: 3,
+
+                            },
+                            {
+                                id: 4,
+                                question_id: 4,
+                                text: 'Выберите название четвёртой операции',
+                                answer_id: 4,
+
+                            },
+
+
+
+                        ],
+                        btntext: '',
+                        textquestion: 'Какой будет последовательность ваших действий для очистки поваренной соли от примеси песка в лаборатории?',
+                        textright: `
+                        <p class="task__desc">На Руси, начиная ещё с Х века, получали соль путём выпаривания в больших чанах воды из солёных озёр или Белого моря. Но соль получалась «грязной» – содержала примеси посторонних веществ. Такая соль могла принести вред здоровью. Со временем её научились очищать, отделять от примесей.</p>
+                        <p class="task__desc">Загрязнённую песком соль можно очистить в лаборатории.
+                        Для этого смесь соли с песком разделяют, используя различные операции, при помощи лабораторного оборудования.</p>`,
+                    },
+                    {
+                        answers: [
+                            {
+                                id: 1,
+                                question_id: 4,
+                                text: 'В соляной пещере поддерживается постоянные температура.',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 2,
+                                question_id: 4,
+                                text: 'В соляной пещере влажность сохраняется на одном уровне.',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 3,
+                                question_id: 4,
+                                text: 'В соляной пещере воздух насыщен ионами натрия и хлора.',
+                                trueorfalse: 1,
+                            },
+                            {
+                                id: 4,
+                                question_id: 4,
+                                text: 'В соляной пещере сохраняется определённое давление.',
+                                trueorfalse: 0,
+                            },
+                            {
+                                id: 5,
+                                question_id: 4,
+                                text: 'В соляной пещере отсутствуют вредные микроорганизмы.',
+                                trueorfalse: 0,
+                            },
+                        ],
+                        points: [
+                            {
+                                id: 1,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 2,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 3,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 4,
+                                question_id: 4,
+                                truecount: 2,
+                                points: 1,
+                            },
+                            {
+                                id: 5,
+                                question_id: 3,
+                                truecount: 2,
+                                points: 1,
+                            },
+                        ],
+                        id: 4,
+                        position: 4,
+                        questiontype: 2,
+                        btntext: 'Выберите нужные варианты ответа в выпадающих меню.',
+                        textquestion: `Что помогает больным вылечиться от аллергии, бронхитов и
+                        других заболеваний дыхательных путей в соляных пещерах?`,
+                        textright: `
+                        <p class="task__desc">В природе каменная соль — минерал галит — образует огромные пласты. При добыче соли в шахтах образуются большие подземные пространства. В подземных соляных залах и галереях создают лечебницы и санатории.</p>
+                        <p class="task__desc">В соляных пещерах воздух стерилен из-за практического отсутствия вредных микроорганизмов. В них создаётся особенный микроклимат. Круглый год там наблюдаются постоянные температура, влажность, давление, насыщенность ионами.</p>
+                        <p class="task__desc">Поэтому в соляных залах можно десятилетиями хранить запасы продуктов, и они не будут портиться. Хранят в таких подземельях и киноленты старых фильмов, древние книги, ценные меха и многое другое. Соль оберегает доверенные ей ценности от разрушения и порчи.</p>`,
+                    },
+
+                ]
+            },
+            validate: false,
+            radio1: [],
+            options: [],
+            disabledInput: false,
         }
     },
 
-  methods: {
+    methods: {
     nextSlide() {
         this.$refs.carousel.next();
         this.disabledNext = true;
+        this.showMessage = false;
+        this.disabledInput = false;
+        this.answer = '';
+        this.radio = null;
+        this.checkboxes = [];
+        this.options = [];
+        this.radio1 = [];
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
-    },
-
-    openNextTaskModal() {
-        this.showNextTaskModal = true;
     },
 
     closeNextTaskModal() {
         this.showNextTaskModal = false;
     },
 
-    submitAnswer() {
-        this.disabledNext = false;
+    async submitAnswer(question) {
+        console.log(question)
+        let points = 0;
+        if (question.questiontype === 0) {
+            if (this.answer === question.answer1) {
+                points = question.point1
+            } else
+            if (this.answer === question.answer2) {
+                points = question.point2
+            } else points = 0
+        }
+
+        if (question.questiontype === 1) {
+            this.checkboxes.forEach(el => {
+                const answer = question.answers.find(answer => answer.id === el);
+                if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === el );
+                    points += point.points;
+                }
+            })
+        }
+
+
+        if (question.questiontype === 2) {
+            const answer = question.answers.find(answer => answer.id === this.radio);
+            if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === this.radio );
+                    points += point.points;
+                }
+        }
+
+        if (question.questiontype === 3) {
+                this.options.forEach(option => {
+                const promt = question.promts.find(promt => promt.id === option.promt_id);
+                if (option.answer_id === promt.answer_id) {
+                    const point = question.points.find(point => point.id === promt.id)
+                    points += point.points;
+
+                }
+            })
+        }
+
+
+            this.disabledNext = false;
+
+        let result = {
+            user_id: this.user.id,
+            task_id: this.task.id,
+            question_id: question.id,
+            points: points
+        }
+
+        console.log(result)
+
+
+            try {
+                const response = await axios.post('/api/taskresults', result)
+                .then(response => {
+                    console.log(response.data)
+                    this.showMessage = true;
+                    this.messageText = 'Ваш ответ принят';
+                    this.disabledNext = false;
+                    this.validate = false;
+                    this.disabledInput = true;
+                })
+                .catch(error => {
+                            console.error('Ошибка:', error);
+                });
+                return response
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+
+
+    },
+
+    addCheckbox(id) {
+        const res = this.checkboxes.some(el => el === id);
+        this.validate = true;
+        if (!res) {
+            this.checkboxes.push(id)
+        }
+        else {
+            const index = this.checkboxes.indexOf(id);
+            this.checkboxes.splice(index, 1);
+        }
+    },
+    getOptionsForQuestion(questionId, promtId) {
+        const question = this.task.questions.find(question => question.id === questionId);
+        if (question) {
+            return question.answers.map(answer =>
+            (
+                {
+                promt_id: promtId,
+                answer_id: answer.id,
+                text: answer.text
+            }
+            )
+        )
+        }
+        return []
+    },
+
+    customLabel ({text}) {
+      return `${text}`
+    },
+
+    getImgUrl(imageNameWithExtension) {
+       return new URL(`${imageNameWithExtension}`, import.meta.url).href
+    },
+
+    checkAnswer(question, promtID, event) {
+        this.validate = true;
+        if (question.questiontype === 3 && question.type === 'radio') {
+            const res = this.radio1.some(item => item.promt_id === promtID);
+            if (!res) {
+                this.radio1.push({
+                answer: event.target.value,
+                promt_id: promtID
+            })
+            } else {
+                this.radio1.forEach(item => {
+                    item.answer = event.target.value;
+                })
+            }
+
+        }
     }
+
+  },
+
+  computed: {
+    user() {
+        return userStore().user;
+    },
+
   },
 
 }
@@ -282,6 +821,7 @@ export default {
     }
 
     .level-4-0 .task__img {
+        width: calc((100% - 24px)/4);
         box-shadow: 4px 5px 50px 0px #ECEAE1;
     }
 

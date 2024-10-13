@@ -28,50 +28,35 @@
                             <label class="form__label">
                                 <span>{{ question.btntext }}</span>
                                 <div class="flex items-center">
-                                    <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
+                                    <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input" @change="checkAnswer(question)" :disabled="disabledInput">
                                 </div>
                             </label>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                         <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 1" class="task__form form">
                             <span>{{ question.btntext }}</span>
                             <div class="form__box form__box--checkboxes">
                                 <label class="form__label form__label--checkbox" v-for="answer in question.answers" :key="answer.id">
-                                    <input @change="addCheckbox(answer.id)" :value="answer.id" name="checkbox" type="checkbox" class="form__input form__input--checkbox">
+                                    <input @change="addCheckbox(answer.id)" :value="answer.id" name="checkbox" type="checkbox" class="form__input form__input--checkbox" :disabled="disabledInput">
                                     <span class="checkbox"></span>
                                     {{ answer.text }}
                                 </label>
                             </div>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                         <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 2" class="task__form form">
                             <span>{{ question.btntext }}</span>
                             <div class="form__box form__box--radio">
                                 <label class="form__label form__label--radio" v-for="answer in question.answers" :key="answer.position">
-                                    <input :required="answer.id === question.answers[0].id" :value="answer.id" v-model="radio" name="balls-1" type="radio" class="form__input form__input--radio">
+                                    <input :value="answer.id" v-model="radio" type="radio" class="form__input form__input--radio" @change="checkAnswer(question)" :disabled="disabledInput">
                                     <span class="radio"></span>
                                     {{ answer.text }}
                                 </label>
-                                <!-- <label class="form__label form__label--radio">
-                                    <input :value="1" v-model="radio" name="balls-1" type="radio" class="form__input form__input--radio">
-                                    <span class="radio"></span>
-                                    Плотность горячего воздуха меньше, чем плотность холодного воздуха.
-                                </label>
-                                <label class="form__label form__label--radio">
-                                    <input :value="2" v-model="radio" name="balls-1" type="radio" class="form__input form__input--radio">
-                                    <span class="radio"></span>
-                                    Все газы, из которых состоит дым, легче воздуха.
-                                </label>
-                                <label class="form__label form__label--radio">
-                                    <input :value="3" v-model="radio" name="balls-1" type="radio" class="form__input form__input--radio">
-                                    <span class="radio"></span>
-                                    Газы при нагревании уменьшаются в объёме.
-                                </label> -->
                             </div>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                         <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 3" class="task__form form">
                             <span>{{ question.btntext }}</span>
@@ -83,29 +68,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(item, index) in question.answers" :key="item.id">
+                                    <tr v-for="(item, index) in question.promts" :key="item.id">
                                         <td><span>{{ item.text }}</span></td>
-                                        <td><multiselect :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ">
-                                        </multiselect></td>
+                                        <td>
+                                            <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                            </multiselect>
+                                    </td>
                                     </tr>
-                                    <!-- <tr>
-                                        <td><span>Свободно парят в воздухе, но не улетают</span></td>
-                                        <td><multiselect v-model="value2" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Поднимаются высоко в небо</span></td>
-                                        <td><multiselect v-model="value3" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr> -->
                                 </tbody>
                             </table>
-                            <!-- <div class="form__box">
-                                <label v-for="item in question.answers" :key="item.id" class="form__label form__label--select">
-                                    {{ item.text }}
-                                    <multiselect select-label="" :searchable="false" :options="question.options" placeholder="Выберите ответ"></multiselect>
-                                </label>
-                            </div> -->
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                         </form>
                     </div>
                     <div class="task__right">
@@ -124,160 +97,6 @@
 
                 </q-carousel-slide>
 
-                <!-- <q-carousel-slide :name="2">
-                    <div class="task__box">
-                        <div class="task__left">
-                        <p class="task__info">Прочитайте текст «Воздушные шары». Запишите свой ответ на вопрос в виде числа.</p>
-                        <p class="task__question">Чему равна грузоподъёмность гелиевого шарика в этом эксперименте?</p>
-                        <form class="task__form form">
-                            <label class="form__label">
-                                <span>Запишите свой ответ в граммах, округлив до целого числа.</span>
-                                <div class="flex items-center">
-                                    <input v-model="answer" placeholder="Введите ответ" type="text" class="form__input">
-                                </div>
-
-                            </label>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
-                        </form>
-                    </div>
-                    <div class="task__right">
-                        <h3 class="task__title">Воздушные шары</h3>
-                        <p class="task__desc">В истории воздухоплавания много разнообразных интересных страниц: от первого шара братьев Монгольфье до огромных дирижаблей.</p>
-                        <p class="task__desc">Но одной из самых главных задач для конструкторов, создающих подобные летательные аппараты, была возможность поднимать какой‑то груз (людей, оборудование и т.п.). </p>
-                        <p class="task__desc">Грузоподъёмность — это максимальная масса поднимаемого груза. </p>
-                        <p class="task__desc">На уроке ребятам было предложено измерить грузоподъёмность гелиевого шарика с помощью электронных весов.</p>
-                        <p class="task__desc">Для этого они использовали предмет, массу которого определили в граммах по показанию весов (рисунок 1 б).</p>
-                        <p class="task__desc">Затем ребята привязали к предмету шарик и измерили получившуюся массу в граммах (рисунки 1 а, б, в).</p>
-
-                            <div class="task__images">
-                                <img class="task__img" src="../assets/img/task-2-а.webp" alt="">
-                                <img class="task__img" src="../assets/img/task-2-б.webp" alt="">
-                                <img class="task__img" src="../assets/img/task-2-в.webp" alt="">
-                            </div>
-                            <p class="task__info">Рисунок 1. Эксперимент по измерению грузоподъёмности воздушного шарика.</p>
-
-                    </div>
-                    </div>
-
-                </q-carousel-slide>
-
-                <q-carousel-slide :name="3">
-                    <div class="task__box">
-                        <div class="task__left">
-                        <p class="task__info">Прочитайте текст «Воздушные шары». Для ответа на вопрос отметьте нужные варианты ответа.</p>
-                        <p class="task__question">Почему для заполнения воздушных шаров водород заменили гелием?</p>
-                        <form class="task__form form">
-                            <span>Отметьте два верных варианта ответа.</span>
-                            <div class="form__box form__box--checkboxes">
-                                <label class="form__label form__label--checkbox">
-                                    <input :value="0" v-model="checkbox" name="balls-3" type="checkbox" class="form__input form__input--checkbox">
-                                    <span class="checkbox"></span>
-                                    Гелий, как и водород, не имеет цвета и запаха.
-                                </label>
-                                <label class="form__label form__label--checkbox">
-                                    <input :value="1" v-model="checkbox" name="balls-3" type="checkbox" class="form__input form__input--checkbox">
-                                    <span class="checkbox"></span>
-                                    Гелий, в отличие от водорода, не взрывается.
-                                </label>
-                                <label class="form__label form__label--checkbox">
-                                    <input :value="2" v-model="checkbox" name="balls-3" type="checkbox" class="form__input form__input--checkbox">
-                                    <span class="checkbox"></span>
-                                    Гелий, как и водород, встречается в космосе.
-                                </label>
-                                <label class="form__label form__label--checkbox">
-                                    <input :value="3" v-model="checkbox" name="balls-3" type="checkbox" class="form__input form__input--checkbox">
-                                    <span class="checkbox"></span>
-                                    Гелий, как и водород, лёгкий газ.
-                                </label>
-                                <label class="form__label form__label--checkbox">
-                                    <input :value="4" v-model="checkbox" name="balls-3" type="checkbox" class="form__input form__input--checkbox">
-                                    <span class="checkbox"></span>
-                                    Гелий, как и водород, мало растворяется в воде.
-                                </label>
-                            </div>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
-                        </form>
-                    </div>
-                    <div class="task__right">
-                        <h3 class="task__title">Воздушные шары</h3>
-                        <p class="task__desc">Чтобы не использовать горючее и не зажигать открытое пламя, воздушные шары стали наполнять самым лёгким газом — водородом. Благодаря этому газу воздушные шары смогли улетать высоко в небо. Но позже стали использовать в качестве наполнителя другой лёгкий газ — гелий. Гелий относится к инертным газам, которые в обычных условиях не взаимодействуют с другими веществами. </p>
-                        <p class="task__desc">Эта замена связана с тем, что водород с кислородом может образовывать взрывоопасные смеси. Так, однажды человек, который хотел подшутить, случайно взорвал всё шоу воздушных шаров, заполненных водородом.</p>
-                    </div>
-                    </div>
-
-                </q-carousel-slide>
-
-                <q-carousel-slide :name="4">
-                    <div class="task__box">
-                        <div class="task__left">
-                        <p class="task__info">Прочитайте текст «Воздушные шары». Для ответа на вопрос выберите в выпадающих меню нужные варианты ответа.</p>
-                        <p class="task__question">Каким газом надо заполнить воздушные шарики в каждом из указанных положений?</p>
-
-                        <form class="task__form form">
-                            <span>Выберите нужные варианты ответа в выпадающих меню.</span>
-                            <table class="task__table task__table--noborder">
-                                <thead>
-                                    <tr>
-                                        <th><span>Положение воздушных шариков</span></th>
-                                        <th><span>Газ для наполнения шариков</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><span>Лежат на полу</span></td>
-                                        <td><multiselect v-model="value1" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Свободно парят в воздухе, но не улетают</span></td>
-                                        <td><multiselect v-model="value2" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>Поднимаются высоко в небо</span></td>
-                                        <td><multiselect v-model="value3" select-label="" :searchable="false" :options="options" placeholder="Выберите ответ"></multiselect></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <span class="form__error" v-show="showMessage">Ваш ответ принят</span>
-                            <button :disabled="showMessage" @click.prevent="submitAnswer()" class="btn-reset form__btn">Принять ответ</button>
-                        </form>
-                    </div>
-                    <div class="task__right">
-                        <h3 class="task__title">Воздушные шары</h3>
-                        <p class="task__desc">Воздушные шарики для праздников наполняют различными газами, которые бывают тяжёлыми и лёгкими. Продавцы шаров, надувая их газами легче или тяжелее воздуха, добиваются разных эффектов.  </p>
-                        <p class="task__desc">В магазин поступил заказ на украшение зала в школе. Одни шарики должны лежать на поверхностях, другие — парить в воздухе, а третьи — подниматься высоко вверх. </p>
-                        <p class="task__desc">Работники магазина при выполнении заказа заполнили шары разными газами с учётом их плотности:</p>
-                        <table class="task__table">
-                                <thead>
-                                    <tr>
-                                        <th>Газ</th>
-                                        <th><span class="text-right" style="max-width: 140px">Плотность, кг/м3</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Воздух</td>
-                                        <td>1,29</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Азот</td>
-                                        <td>1,25</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Гелий</td>
-                                        <td>0,18</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Углекислый газ</td>
-                                        <td>1,98</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
-                    </div>
-
-                </q-carousel-slide> -->
                 <template v-slot:control>
                 <q-carousel-control class="carousel__btns" style="margin: 0;">
                     <q-btn :disabled="disabledNext" class="carousel__btn" @click="nextSlide()" v-if="this.slide < slidesCount">Далее</q-btn>
@@ -294,6 +113,7 @@
 import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
 import userStore from "../store/UserStore.js";
+import axios from 'axios';
 export default {
     components: {NextTaskModal, Multiselect },
     data() {
@@ -312,13 +132,14 @@ export default {
             radio: null,
             checkboxes: [],
             showMessage: false,
+            messageText: '',
             task: {
                 id: 0,
                 name: 'Воздушные шары',
                 intro: `Вы наверняка много раз держали их в руках. Круглые, яркие, летящие — они способны превратить обычный день в праздник и заставить улыбнуться даже самого грустного человека. Догадались, о чём идёт речь? Конечно, о воздушных шариках Сегодня их знают все на свете и используют в качестве подарков, игрушек и элементов праздничного украшения. А на большом воздушном шаре можно совершить незабываемую прогулку.
                         <br><br>Обыкновенные воздушные шары имеют большую историю и хранят немало тайн.`,
                 position: 1,
-                level_id: 1,
+                level_id: 2,
 
                 questions: [
                     {
@@ -353,7 +174,7 @@ export default {
                                 id: 1,
                                 question_id: 1,
                                 truecount: 1,
-                                points: 0,
+                                points: 1,
                             },
                             {
                                 id: 2,
@@ -365,18 +186,16 @@ export default {
                                 id: 3,
                                 question_id: 1,
                                 truecount: 1,
-                                points: 0,
+                                points: 1,
                             },
                             {
                                 id: 4,
                                 question_id: 1,
                                 truecount: 1,
-                                points: 0,
+                                points: 1,
                             },
                         ],
                         id: 1,
-                        point1: 0,
-                        point2: 0,
                         position: 1,
                         questiontype: 2,
                         btntext: 'Отметьте один верный вариант ответа.',
@@ -384,10 +203,10 @@ export default {
                         textright: 'Древние китайцы изобрели фонари для передачи сигналов во время военных операций. Эти фонари имели отверстие в нижней части, где был зажжён небольшой огонь. Горячий дым помогал поднять фонарь и давал ему возможность парить в воздухе. Это были первые древние воздушные шары.',
                     },
                     {
-                        answer1: '',
-                        answer2: '',
+                        answer1: 3,
+                        answer2: null,
                         id: 2,
-                        point1: 0,
+                        point1: 1,
                         point2: 0,
                         position: 2,
                         questiontype: 0,
@@ -416,7 +235,7 @@ export default {
                                 id: 1,
                                 question_id: 3,
                                 text: 'Гелий, как и водород, не имеет цвета и запаха.',
-                                trueorfalse: 1,
+                                trueorfalse: 0,
                             },
                             {
                                 id: 2,
@@ -434,7 +253,7 @@ export default {
                                 id: 4,
                                 question_id: 3,
                                 text: 'Гелий, как и водород, лёгкий газ.',
-                                trueorfalse: 0,
+                                trueorfalse: 1,
                             },
                             {
                                 id: 5,
@@ -487,23 +306,23 @@ export default {
                     },
                     {
                         answers: [
-                        {
+                            {
                                 id: 1,
                                 question_id: 4,
-                                text: 'Лежат на полу',
+                                text: 'Гелий',
                                 trueorfalse: 1,
                             },
                             {
                                 id: 2,
                                 question_id: 4,
-                                text: 'Свободно парят в воздухе, но не улетают',
-                                trueorfalse: 0,
+                                text: 'Азот',
+                                trueorfalse: 1,
                             },
                             {
                                 id: 3,
                                 question_id: 4,
-                                text: 'Поднимаются высоко в небо',
-                                trueorfalse: 0,
+                                text: 'Углекислый газ',
+                                trueorfalse: 1,
                             },
                         ],
                         points: [
@@ -542,19 +361,19 @@ export default {
                             {
                                 id: 1,
                                 question_id: 4,
-                                text: 'Гелий',
-                                answer_id: 2
+                                text: 'Лежат на полу',
+                                answer_id: 3
                             },
                             {
                                 id: 2,
                                 question_id: 4,
-                                text: 'Азот',
-                                answer_id: 1,
+                                text: 'Свободно парят в воздухе, но не улетают',
+                                answer_id: 2,
                             },
                             {
                                 id: 3,
                                 question_id: 4,
-                                text: 'Углекислый газ',
+                                text: 'Поднимаются высоко в небо',
                                 answer_id: 3,
                             },
 
@@ -581,7 +400,9 @@ export default {
                     },
 
                 ]
-            }
+            },
+            validate: false,
+            disabledInput: false,
         }
     },
   methods: {
@@ -589,6 +410,12 @@ export default {
         this.$refs.carousel.next();
         this.disabledNext = true;
         this.showMessage = false;
+        this.disabledInput = false;
+        this.answer = '';
+        this.radio = null;
+        this.checkboxes = [];
+        this.options = [];
+        this.radio1 = [];
         if (this.slide > this.slidesCount) {
             this.showNextTaskModal = true;
         }
@@ -602,28 +429,30 @@ export default {
         console.log(question)
         let points = 0;
         if (question.questiontype === 0) {
-            if (this.answer === question.answer1) {
+            if (this.answer == question.answer1) {
                 points = question.point1
             } else
-            if (this.answer === question.answer2) {
+            if (question.answer2 !== null && this.answer == question.answer2) {
                 points = question.point2
             } else points = 0
         }
 
         if (question.questiontype === 1) {
             this.checkboxes.forEach(el => {
-                question.points.forEach(point => {
-                    if (point.id === el) {
-                        points += point.points;
-                    }
-                })
+                const answer = question.answers.find(answer => answer.id === el);
+                if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === el );
+                    points += point.points;
+                }
             })
         }
 
         if (question.questiontype === 2) {
-            question.points.forEach(el => {
-                if (el.id === this.radio) points = el.points
-            })
+            const answer = question.answers.find(answer => answer.id === this.radio);
+            if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === this.radio );
+                    points += point.points;
+                }
         }
 
         if (question.questiontype === 3) {
@@ -632,13 +461,13 @@ export default {
                 if (option.answer_id === promt.answer_id) {
                     const point = question.points.find(point => point.id === promt.id)
                     points += point.points;
+
                 }
             })
         }
 
 
-        this.showMessage = true;
-            this.disabledNext = false;
+            // this.disabledNext = false;
 
         let result = {
             user_id: this.user.id,
@@ -649,16 +478,28 @@ export default {
 
         console.log(result)
 
-        // try {
-        //     const response = await axios.post('/api/taskresults', result);
-        //     console.log(response.data)
-        //     this.showMessage = true;
-        //     this.disabledNext = false;
 
-        // }
-        // catch (error) {
-        //     console.log(error)
-        // }
+            try {
+                const response = await axios.post('/api/taskresults', result)
+                .then(response => {
+                    console.log(response.data)
+                    this.showMessage = true;
+                    this.messageText = 'Ваш ответ принят';
+                    this.disabledNext = false;
+                    this.validate = false;
+                    this.disabledInput = true;
+                })
+                .catch(error => {
+                            console.error('Ошибка:', error);
+                });
+                return response
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+
+
     },
 
     getImgUrl(imageNameWithExtension) {
@@ -667,6 +508,7 @@ export default {
 
     addCheckbox(id) {
         const res = this.checkboxes.some(el => el === id);
+        this.validate = true;
         if (!res) {
             this.checkboxes.push(id)
         }
@@ -675,19 +517,17 @@ export default {
             this.checkboxes.splice(index, 1);
         }
     },
-    getOptionsForQuestion(questionId, answerId) {
+    getOptionsForQuestion(questionId, promtId) {
         const question = this.task.questions.find(question => question.id === questionId);
         if (question) {
-            return question.promts.map(promt =>
+            return question.answers.map(answer =>
             (
                 {
-                promt_id: promt.id,
-                answer_id: answerId,
-                text: promt.text
+                promt_id: promtId,
+                answer_id: answer.id,
+                text: answer.text
             }
             )
-
-
         )
         }
         return []
@@ -695,16 +535,22 @@ export default {
 
     customLabel ({text}) {
       return `${text}`
-    }
+    },
 
+    checkAnswer(question) {
+        this.validate = true;
+    }
 
   },
 
   computed: {
     user() {
         return userStore().user;
-    }
-  }
+    },
+
+  },
+
+
 
 }
 </script>
@@ -743,6 +589,22 @@ export default {
 
     .level-2 .task__form > .task__table tr {
         display: flex;
+    }
+
+    .level-2-0 .task__table tbody tr {
+        flex-wrap: wrap;
+    }
+
+    .level-2-0 .task__table {
+        overflow: visible;
+    }
+
+    .level-2-0 .task__table thead {
+        border-radius: 20px 20px 0 0;
+    }
+
+    .level-2-0 .task__table tbody {
+        border-radius: 0 0 20px 20px;
     }
 
     @media (max-width: 1660px) {

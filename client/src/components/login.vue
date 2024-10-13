@@ -123,22 +123,22 @@ function validateForm() {
 }
 
 function submitForm() {
-    let obj = {
-    "token": "57|RKftdAiX3JzzwAeWpKxOuqQSPThxl1coXSvOoqG7ddf56b56",
-    "id": 3,
-    "surname": "Васильев",
-    "name": "Иванесса",
-    "middlename": "Петрович",
-    "gender": "male",
-    "avatar": "users/October2024/5467484816528139101.webp",
-    "role_id": 4,
-    "scoretest": 22,
-    "sumpoint": 10,
-    "spendpoints": 0,
-    "starttime": null
-}
+//     let obj = {
+//     "token": "57|RKftdAiX3JzzwAeWpKxOuqQSPThxl1coXSvOoqG7ddf56b56",
+//     "id": 3,
+//     "surname": "Васильев",
+//     "name": "Иванесса",
+//     "middlename": "Петрович",
+//     "gender": "male",
+//     "avatar": "users/October2024/5467484816528139101.webp",
+//     "role_id": 4,
+//     "scoretest": 22,
+//     "sumpoint": 10,
+//     "spendpoints": 0,
+//     "starttime": null
+// }
 
-sessionStorage.setItem('user', JSON.stringify(obj));
+// sessionStorage.setItem('user', JSON.stringify(obj));
         if (validateForm()) {
 
     let loginOb = async () => {
@@ -146,7 +146,6 @@ sessionStorage.setItem('user', JSON.stringify(obj));
             let response = await getUser(login.value, password.value);
             console.log(response.data)
             userStore().updateUserInfo(response.data);
-            console.log(userStore().user);
             router.push({name: 'home'});
         } catch (error) {
             console.log(error)

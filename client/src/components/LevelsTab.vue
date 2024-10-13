@@ -34,7 +34,6 @@
                     </button>
                     <span v-if="user.sumpoint < level.minpoints && this.currentLevel == level.level_id && level !== levels[levels.length - 1]" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
                 </div>
-
             </div>
         </div>
 
