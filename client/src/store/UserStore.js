@@ -11,6 +11,9 @@ const useUserStore = defineStore('UserStore' , {
         updateUserInfo(obj) {
             this.user = obj;
             sessionStorage.setItem('user', JSON.stringify(obj));
+        },
+        updateUserPoints(points) {
+            this.user.sumpoint += points;
         }
     }
 })

@@ -18,6 +18,7 @@
 
 <script>
 import Task from './Task.vue';
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     data() {
         return {
@@ -31,7 +32,32 @@ export default {
         openTask() {
             this.$emit('open-task');
         },
-    }
+    },
+
+    // setup () {
+    //         const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+    //         timerStore.startTimer();
+
+    //         return {
+    //         startTimer: timerStore.startTimer,
+    //         stopTimer: timerStore.stopTimer,
+    //         resetTimer: timerStore.resetTimer,
+    //         formattedTime: timerStore.formattedTime,
+    //         timerStore
+    //         }
+    // },
+
+    // mounted() {
+    //         this.interval = setInterval(() => {
+    //         const now = new Date();
+    //         if (now.getDate() !== this.timerStore.today.getDate()) {
+    //             this.timerStore.updateToday();
+    //         }
+    //         }, 1000 * 60 * 60 * 24);
+    //     },
+    //     beforeDestroy() {
+    //         clearInterval(this.interval);
+    // },
 }
 </script>
 

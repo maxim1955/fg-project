@@ -286,6 +286,7 @@ import NextTaskModal from './NextTaskModal.vue'
 import Multiselect from 'vue-multiselect'
 import userStore from "../store/UserStore.js";
 import axios from 'axios';
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     components: {NextTaskModal, Multiselect },
     data() {
@@ -629,6 +630,24 @@ export default {
             options: [],
             disabledInput: false,
         }
+    },
+
+    setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+
+            return {
+            startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
+            }
+
+
+    },
+
+    mounted() {
+        this.timerStore.startTimer();
     },
 
     methods: {

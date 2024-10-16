@@ -68,6 +68,8 @@
         <TaskTemplate ref="childComponent" @try-again="tryAgain" v-if="showTaskTemplate || this.currentTask.id != 0" @back-levels="backLevels()" @open-modal="openModal()" :levelNum="this.getLevelNum" :taskNum="this.currentTaskId" :task="this.currentTask"/>
 
         <NextTaskModal :currentTask="this.task" @next-task="nextTask()" @close-modal="closeModal()" @try-again="tryAgain()" v-if="this.showNextTaskModal"/>
+
+        <TimesModal v-if="this.timerStore.secondsRemaining <= 0"/>
     </div>
     </div>
 
@@ -83,9 +85,11 @@ import Task5 from './Task5.vue'
 import TaskTemplate from './TaskTemplate.vue'
 import NextTaskModal from './NextTaskModal.vue'
 import levelsStore from "../store/LevelsStore.js";
+import TimesModal from './TimesModal.vue';
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
   props: ['points', 'levelNum'],
-  components: {StartLevelModal, Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal},
+  components: {StartLevelModal, Task1, Task2, Task3, Task4, Task5, TaskTemplate, NextTaskModal, TimesModal},
 
   data() {
     return {
@@ -155,9 +159,11 @@ export default {
         currentTaskId: null,
         showTaskTemplate: false,
         showLevels: false,
-        slide: 1
+        slide: 1,
+        showTimerModal: false
     }
   },
+
   methods: {
     openModalStart(task) {
         this.showModalStart = true;
@@ -238,6 +244,13 @@ export default {
 
   },
 
+  setup () {
+        const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+        return {
+        timerStore
+        }
+    },
+
   watch: {
     showTask(newValue) {
         this.$emit('show-task', newValue)
@@ -248,6 +261,7 @@ export default {
     },
   },
 
+
   computed: {
     level() {
         this.levels = levelsStore().levels;
@@ -256,6 +270,13 @@ export default {
         console.log(JSON.parse(JSON.stringify(level))[0].tasks)
         return JSON.parse(JSON.stringify(level))[0];
     },
+
+    // watchTimer() {
+    //     return
+    //     if (this.timerStore.secondsRemaining <= 0) {
+    //         this.showTimerModal = true;
+    //     }
+    // },
 
     task() {
         let currentTask

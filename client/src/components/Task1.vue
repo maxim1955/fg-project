@@ -95,6 +95,7 @@
 import NextTaskModal from './NextTaskModal.vue'
 import axios from 'axios';
 import userStore from "../store/UserStore.js";
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     components: {NextTaskModal},
     data() {
@@ -155,6 +156,26 @@ export default {
         }
     },
 
+    setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+
+            return {
+            startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
+            }
+
+
+    },
+
+    mounted() {
+        this.timerStore.startTimer();
+    },
+
+
+
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
@@ -177,7 +198,8 @@ export default {
         let points = 0;
         if (question.questiontype === 0) {
             if (this.answer == question.answer1) {
-                points = question.point1
+                points = question.point1;
+                userStore().updateUserPoints(points);
             } else
             if (question.answer2 !== null && this.answer == question.answer2) {
                 points = question.point2

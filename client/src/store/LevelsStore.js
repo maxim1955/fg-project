@@ -6,7 +6,7 @@ const useLevelsStore = defineStore('LevelsStore' , {
         return {
             levels: JSON.parse(sessionStorage.getItem('levels')) || null,
             currentLevel: 1,
-            currentTask: 1
+            currentTask: 1,
         }
     },
 
@@ -28,7 +28,9 @@ const useLevelsStore = defineStore('LevelsStore' , {
         updateCurrentTask(id) {
             this.currentTask = id;
         }
-    }
+
+    },
+
 })
 
 export default useLevelsStore

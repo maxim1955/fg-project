@@ -16,6 +16,7 @@
     "dependencies": {
         "@babel/runtime": "^7.24.7",
         "@quasar/extras": "^1.16.11",
+        "@unhead/vue": "^1.11.9",
         "pinia": "^2.2.2",
         "quasar": "^2.16.2",
         "swiper": "^9.0.0",

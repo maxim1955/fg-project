@@ -25,7 +25,7 @@
                 <div class="account__header">
                     <router-link :to="{name: 'main'}" class="account__logo"><img src="../assets/img/account-logo-1024.svg" alt="Логотип"></router-link>
                     <div v-if="this.$route.name == 'levels'" class="timer">
-                        <div class="timer__amount">{{ this.timer }}</div>
+                        <div @click="startTimer" class="timer__amount">{{ timerStore.formattedTime }}</div>
                     </div>
                     <div class="points">
                         <div class="points__amount">{{ user.sumpoint }}</div>
@@ -91,6 +91,8 @@
 <script>
     import { ref } from 'vue';
     import userStore from "../store/UserStore.js";
+    import levelsStore from "../store/LevelsStore.js";
+    import {useTimerAndDateStore} from "../store/TimerStore.js";
     export default {
         components: {},
         data() {
@@ -101,14 +103,6 @@
                 limitTime: 0,
                 collapse: false,
                 openMenu: false,
-                // user: {
-                //     name: 'Иван',
-                //     surname: 'Иванов',
-                //     lastname: 'Иванович',
-                //     classNumber: '8 Б',
-                //     gender: 'female',
-                //     avatar: '../assets/img/profile-avatar.png'
-                // },
                 levelClass: 1,
                 taskClass: 1,
                 showTask: false,
@@ -116,11 +110,46 @@
             }
         },
         setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+            // timerStore.startTimer();
+
             return {
             tab: ref('home'),
-            splitterModel: ref(20)
+            splitterModel: ref(20),
+            startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
             }
         },
+
+        mounted() {
+            const now = new Date();
+            const date = JSON.parse(localStorage.getItem('timerData'));
+            console.log(date.today)
+            const yesterday = new Date(date.today);
+            console.log(yesterday, now)
+            // this.timerStore.today = new Date();
+            this.timerStore.today = new Date();
+            const diff = now.getTime() - yesterday.getTime();
+            console.log(diff)
+            if (diff >= 24 * 60 * 60 * 1000) {
+                this.timerStore.updateToday();
+            }
+
+            // this.timerStore.interval = setInterval(() => {
+            // const now = new Date();
+            // if (now.getDate() !== this.timerStore.today.getDate()) {
+            //     console.log('aa')
+            //     this.timerStore.updateToday();
+            // }
+            // }, 1000 * 60 * 60 * 24);
+        },
+
+        // beforeDestroy() {
+        //     clearInterval(this.interval);
+        // },
 
         methods: {
             collapseMenu() {
@@ -151,7 +180,19 @@
             user() {
                 return userStore().user;
             }
-        }
+        },
+
+        beforeDestroy() {
+        stopTimer();
+    },
+
+    ummounted() {
+        stopTimer();
+    },
+
+    onBeforeRouteLeave() {
+        stopTimer();
+    },
 
     }
 </script>
@@ -613,9 +654,9 @@
         display: none;
     }
 
-    .menu.collapse ~ .content > div {
+    /* .menu.collapse ~ .content > div {
         width: 1463px;
-    }
+    } */
 
     .menu.collapse .q-tab__content {
         padding-left: 40px;

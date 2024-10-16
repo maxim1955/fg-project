@@ -3,16 +3,16 @@
         <div class="modal__overlay">
             <div class="modal__window">
                 <button class="btn-reset modal__close" @click="$emit('close-choiceAvatarModal')"></button>
-                <form class="modal__avatars form">
+                <form @submit="changeAvatar()" class="modal__avatars form">
                     <h2 class="modal__title">Выберите персонажа</h2>
                     <div class="avatars">
-                        <label v-for="img in filteredAvatars" :key="img.id" class="avatars__label">
-                        <input class="avatars__input" type="radio" name="avatar">
+                        <label v-for="img in female" :key="img.id" class="avatars__label">
+                        <input :value="img.src" v-model="avatar" class="avatars__input" type="radio" name="avatar">
                         <span class="avatars__check"></span>
                         <img class="avatars__img" :src="img.src" alt="">
                     </label>
                     </div>
-                    <button class="modal__btn btn-reset">Сохранить</button>
+                    <button type="submit" class="modal__btn btn-reset">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -58,7 +58,8 @@ export default {
                     id: 3,
                     src: avatarMale3,
                 },
-            ]
+            ],
+            avatar: null
         }
     },
     computed: {
@@ -68,6 +69,23 @@ export default {
         filteredAvatars() {
             if (this.user.gender == 'female') return this.female
             if (this.user.gender == 'male') return this.male
+        }
+    },
+
+    methods: {
+        async changeAvatar() {
+            const res = {
+                id: this.user.id,
+                avatar: this.avatar
+            }
+            try {
+                const response = await api.post('/api/avatarchange', res);
+                console.log(response)
+                return response.data;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
         }
     }
 }

@@ -59,7 +59,7 @@
 
                         <form v-if="question.questiontype == 3" class="task__form form">
                             <div class="form__box">
-                                <label v-for="item in question.answers" :key="item.id" class="form__label form__label--select">
+                                <label v-for="item in question.promts" :key="item.id" class="form__label form__label--select">
                                     {{ item.text }}
                                     <multiselect select-label="" :searchable="false" :options="question.options" placeholder="Выберите ответ"></multiselect>
                                 </label>
@@ -99,6 +99,7 @@ import Multiselect from 'vue-multiselect'
 import levelsStore from "../store/LevelsStore.js";
 import userStore from "../store/UserStore.js";
 import axios from 'axios';
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     components: {NextTaskModal, Multiselect },
     props: ['task', 'taskNum'],
@@ -214,18 +215,42 @@ export default {
             //     },
             // ],
 
-            options: ['Отбор пробы соли', 'Растворение', 'Фильтрование', 'Выпаривание'],
+            options: [],
             slide: 1,
             disabledNext: true,
             answer: '',
             showMessage: false,
+            radio: null,
+            checkboxes: []
         }
+    },
+
+
+    setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+
+            return {
+            startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
+            }
+
+
+    },
+
+    mounted() {
+        this.timerStore.startTimer();
     },
 
   methods: {
     nextSlide() {
         this.$refs.carousel.next();
         this.answer = '';
+        this.radio = null;
+        this.checkboxes = [];
+        this.options = [];
         this.showMessage = false;
         this.disabledNext = true;
         if (this.slide > this.slidesCount) {
@@ -239,44 +264,119 @@ export default {
 
     async submitAnswer(question) {
         console.log(question)
-        let point
+        let points = 0;
         if (question.questiontype === 0) {
-            if (this.answer === question.answer1) {
-                point = question.point1
+            if (this.answer == question.answer1) {
+                points = question.point1
             } else
-            if (this.answer === question.answer2) {
-                point = question.point2
-            } else point = 0
+            if (question.answer2 !== null && this.answer == question.answer2) {
+                points = question.point2
+            } else points = 0
         }
 
         if (question.questiontype === 1) {
-            const checkboxes = document.querySelectorAll('.form__input--checkbox')
-            console.log(checkboxes)
+            this.checkboxes.forEach(el => {
+                const answer = question.answers.find(answer => answer.id === el);
+                if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === el );
+                    points += point.points;
+                }
+            })
+        }
+
+        if (question.questiontype === 2) {
+            const answer = question.answers.find(answer => answer.id === this.radio);
+            if (answer.trueorfalse === 1) {
+                    const point = question.points.find(point => point.id === this.radio );
+                    points += point.points;
+                }
+        }
+
+        if (question.questiontype === 3) {
+            this.options.forEach(option => {
+                const promt = question.promts.find(promt => promt.id === option.promt_id);
+                if (option.answer_id === promt.answer_id) {
+                    const point = question.points.find(point => point.id === promt.id)
+                    points += point.points;
+
+                }
+            })
         }
 
 
-        this.showMessage = true;
-            this.disabledNext = false;
+            // this.disabledNext = false;
 
         let result = {
             user_id: this.user.id,
-            task_id: this.getTask.id,
+            task_id: this.task.id,
             question_id: question.id,
-            points: point
+            points: points
         }
 
         console.log(result)
 
-        // try {
-        //     const response = await axios.post('/api/taskresults', result);
-        //     console.log(response.data)
-        //     this.showMessage = true;
-        //     this.disabledNext = false;
 
-        // }
-        // catch (error) {
-        //     console.log(error)
-        // }
+            try {
+                const response = await axios.post('/api/taskresults', result)
+                .then(response => {
+                    console.log(response.data)
+                    this.showMessage = true;
+                    this.messageText = 'Ваш ответ принят';
+                    this.disabledNext = false;
+                    this.validate = false;
+                    this.disabledInput = true;
+                })
+                .catch(error => {
+                            console.error('Ошибка:', error);
+                });
+                return response
+            }
+            catch (error) {
+                console.log(error)
+            }
+
+
+
+    },
+
+    getImgUrl(imageNameWithExtension) {
+       return new URL(`${imageNameWithExtension}`, import.meta.url).href
+    },
+
+    addCheckbox(id) {
+        const res = this.checkboxes.some(el => el === id);
+        this.validate = true;
+        if (!res) {
+            this.checkboxes.push(id)
+        }
+        else {
+            const index = this.checkboxes.indexOf(id);
+            this.checkboxes.splice(index, 1);
+        }
+    },
+
+    getOptionsForQuestion(questionId, promtId) {
+        const question = this.task.questions.find(question => question.id === questionId);
+        if (question) {
+            return question.answers.map(answer =>
+            (
+                {
+                promt_id: promtId,
+                answer_id: answer.id,
+                text: answer.text
+            }
+            )
+        )
+        }
+        return []
+    },
+
+    customLabel ({text}) {
+      return `${text}`
+    },
+
+    checkAnswer(question) {
+        this.validate = true;
     }
   },
 
