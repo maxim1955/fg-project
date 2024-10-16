@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\Models\User;
 use App\Pupil;
+use App\Pointspupil;
 
 class AuthController extends RestController
 {
@@ -47,6 +48,8 @@ class AuthController extends RestController
                         }
                     }
                     $success['rating'] =  $rating;
+                    $pointspupils = Pointspupil::where('user_id', $authUser->id)->orderBy('id')->get();
+                    $success['pointspupils'] =  $pointspupils;
                 }
                 else {
                     return $this->sendError('No such pupil.', ['error' => 'Unauthorised']);
@@ -71,8 +74,6 @@ class AuthController extends RestController
             return $this->sendError('Error validation', $validator->errors());
         }
 
-
-
         $input = $request->all();
 
         $input['password'] = bcrypt($input['password']);
@@ -85,5 +86,16 @@ class AuthController extends RestController
         $success['name'] =  $user->name;
 
         return $this->sendResponse($success, 'User created successfully.');
+    }
+
+    public function avatarchange(Request $request)
+    {
+        $id = $request->id;
+        $avatar = $request->avatar;
+        // if($id && $avatar) {
+            DB::table('users')->where('id', $id)->update(array('avatar' => $avatar));
+            return $this->sendResponse(200);
+        // }
+        // else return $this->sendResponse(404);
     }
 }
