@@ -62,8 +62,8 @@
                                         <td><span>{{ item.text }}</span></td>
                                         <td v-for="answer in question.answers" :key="answer.id">
                                             <label class="form__label form__label--radio">
-                                                <input v-if="answer.value === 0" :name="item.id" :value="0" type="radio" class="form__input form__input--radio" @change="checkAnswer(question, item.id, $event)" :disabled="disabledInput">
-                                                <input v-else :value="1" :name="item.id" type="radio" class="form__input form__input--radio" @change="checkAnswer(question, item.id, $event)" :disabled="disabledInput">
+                                                <input v-if="answer.value === 0" :name="item.id" :value="0" type="radio" class="form__input form__input--radio" @change="checkAnswer(question, item.id, answer.id, $event)" :disabled="disabledInput">
+                                                <input v-else :value="1" :name="item.id" type="radio" class="form__input form__input--radio" @change="checkAnswer(question, item.id, answer.id, $event)" :disabled="disabledInput">
                                                 <span class="radio"></span>
                                             </label>
                                         </td>
@@ -365,8 +365,8 @@ export default {
                             {
                                 id: 1,
                                 question_id: 1,
-                                truecount: 1,
-                                points: 0,
+                                truecount: 2,
+                                points: 2,
                             },
                             {
                                 id: 2,
@@ -374,18 +374,7 @@ export default {
                                 truecount: 1,
                                 points: 1,
                             },
-                            {
-                                id: 3,
-                                question_id: 1,
-                                truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 4,
-                                question_id: 1,
-                                truecount: 1,
-                                points: 0,
-                            },
+
                         ],
                         id: 1,
                         point1: 0,
@@ -421,20 +410,14 @@ export default {
                             {
                                 id: 1,
                                 question_id: 2,
-                                truecount: 1,
-                                points: 0,
+                                truecount: 4,
+                                points: 2,
                             },
                             {
                                 id: 2,
                                 question_id: 2,
-                                truecount: 1,
+                                truecount: 3,
                                 points: 1,
-                            },
-                            {
-                                id: 3,
-                                question_id: 2,
-                                truecount: 1,
-                                points: 0,
                             },
                         ],
                         promts: [
@@ -443,21 +426,24 @@ export default {
                                 question_id: 2,
                                 text: 'Большая доля продаж совершается в Москве и Московской области.',
                                 answer_id: 1,
-                                trueorfalse: 1,
                             },
                             {
                                 id: 2,
                                 question_id: 2,
                                 text: 'В Краснодарском крае и Свердловской области одинаковое количество продаж.',
-                                answer_id: 0,
-                                trueorfalse: 0,
+                                answer_id: 2,
                             },
                             {
                                 id: 3,
                                 question_id: 2,
                                 text: 'Продажи в Краснодарском крае, Свердловской области и в Республике Татарстан в сумме составляют примерно четверть от общего числа продаж.',
                                 answer_id: 1,
-                                trueorfalse: 1,
+                            },
+                            {
+                                id: 4,
+                                question_id: 2,
+                                text: 'Свердловская область опережает Санкт-Петербург и Ленинградскую область по продажам.',
+                                answer_id: 1,
                             },
 
                         ],
@@ -524,31 +510,7 @@ export default {
                             {
                                 id: 1,
                                 question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 2,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 3,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 4,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 5,
-                                question_id: 3,
-                                truecount: 2,
+                                truecount: 5,
                                 points: 1,
                             },
                         ],
@@ -586,8 +548,6 @@ export default {
 
                         ],
                         id: 4,
-                        point1: 0,
-                        point2: 0,
                         position: 4,
                         questiontype: 3,
                         type: 'select',
@@ -702,48 +662,44 @@ export default {
 
         }
 
-        // if (question.questiontype === 3) {
-        //     let trueanswer = 0;
-        //     this.options.forEach(option => {
-
-        //         const promt = question.promts.find(promt => promt.id === option.promt_id);
-        //         if (option.answer_id === promt.answer_id) {
-        //             trueanswer += 1;
-        //         }
-        //         console.log(trueanswer)
-        //         const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
-        //         if (point) {
-        //             points += point.points;
-        //         }
-        //     })
-        // }
 
         if (question.questiontype === 3) {
             if (question.type === 'radio') {
-               this.radio1.forEach(option => {
+                let trueanswer = 0;
+                this.radio1.forEach(option => {
+
                 const promt = question.promts.find(promt => promt.id === option.promt_id);
-                if (option.answer == promt.trueorfalse) {
-                    console.log('true')
-                    const point = question.points.find(point => point.id === promt.id)
+                console.log(promt)
+                if (option.answer_id == promt.answer_id) {
+                    trueanswer += 1;
+                }
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
                     points += point.points;
+                    console.log(points)
                 }
             })
             }
-            if (question.type === 'select') {
-                this.options.forEach(option => {
-                const promt = question.promts.find(promt => promt.id === option.promt_id);
-                if (option.answer_id === promt.answer_id) {
-                    const point = question.points.find(point => point.id === promt.id)
-                    points += point.points;
 
+            if (question.type === 'select') {
+                let trueanswer = 0;
+                this.options.forEach(option => {
+
+                const promt = question.promts.find(promt => promt.id === option.promt_id);
+                console.log(promt)
+                if (option.answer_id == promt.answer_id) {
+                    trueanswer += 1;
+                }
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
+                    points += point.points;
+                    console.log(points)
                 }
             })
             }
 
         }
 
-
-            // this.disabledNext = false;
 
         let result = {
             user_id: this.user.id,
@@ -813,12 +769,13 @@ export default {
       return `${text}`
     },
 
-    checkAnswer(question, promtID, event) {
+    checkAnswer(question, promtID, answerID, event) {
         this.validate = true;
         if (question.questiontype === 3 && question.type === 'radio') {
             const res = this.radio1.some(item => item.promt_id === promtID);
             if (!res) {
                 this.radio1.push({
+                answer_id: answerID,
                 answer: event.target.value,
                 promt_id: promtID
             })

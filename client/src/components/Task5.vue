@@ -176,27 +176,8 @@ export default {
                                 id: 1,
                                 question_id: 1,
                                 truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 2,
-                                question_id: 1,
-                                truecount: 1,
                                 points: 1,
                             },
-                            {
-                                id: 3,
-                                question_id: 1,
-                                truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 4,
-                                question_id: 1,
-                                truecount: 1,
-                                points: 0,
-                            },
-
                         ],
                         id: 1,
                         position: 1,
@@ -253,38 +234,8 @@ export default {
                             {
                                 id: 1,
                                 question_id: 2,
-                                truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 2,
-                                question_id: 2,
-                                truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 3,
-                                question_id: 2,
-                                truecount: 1,
+                                truecount: 2,
                                 points: 1,
-                            },
-                            {
-                                id: 4,
-                                question_id: 2,
-                                truecount: 1,
-                                points: 1,
-                            },
-                            {
-                                id: 5,
-                                question_id: 2,
-                                truecount: 1,
-                                points: 0,
-                            },
-                            {
-                                id: 6,
-                                question_id: 2,
-                                truecount: 1,
-                                points: 0,
                             },
                         ],
                         id: 2,
@@ -323,43 +274,7 @@ export default {
                             {
                                 id: 1,
                                 question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 2,
-                                question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 3,
-                                question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 4,
-                                question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 5,
-                                question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 6,
-                                question_id: 3,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 7,
-                                question_id: 3,
-                                truecount: 2,
+                                truecount: 7,
                                 points: 1,
                             },
                         ],
@@ -442,37 +357,13 @@ export default {
                             {
                                 id: 1,
                                 question_id: 4,
-                                truecount: 2,
-                                points: 1,
+                                truecount: 6,
+                                points: 2,
                             },
                             {
                                 id: 2,
                                 question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 3,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 4,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 5,
-                                question_id: 4,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 6,
-                                question_id: 4,
-                                truecount: 2,
+                                truecount: 5,
                                 points: 1,
                             },
                         ],
@@ -553,31 +444,7 @@ export default {
                             {
                                 id: 1,
                                 question_id: 5,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 2,
-                                question_id: 5,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 3,
-                                question_id: 5,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 4,
-                                question_id: 5,
-                                truecount: 2,
-                                points: 1,
-                            },
-                            {
-                                id: 5,
-                                question_id: 5,
-                                truecount: 2,
+                                truecount: 5,
                                 points: 1,
                             },
                         ],
@@ -687,30 +554,49 @@ export default {
 
         if (question.questiontype === 1) {
             this.checkboxes.forEach(el => {
+                let trueanswer = 0;
                 const answer = question.answers.find(answer => answer.id === el);
                 if (answer.trueorfalse === 1) {
-                    const point = question.points.find(point => point.id === el );
+                    trueanswer += 1;
+                    console.log(trueanswer)
+                }
+
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
                     points += point.points;
                 }
+
             })
         }
 
 
         if (question.questiontype === 2) {
             const answer = question.answers.find(answer => answer.id === this.radio);
+            console.log(answer)
             if (answer.trueorfalse === 1) {
-                    const point = question.points.find(point => point.id === this.radio );
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === 1);
+                console.log(point)
+                if (point) {
                     points += point.points;
                 }
+            }
+
+
         }
 
+
         if (question.questiontype === 3) {
-                this.options.forEach(option => {
+            let trueanswer = 0;
+            this.options.forEach(option => {
+
                 const promt = question.promts.find(promt => promt.id === option.promt_id);
                 if (option.answer_id === promt.answer_id) {
-                    const point = question.points.find(point => point.id === promt.id)
+                    trueanswer += 1;
+                }
+                console.log(trueanswer)
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
                     points += point.points;
-
                 }
             })
         }

@@ -14,6 +14,9 @@ const useUserStore = defineStore('UserStore' , {
         },
         updateUserPoints(points) {
             this.user.sumpoint += points;
+        },
+        clearUser() {
+            this.user = null;
         }
     }
 })

@@ -10,28 +10,28 @@
                         <div class="card">
                             <div class="flex justify-between">
                                 <h2 class="cards__title">Индивидуальный балл</h2>
-                                <div class="card__amount">{{ this.individualPoints }}</div>
+                                <div class="card__amount">{{ this.user.sumpoint }}</div>
                             </div>
 
                         </div>
                         <div class="card">
                             <div class="flex justify-between">
                                 <h2 class="cards__title">Доступный балл для обмена</h2>
-                                <div class="card__amount"><span>{{ this.points }}</span></div>
+                                <div class="card__amount"><span>{{ pointsExchange }}</span></div>
                             </div>
 
                         </div>
                         <div class="card">
                             <div class="flex justify-between">
                                 <h2 class="cards__title">Рейтинг среди учеников</h2>
-                                <div class="card__amount"><span>{{ this.rating }}</span></div>
+                                <div class="card__amount"><span>{{ this.user.rating }}</span></div>
                             </div>
 
                         </div>
                         <div class="card">
                             <div class="flex justify-between">
                                 <h2 class="cards__title">Лимит времени</h2>
-                                <div class="card__amount"><span>{{ this.limitTime }} Ч</span></div>
+                                <div class="card__amount"><span>{{ this.timerStore.formattedTime }} М</span></div>
                             </div>
 
                         </div>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import userStore from "../store/UserStore.js";
+import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     data() {
             return {
@@ -48,6 +50,23 @@ export default {
                 individualPoints: 0,
                 rating: 0,
                 limitTime: 0,
+            }
+        },
+
+        computed: {
+            user() {
+                return userStore().user;
+            },
+
+            pointsExchange() {
+                return this.user.sumpoint - this.user.spendpoints
+            }
+        },
+
+        setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+            return {
+            timerStore
             }
         },
 }

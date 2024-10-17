@@ -109,7 +109,7 @@ export default {
                 id: 0,
                 name: 'Абонемент в бассейн',
                 intro: '',
-                position: 1,
+                position: 0,
                 level_id: 1,
                 questions: [
                     {
@@ -278,7 +278,9 @@ export default {
   computed: {
     user() {
         return userStore().user;
-    }
+    },
+
+
   }
 
 }

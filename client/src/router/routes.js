@@ -23,42 +23,42 @@ const routes = [
         path: '/home',
         name: 'home',
         component: HomeTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
     {
         path: '/bonuses',
         name: 'bonuses',
         component: BonusesTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
     {
         path: '/levels',
         name: 'levels',
         component: LevelsTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
     {
         path: '/resources',
         name: 'resources',
         component: ResourcesTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
     {
         path: '/chat',
         name: 'chat',
         component: ChatTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
     {
         path: '/profile',
         name: 'profile',
         component: ProfileTab,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
 
 
@@ -66,7 +66,7 @@ const routes = [
         path: '/test',
         name: 'test',
         component: Test,
-        meta: { layout: 'accountLayouts' },
+        meta: { layout: 'accountLayouts',  requiresAuth: true},
     },
     {
         path: '/:catchAll(.*)',

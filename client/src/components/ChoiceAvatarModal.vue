@@ -3,13 +3,13 @@
         <div class="modal__overlay">
             <div class="modal__window">
                 <button class="btn-reset modal__close" @click="$emit('close-choiceAvatarModal')"></button>
-                <form @submit="changeAvatar()" class="modal__avatars form">
+                <form @submit.prevent="changeAvatar()" class="modal__avatars form">
                     <h2 class="modal__title">Выберите персонажа</h2>
                     <div class="avatars">
-                        <label v-for="img in female" :key="img.id" class="avatars__label">
+                        <label v-for="img in filteredAvatars" :key="img.id" class="avatars__label">
                         <input :value="img.src" v-model="avatar" class="avatars__input" type="radio" name="avatar">
                         <span class="avatars__check"></span>
-                        <img class="avatars__img" :src="img.src" alt="">
+                        <img class="avatars__img" :src="getImgUrl(img.src)" alt="">
                     </label>
                     </div>
                     <button type="submit" class="modal__btn btn-reset">Сохранить</button>
@@ -27,6 +27,7 @@ import avatarMale1 from '../assets/img/male-avatar-1.webp'
 import avatarMale2 from '../assets/img/male-avatar-2.webp'
 import avatarMale3 from '../assets/img/male-avatar-3.webp'
 import userStore from "../store/UserStore.js";
+import axios from 'axios';
 export default {
     props: ['user'],
     data() {
@@ -79,14 +80,19 @@ export default {
                 avatar: this.avatar
             }
             try {
-                const response = await api.post('/api/avatarchange', res);
+                const response = await axios.post('/api/avatarchange', res);
                 console.log(response)
                 return response.data;
             } catch (error) {
                 console.error('Ошибка при запросе===:', error);
                 throw error;
             }
-        }
+        },
+
+        getImgUrl(imageNameWithExtension) {
+            return new URL(`${imageNameWithExtension}`, import.meta.url).href
+        },
+
     }
 }
 </script>

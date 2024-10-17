@@ -17,52 +17,6 @@
 </template>
 
 <script >
-// const getImgUrl = (imageNameWithExtension)=> new URL(`${imageNameWithExtension}`, import.meta.url).href
-// const bonuses = [
-//                 {
-//                     id: 1,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-//                 {
-//                     id: 2,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-//                 {
-//                     id: 3,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-//                 {
-//                     id: 4,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-//                 {
-//                     id: 5,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-//                 {
-//                     id: 6,
-//                     name: 'Название курса',
-//                     text: 'Это означает, что ты сможешь легко и чётко выражать свои мысли, понимать и смело взаимодействовать с другими.',
-//                     url: '../assets/img/bonus.webp',
-//                     bonuspoints: 24
-//                 },
-
-//             ]
 
 import {getBonuses} from '../dbquery/getBonuses.js'
 export default {
@@ -82,6 +36,12 @@ export default {
         }
     }
     bonusesOb();
+    },
+
+    methods: {
+        getImgUrl(imageNameWithExtension) {
+            return new URL(`${imageNameWithExtension}`, import.meta.url).href
+        },
     }
 }
 
