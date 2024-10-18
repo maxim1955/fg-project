@@ -276,29 +276,48 @@ export default {
 
         if (question.questiontype === 1) {
             this.checkboxes.forEach(el => {
+                let trueanswer = 0;
                 const answer = question.answers.find(answer => answer.id === el);
                 if (answer.trueorfalse === 1) {
-                    const point = question.points.find(point => point.id === el );
+                    trueanswer += 1;
+                    console.log(trueanswer)
+                }
+
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
                     points += point.points;
                 }
+
             })
         }
 
+
         if (question.questiontype === 2) {
             const answer = question.answers.find(answer => answer.id === this.radio);
+            console.log(answer)
             if (answer.trueorfalse === 1) {
-                    const point = question.points.find(point => point.id === this.radio );
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === 1);
+                console.log(point)
+                if (point) {
                     points += point.points;
                 }
+            }
+
+
         }
 
         if (question.questiontype === 3) {
+            let trueanswer = 0;
             this.options.forEach(option => {
+
                 const promt = question.promts.find(promt => promt.id === option.promt_id);
                 if (option.answer_id === promt.answer_id) {
-                    const point = question.points.find(point => point.id === promt.id)
+                    trueanswer += 1;
+                }
+                console.log(trueanswer)
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
                     points += point.points;
-
                 }
             })
         }

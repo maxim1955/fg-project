@@ -25,7 +25,7 @@
                 <div class="account__header">
                     <router-link :to="{name: 'main'}" class="account__logo"><img src="../assets/img/account-logo-1024.svg" alt="Логотип"></router-link>
                     <div v-if="this.$route.name == 'levels'" class="timer">
-                        <div @click="startTimer" class="timer__amount">{{ timerStore.formattedTime }}</div>
+                        <div class="timer__amount">{{ timerStore.formattedTime }}</div>
                     </div>
                     <div class="points">
                         <div class="points__amount">{{ user.sumpoint }}</div>
@@ -111,7 +111,15 @@
         },
         setup () {
             const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
-            // timerStore.startTimer();
+            console.log(timerStore.shouldUpdateTimer)
+            if (timerStore.shouldUpdateTimer) {
+                timerStore.updateToday();
+            }
+
+            // timerStore.restoreTimerData();
+            // if (timerStore.shouldUpdateTimer){
+            //     timerStore.updateToday();
+            // }
 
             return {
             tab: ref('home'),
@@ -124,31 +132,18 @@
             }
         },
 
-        mounted() {
-            const now = new Date();
-            const date = JSON.parse(localStorage.getItem('timerData'));
-            console.log(date.today)
-            const yesterday = new Date(date.today);
-            console.log(yesterday, now)
-            // this.timerStore.today = new Date();
-            this.timerStore.today = new Date();
-            const diff = now.getTime() - yesterday.getTime();
-            console.log(diff)
-            if (diff >= 24 * 60 * 60 * 1000) {
-                this.timerStore.updateToday();
-            }
-
-            // this.timerStore.interval = setInterval(() => {
-            // const now = new Date();
-            // if (now.getDate() !== this.timerStore.today.getDate()) {
-            //     console.log('aa')
-            //     this.timerStore.updateToday();
-            // }
-            // }, 1000 * 60 * 60 * 24);
-        },
-
-        // beforeDestroy() {
-        //     clearInterval(this.interval);
+        // mounted() {
+        //     const now = new Date();
+        //     const date = JSON.parse(localStorage.getItem('timerData'));
+        //     console.log(date.today)
+        //     const currentDate = new Date(date.today);
+        //     console.log(currentDate, now)
+        //     this.timerStore.today = new Date();
+        //     const diff = now.getTime() - currentDate.getTime();
+        //     console.log(diff)
+        //     if (diff >= 24 * 60 * 60 * 1000) {
+        //         this.timerStore.updateToday();
+        //     }
         // },
 
         methods: {
@@ -203,9 +198,9 @@
     }
 </script>
 <style>
-    .q-router-link--active {
+  /*  .q-router-link--active {
         background-color: rgba(255, 255, 255, 0.32);
-    }
+    } */
 
     .cards__img {
         display: none;
@@ -306,12 +301,9 @@
         opacity: 0;
     }
 
-    body .q-tabs--vertical .q-tab:hover .q-focus-helper {
-        background-color: transparent;
-        opacity: 0;
-    }
 
-    .menu .q-tabs--vertical .q-tab--active {
+    .menu .q-tabs--vertical .q-router-link--exact-active,
+    .menu .q-tabs--vertical .q-tab:hover {
         background-color: rgba(255, 255, 255, 0.32);
     }
 
@@ -391,6 +383,7 @@
         line-height: 32.74px;
         background-color: white;
         text-align: center;
+        box-shadow: 4px 5px 50px 0px #ECEAE1;
     }
 
     .points,
@@ -502,6 +495,18 @@
         font-weight: 700;
         line-height: 32.74px;
         background-color: var(--light-green);
+        outline: 2px solid var(--light-green);
+        transition: all .3s ease-in-out;
+    }
+
+    .cards__btn:hover {
+        background-color: white;
+    }
+
+    .cards__btn:focus-visible,
+    .cards__btn:active {
+        outline-width: 4px;
+        background-color: white;
     }
 
     .card__amount {
@@ -763,6 +768,7 @@
             min-width: 50px;
             font-size: 14px;
             line-height: 19.1px;
+
         }
 
         .points,

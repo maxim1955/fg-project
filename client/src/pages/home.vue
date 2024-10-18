@@ -1108,21 +1108,21 @@
     line-height: 32.74px;
     background-color: var(--light-green);
     color: var(--text);
+    outline: 2px solid var(--light-green);
     transition: background-color .3s ease-out, outline .3s ease-out;
 }
 
 .form__btn:hover {
-    outline: 2px solid var(--light-green);
     background-color: white;
 }
 
 .form__btn:focus-visible {
-    outline: 4px solid var(--light-green);
+    outline-width: 4px;
     background-color: white;
 }
 
 .form__btn:active {
-    outline: 4px solid var(--light-green);
+    outline-width: 4px;
     background-color: white;
 }
 

@@ -38,16 +38,16 @@
 
 
             <div class="tasks__list">
-                <div>
-                    <button class="tasks__item task" :class="{'tasks__item--violet': filteredTask.id == 1, 'tasks__item--orange': filteredTask.id == 2, 'tasks__item--green': filteredTask.id == 3, 'tasks__item--red': filteredTask.id == 4, 'tasks__item--lightgreen': filteredTask.id == 5}" @click="openModalStart(filteredTask)">
+                <div class="tasks__el">
+                    <button class="tasks__item task" @click="openModalStart(filteredTask)">
                         <span class="task__name">{{ filteredTask.name }}</span>
                         <!-- <span v-else class="task__name">Задание 1</span> -->
                         <span class="task__points">0 из {{ totalPoints(filteredTask)}} баллов</span>
                     </button>
                     <span v-if="this.points < this.level.minpoints && this.levelNum == this.level.level_id" class="tasks__error">Чтобы получить доступ к следующим заданиям, вам необходимо ответить на все вопросы в предыдущем</span>
                 </div>
-                <div v-for="task of level.tasks" :key="task.id">
-                    <button class="tasks__item task" :class="{'tasks__item--violet': task.id == 1, 'tasks__item--orange': task.id == 2, 'tasks__item--green': task.id == 3, 'tasks__item--red': task.id == 4, 'tasks__item--lightgreen': task.id == 5}" @click="openModalStart(task)" :disabled="this.points < this.level.min">
+                <div class="tasks__el" v-for="task of level.tasks" :key="task.id">
+                    <button class="tasks__item task" @click="openModalStart(task)" :disabled="this.points < this.level.min">
                         <!-- <span v-if="task.id == 1" class="task__name">{{ task.name }}</span> -->
                         <span class="task__name">Задание {{ task.id + 1}}</span>
                         <span class="task__points">0 из {{ totalPoints(task)}} баллов</span>
@@ -69,7 +69,7 @@
 
         <NextTaskModal :currentTask="this.task" @next-task="nextTask()" @close-modal="closeModal()" @try-again="tryAgain()" v-if="this.showNextTaskModal"/>
 
-        <!-- <TimesModal v-if="this.timerStore.secondsRemaining <= 0"/> -->
+        <TimesModal @close-timer-modal="closeTimerModal()" v-if="this.showTimerModal"/>
     </div>
     </div>
 
@@ -1499,6 +1499,11 @@ export default {
         this.showModalStart = false;
     },
 
+    closeTimerModal() {
+        this.showTimerModal = false;
+        this.showTask = false;
+    },
+
     handleOpenTask() {
         this.showModalStart = false;
         this.showTask = true;
@@ -1640,6 +1645,11 @@ export default {
         if (this.levelNum == 3) return this.task3
         if (this.levelNum == 4) return this.task4
         if (this.levelNum == 5) return this.task5
+    },
+
+    timerModal() {
+        console.log(this.timerStore.secondsRemaining)
+        if (this.timerStore.secondsRemaining <= 0) this.showTimerModal = true
     }
 
   },
@@ -1685,6 +1695,7 @@ export default {
         border-radius: 22px;
         text-transform: uppercase;
         cursor: pointer;
+        transition: all .3s ease-in-out;
     }
 
     .tasks__list {
@@ -1699,27 +1710,75 @@ export default {
         gap: 40px;
     }
 
-    .tasks__item--violet {
+
+    .tasks__el:nth-child(5n + 1) .tasks__item {
         background-color: var(--violet);
         color: white;
     }
 
-    .tasks__item--orange {
+    .tasks__el:nth-child(5n + 2) .tasks__item {
         background-color: var(--orange);
     }
 
-    .tasks__item--green {
+
+    .tasks__el:nth-child(5n + 1) .tasks__item:hover {
+        background-color: #9D4EB7;
+    }
+
+    .tasks__el:nth-child(5n + 1) .tasks__item:focus-visible,
+    .tasks__el:nth-child(5n + 1) .tasks__item:active {
+        background-color: #C85FEA;
+    }
+
+
+    .tasks__el:nth-child(5n + 2) .tasks__item:hover {
+        background-color: #FDC165;
+    }
+
+    .tasks__el:nth-child(5n + 2) .tasks__item:focus-visible,
+    .tasks__el:nth-child(5n + 2) .tasks__item:active {
+        background-color: #F4A020;
+    }
+
+    .tasks__el:nth-child(5n + 3) .tasks__item {
         background-color: var(--green);
         color: white;
     }
 
-    .tasks__item--red {
+    .tasks__el:nth-child(5n + 3) .tasks__item:hover {
+        background-color: #218B17;
+    }
+
+    .tasks__el:nth-child(5n + 3) .tasks__item:focus-visible,
+    .tasks__el:nth-child(5n + 3) .tasks__item:active {
+        background-color: #41E131;
+    }
+
+    .tasks__el:nth-child(5n + 4) .tasks__item {
         background-color: var(--red);
         color: white;
     }
 
-    .tasks__item--lightgreen {
+    .tasks__el:nth-child(5n + 4) .tasks__item:hover {
+        background-color: #E0535B;
+    }
+
+    .tasks__el:nth-child(5n + 4) .tasks__item:focus-visible,
+    .tasks__el:nth-child(5n + 4) .tasks__item:active {
+        background-color: #BE3B42;
+    }
+
+    .tasks__el:nth-child(5n + 5) .tasks__item {
         background-color: var(--light-green);
+    }
+
+    .tasks__el:nth-child(5n + 5) .tasks__item:hover {
+        background-color: #D9FF62;
+    }
+
+    .tasks__el:nth-child(5n + 5) .tasks__item:focus-visible,
+    .tasks__el:nth-child(5n + 5) .tasks__item:active {
+        background-color: #A8D41C;
     }
 
     .breadcrumb {

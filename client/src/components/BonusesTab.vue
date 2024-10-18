@@ -8,7 +8,7 @@
                         <h2 class="bonus__title">{{ bonus.name }}</h2>
                         <p class="bonus__text">{{ bonus.text }}</p>
                     </div>
-                    <img class="bonus__img" :src="getImgUrl(bonus.url)" alt="">
+                    <img v-if="bonus.url" class="bonus__img" :src="getImgUrl(bonus.url)" alt="">
                 </div>
                 <div class="bonus__points">{{ bonus.bonuspoints }}</div>
             </li>

@@ -2,7 +2,7 @@
     <div class="modal">
         <div class="modal__overlay">
             <div class="modal__window">
-                <button @click="$emit('close-modal')" class="btn-reset modal__close"></button>
+                <button @click="$emit('close-timer-modal')" class="btn-reset modal__close"></button>
                 <div class="modal__block">
                     <h2 class="modal__title">Сегодня время истекло, жду тебя завтра
                         <br>

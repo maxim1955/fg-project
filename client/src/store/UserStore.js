@@ -17,6 +17,9 @@ const useUserStore = defineStore('UserStore' , {
         },
         clearUser() {
             this.user = null;
+        },
+        updateUser() {
+
         }
     }
 })

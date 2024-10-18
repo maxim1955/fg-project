@@ -80,9 +80,16 @@ export default {
                 avatar: this.avatar
             }
             try {
-                const response = await axios.post('/api/avatarchange', res);
-                console.log(response)
-                return response.data;
+                const response = await axios.post('/api/avatarchange', res)
+                .then(response => {
+                    console.log(response)
+                    this.$emit('close-choiceAvatarModal');
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
             } catch (error) {
                 console.error('Ошибка при запросе===:', error);
                 throw error;

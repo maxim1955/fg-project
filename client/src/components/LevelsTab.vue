@@ -28,8 +28,8 @@
 
             <div class="levels__list">
                 <div v-for="level in levels" :key="level.level_id">
-                    <button class="levels__item btn-reset" :class="{'levels__item--open': user.sumpoint >= level.min}" @click="getLevelId(level.level_id)">
-                       <!-- :disabled="user.sumpoint < level.min" -->
+                    <button class="levels__item btn-reset" :class="{'levels__item--open': user.sumpoint >= level.min}" @click="getLevelId(level.level_id)"
+                       :disabled="user.sumpoint < level.min">
                         <span>{{ level.name }}</span>
                     </button>
                     <span v-if="user.sumpoint < level.minpoints && this.currentLevel == level.level_id && level !== levels[levels.length - 1]" class="levels__error">Чтобы получить доступ к следующему уровню, вам необходимо набрать минимальное количество баллов</span>
@@ -261,7 +261,7 @@ export default {
         display: flex;
         align-items: center;
         width: 100%;
-        min-height: 80px;
+        min-height: 79px;
         font-family: Unbounded;
         font-size: 20px;
         font-weight: 700;
@@ -270,6 +270,21 @@ export default {
         border-radius: 22px;
         text-transform: uppercase;
         overflow: hidden;
+        box-shadow: 4px 5px 50px 0px rgb(236, 234, 225);
+        transition: all .3s ease-in-out;
+    }
+
+    .levels__item:hover {
+        outline: 1px solid #39B52C !important;
+        background-color: rgb(242, 241, 236);
+        box-shadow: none;
+    }
+
+    .levels__item:focus-visible,
+    .levels__item:active {
+        outline: 1px solid #414143 !important;
+        background-color: rgb(242, 241, 236);
+        box-shadow: none;
     }
 
     .levels__item:disabled {
@@ -285,6 +300,15 @@ export default {
         display: inline-block;
         height: 79px;
 
+    }
+
+    .levels__item:disabled:hover::before {
+        content: url(../assets/img/level-green-light.svg);
+    }
+
+    .levels__item:disabled:focus-visible::before,
+    .levels__item:disabled:active::before {
+        content: url(../assets/img/level.svg);
     }
 
     .levels__item.levels__item--open::before {
