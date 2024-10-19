@@ -24,7 +24,7 @@ class AuthController extends RestController
             $success['surname'] =  $authUser->surname;
             $success['name'] =  $authUser->name;
             $success['middlename'] =  $authUser->middlename;
-            $success['gende'] = $authUser->gende;
+            $success['gender'] = $authUser->gender;
             $success['avatar'] = $authUser->avatar;
             $success['role_id'] = $authUser->role_id;
             
@@ -97,5 +97,46 @@ class AuthController extends RestController
             return $this->sendResponse(200);
         // }
         // else return $this->sendResponse(404);
+    }
+
+    public function userinfo(Request $request)
+    {
+        $id = $request->id;
+        $authUser = User::where('id', $id)->first();
+            $success['surname'] =  $authUser->surname;
+            $success['name'] =  $authUser->name;
+            $success['middlename'] =  $authUser->middlename;
+            $success['gender'] = $authUser->gender;
+            $success['avatar'] = $authUser->avatar;
+            $success['role_id'] = $authUser->role_id;
+            
+            if($authUser->role_id=='4'){
+                $authPupil = DB::table('pupils')->where('user_id', $authUser->id)->first();
+                if ($authPupil) 
+                {
+                    $success['scoretest'] = $authPupil->scoretest;
+                    $success['sumpoint'] = $authPupil->sumpoint;
+                    $success['spendpoints'] = $authPupil->spendpoints;
+                    $success['starttime'] = $authPupil->starttime;
+                    
+                    $pupils = Pupil::where('klass_id', $authPupil->klass_id)->orderBy('sumpoint', 'DESC')->get();
+                    $results = json_decode($pupils,true);
+                    $c=count($results);
+                    for($i = 0; $i<$c; $i++)
+                    {
+                        if ($results[$i]['user_id']==$authPupil->user_id)
+                        {
+                            $rating = $i+1;
+                        }
+                    }
+                    $success['rating'] =  $rating;
+                    $pointspupils = Pointspupil::where('user_id', $authUser->id)->orderBy('id')->get();
+                    $success['pointspupils'] =  $pointspupils;
+                }
+                else {
+                    return $this->sendError('No such pupil.', ['error' => 'Unauthorised']);
+                }
+            }           
+            return $this->sendResponse($success, 'Pupil exists.');
     }
 }
