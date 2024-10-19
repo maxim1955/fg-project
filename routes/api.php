@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/partners', [PartnerController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'signin']);
+Route::get('/userinfo', [AuthController::class, 'userinfo']);
 Route::post('/avatarchange', [AuthController::class, 'avatarchange']);
 
 Route::get('/tasks', [TasksController::class, 'index']);

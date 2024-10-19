@@ -17,11 +17,13 @@ class TaskResultController extends RestController
         $user_id = $req->user_id;
         $task_id = $req->task_id;
         $question_id = $req->question_id;
-        $points = $req->points;        
+        $level_id = $req->level_id;
+        $points = $req->points; 
         Pointspupils::insert([
             'user_id' => $user_id,
             'task_id' =>$task_id,
             'question_id' => $question_id,
+            'level_id' => $level_id,
             'points' => $points,
         ]);
         return $this->sendResponse(200);
