@@ -103,6 +103,8 @@ class AuthController extends RestController
     {
         $id = $request->id;
         $authUser = User::where('id', $id)->first();
+        $success['id'] = $authUser->id;
+        $success['token'] = $authUser->token;
             $success['surname'] =  $authUser->surname;
             $success['name'] =  $authUser->name;
             $success['middlename'] =  $authUser->middlename;
