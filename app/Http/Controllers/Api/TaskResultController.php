@@ -25,6 +25,22 @@ class TaskResultController extends RestController
         ->where('question_id', $question_id)
         ->where('level_id', $level_id)
         ->exists()) {
+            $oldpoints = DB::table('pointspupils')->where('user_id', $user_id)
+                ->where('task_id', $task_id)
+                ->where('question_id', $question_id)
+                ->where('level_id', $level_id)
+                ->select('points')->get();
+            $sumpoint = DB::table('pupils')->where('user_id', $user_id)
+                ->select('sumpoint')->get();
+            $newpoint = $sumpoint[0]->sumpoint - $oldpoints[0]->points;
+            $newpoint = $newpoint + $points;
+            DB::table('pupils')->where('user_id', $user_id)->update([
+                // 'user_id' => $user_id,
+                // 'task_id' =>$task_id,
+                // 'question_id' => $question_id,
+                // 'level_id' => $level_id,
+                'sumpoint' => $newpoint,
+            ]);
             DB::table('pointspupils')->where('user_id', $user_id)
                 ->where('task_id', $task_id)
                 ->where('question_id', $question_id)
