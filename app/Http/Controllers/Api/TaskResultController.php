@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Facades\DB;
+// use Illuminate\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\PointspupilRequest;
 use App\Pointspupil as Pointspupils;
+use Illuminate\Support\Facades\DB;
 
 class TaskResultController extends RestController
 {
@@ -19,13 +20,34 @@ class TaskResultController extends RestController
         $question_id = $req->question_id;
         $level_id = $req->level_id;
         $points = $req->points; 
-        Pointspupils::insert([
-            'user_id' => $user_id,
-            'task_id' =>$task_id,
-            'question_id' => $question_id,
-            'level_id' => $level_id,
-            'points' => $points,
-        ]);
-        return $this->sendResponse(200);
+        if(DB::table('pointspupils')->where('user_id', $user_id)
+        ->where('task_id', $task_id)
+        ->where('question_id', $question_id)
+        ->where('level_id', $level_id)
+        ->exists()) {
+            DB::table('pointspupils')->where('user_id', $user_id)
+                ->where('task_id', $task_id)
+                ->where('question_id', $question_id)
+                ->where('level_id', $level_id)
+                ->update([
+                // 'user_id' => $user_id,
+                // 'task_id' =>$task_id,
+                // 'question_id' => $question_id,
+                // 'level_id' => $level_id,
+                'points' => $points,
+            ]);
+            return $this->sendResponse(200, "update");    
+        }
+        else {
+            DB::table('pointspupils')->insert([
+                'user_id' => $user_id,
+                'task_id' =>$task_id,
+                'question_id' => $question_id,
+                'level_id' => $level_id,
+                'points' => $points,
+            ]); 
+            return $this->sendResponse(200, "insert");
+            
+        }
     }
 }
