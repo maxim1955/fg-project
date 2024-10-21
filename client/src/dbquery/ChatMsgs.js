@@ -2,11 +2,11 @@ import api from "../dbquery/dbConnect";
 
 
 // Функция для выполнения GET-запроса для сообщений чата
-export const getChatMsgs = async (userID) => {
+export const getChatMsgs = async (user_id) => {
     try {
         const response = await api.get('/api/chat', {
             params: {
-                userID: userID
+              user_id: user_id
             }
         });
         console.log(response)
