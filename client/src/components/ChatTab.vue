@@ -101,15 +101,15 @@ const iAmUser = ref(userID.toString());
     }
     chatTest();
 
-    let chatTest2 = async () => {
-        try {
-            let response = await getChatMsgs(1);
-            // console.log("Those are the MSGS i got === "+ console.log(response.data))
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    chatTest2();
+    // let chatTest2 = async () => {
+    //     try {
+    //         let response = await getChatMsgs(1);
+    //         // console.log("Those are the MSGS i got === "+ console.log(response.data))
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    // chatTest2();
 
 
 
@@ -126,25 +126,29 @@ const chatMsgsTest = [
 chatMsgsTest.sort((a, b) => a.date - b.date);
 
 
+let chatSendTest = async () => {
+    try {
+        // Create the data object as expected by postChatMsg
+        const data = {
+            sender: userID, // Assuming userID is defined elsewhere
+            recipient: 0,   // Replace with the actual recipient ID
+            message: "Привет привет привет",
+            datetime: "2024-09-27 07:50:46",
+            type: 0         // Adjust this as necessary (e.g., text, image, etc.)
+        };
 
+        // Call the postChatMsg function with the data object
+        let response = await postChatMsg(data);
+        
+        // Log the response data
+        console.log("I send this === ", response.data);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
+chatSendTest();
 
-// // Check if user data is available
-// if (userID) {
-//     // Construct the API endpoint using the user data
-//     const apiUrl = `/api/chat/${userID}`; // Assuming user has an 'id' property
-
-//     // Make the GET request using axios
-//     axios.get(apiUrl)
-//         .then(response => {
-//             console.log(response.data); // Handle the response data
-//         })
-//         .catch(error => {
-//             console.error('Error fetching chat data:', error); // Handle any errors
-//         });
-// } else {
-//     console.error('No user data found in sessionStorage.');
-// }
 </script>
 
 <style>
