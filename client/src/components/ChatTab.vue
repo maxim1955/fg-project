@@ -82,7 +82,7 @@ const resize = (e) => {
 
 // import axios from "axios";
 import userStore from '../store/UserStore';
-import {getChatMsgs} from '../dbquery/ChatMsgs.js'
+import { getChatMsgs, postChatMsg } from '../dbquery/ChatMsgs.js'
 import { ref } from 'vue';
 
 console.log(userStore().user.id)
@@ -123,9 +123,7 @@ const chatMsgsTest = [
 { "date": 1316939046, "type": "0", "sendor": "1", "recepient": "3", "message": "Круто!" },
 ];
 
-chatMsgsTest.sort(function(x, y){
-    return x.timestamp - y.timestamp;
-})
+chatMsgsTest.sort((a, b) => a.date - b.date);
 
 
 
