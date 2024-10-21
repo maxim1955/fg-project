@@ -38,7 +38,7 @@
             alt="" />
         </div>
 
-        <div class="chat__message" v-for="(message, index) in chatMsgsTest" :key="message" :class="{
+        <div class="chat__message" v-for="(message) in chatMsgsTest" :key="message" :class="{
           chat__message_out: message.sendor === iAmUser,
         }">
           <div class="chat__message-container"  :class="{
@@ -82,7 +82,7 @@ const resize = (e) => {
 
 // import axios from "axios";
 import userStore from '../store/UserStore';
-import {getChatMsgs} from '../dbquery/getChatMsgs.js'
+import {getChatMsgs} from '../dbquery/ChatMsgs.js'
 import { ref } from 'vue';
 
 console.log(userStore().user.id)
