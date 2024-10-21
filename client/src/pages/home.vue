@@ -199,38 +199,16 @@
                 <h2 class="section__title partners__title"><span>Наши партнёры</span></h2>
             </div>
                 <div class="partners__container">
-                    <ul class="partners__list list-reset">
+                    <ul v-for="(item, index) in 3" :key="index"v-if="partners.length >= 4" class="partners__list list-reset partners__list--animation">
+                        <li class="partners_item" v-for="partner in partners" :key="partner.id">
+                            <a :href="partner?.site" class="partners__link flex"><img :src="getImgUrl(partner?.img)" alt=""></a>
+                        </li>
+                    </ul>
+                    <ul v-else class="partners__list list-reset">
                         <li class="partners_item" v-for="partner in partners" :key="partner.id">
                             <a href="" class="partners__link flex"><img src="../assets/img/footer-logo-1.svg" alt=""></a>
                         </li>
                     </ul>
-                    <ul class="partners__list list-reset">
-                        <li class="partners_item" v-for="partner in partners" :key="partner.id">
-                            <a href="" class="partners__link flex"><img src="../assets/img/footer-logo-1.svg" alt=""></a>
-                        </li>
-                    </ul>
-                    <ul class="partners__list list-reset">
-                        <li class="partners_item" v-for="partner in partners" :key="partner.id">
-                            <a href="" class="partners__link flex"><img src="../assets/img/footer-logo-1.svg" alt=""></a>
-                        </li>
-                    </ul>
-                    <!-- <ul class="partners__list list-reset">
-                        <li class="partners_item">
-                            <a href="" class="partners__link"><img src="" alt=""></a>
-                        </li>
-                        <li class="partners_item">
-                            <a href="" class="partners__link"><img src="" alt=""></a>
-                        </li>
-                        <li class="partners_item">
-                            <a href="" class="partners__link"><img src="" alt=""></a>
-                        </li>
-                        <li class="partners_item">
-                            <a href="" class="partners__link"><img src="" alt=""></a>
-                        </li>
-                        <li class="partners_item">
-                            <a href="" class="partners__link"><img src="" alt=""></a>
-                        </li>
-                    </ul> -->
                 </div>
 
         </section>
@@ -304,6 +282,7 @@
     import { Pagination, Autoplay  } from 'swiper';
     import { Swiper, SwiperSlide } from 'swiper/vue';
     import {Form, Field, ErrorMessage, configure} from 'vee-validate';
+    import {getPartners} from '../dbquery/getPartners.js'
 
     import 'swiper/css';
     import 'swiper/css/pagination';
@@ -319,25 +298,26 @@
     export default {
         data() {
             return {
-                partners: [
-                    {
-                        id: 1,
-                        src: '../assets/img/footer-logo-1.svg'
-                    },
-                    {
-                        id: 2,
-                        src: '../assets/img/footer-logo-3.svg'
-                    },
-                    {
-                        id: 3,
-                        src: '../assets/img/footer-logo-2.svg'
-                    },
-                    {
-                        id: 4,
-                        src: '../assets/img/footer-logo-2.svg'
-                    },
+                partners: [],
+                // partners: [
+                //     {
+                //         id: 1,
+                //         src: '../assets/img/footer-logo-1.svg'
+                //     },
+                //     {
+                //         id: 2,
+                //         src: '../assets/img/footer-logo-3.svg'
+                //     },
+                //     {
+                //         id: 3,
+                //         src: '../assets/img/footer-logo-2.svg'
+                //     },
+                //     {
+                //         id: 4,
+                //         src: '../assets/img/footer-logo-2.svg'
+                //     },
 
-                ],
+                // ],
                 headerHeight: 0,
                 name: '',
                 email: '',
@@ -365,6 +345,9 @@
             },
 
         methods: {
+            getImgUrl(imageNameWithExtension) {
+                return new URL(`${imageNameWithExtension}`, import.meta.url).href;
+            },
             openModal() {
                 this.feedbackModal = true;
                 document.body.classList.add('open-menu');
@@ -494,10 +477,18 @@
 
         mounted() {
             this.resizeHeader();
+            let partnersOb = async () => {
+            try {
+                let response = await getPartners();
+                console.log(response.data)
+                this.partners = response.data;
+            } catch (error) {
+                console.log(error)
+            }
+            }
+            partnersOb();
         },
-        // destroyed() {
-        //     window.removeEventListener("resize", this.resizeHeader)
-        // },
+
     }
 
 
@@ -545,6 +536,7 @@
     position: relative;
     padding-top: 80px;
     padding-bottom: 26px;
+    overflow: hidden;
 }
 
 .hero__container {
@@ -927,6 +919,10 @@
 .partners__list {
     display: flex;
     gap: 40px;
+
+}
+
+.partners__list--animation {
     animation: scroll 8s linear infinite;
 }
 

@@ -29,49 +29,11 @@
             <div class="task__right">
                 <h3 class="task__title">{{ task.name }}</h3>
                 <p class="task__desc">{{ question.textright }}</p>
-                <div class="task__tables">
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость отдельных занятий:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Пробное занятие</td>
-                                <td>700&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>Разовая тренировка</td>
-                                <td>1&nbsp;900&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="task__table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">Стоимость абонементов:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>4&nbsp;занятия</td>
-                                <td>6&nbsp;000&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>8&nbsp;занятий</td>
-                                <td>11&nbsp;200&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>12&nbsp;занятий</td>
-                                <td>15&nbsp;600&nbsp;₽</td>
-                            </tr>
-                            <tr>
-                                <td>24&nbsp;занятия</td>
-                                <td>28&nbsp;800&nbsp;₽</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <div v-if="question.images">
+                    <div class="task__images">
+                        <img v-for="(img, index) in question.img" :key="index" :class="{task__img: question.img.length > 1}" :src="getImgUrl(img)" alt="">
+                    </div>
                 </div>
                 <p class="task__info">Абонемент действителен в течение 30 дней со дня первого занятия.</p>
                 <p class="task__info">5 декабря Анна купила абонемент на 4 занятия для своего ребёнка.</p>
@@ -98,6 +60,7 @@ import userStore from "../store/UserStore.js";
 import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     components: {NextTaskModal},
+    props: ['task'],
     data() {
         return {
             slidesCount: 3,
@@ -105,51 +68,7 @@ export default {
             disabledNext: true,
             answer: '',
             showMessage: false,
-            task: {
-                id: 0,
-                name: 'Абонемент в бассейн',
-                intro: '',
-                position: 0,
-                level_id: 1,
-                questions: [
-                    {
-                        answer1: 1600,
-                        answer2: null,
-                        id: 1,
-                        point1: 1,
-                        point2: 0,
-                        position: 1,
-                        questiontype: 0,
-                        textquestion: 'Сколько рублей сэкономила Анна при покупке абонемента по сравнению с покупкой такого же числа разовых тренировок без учёта кешбэка?',
-                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
-                    },
-                    {
-                        answer1: '06.01',
-                        answer2: null,
-                        id: 2,
-                        point1: 1,
-                        point2: 0,
-                        position: 2,
-                        questiontype: 0,
-                        textquestion: 'На первое занятие Анна с ребёнком пришли во вторник 8 декабря. Какого числа и какого месяца закончится действие абонемента? Запишите дату в формате: ДД.ММ',
-                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
-                    },
-                    {
-                        answer1: 15000,
-                        answer2: null,
-                        id: 3,
-                        point1: 1,
-                        point2: 0,
-                        position: 3,
-                        questiontype: 0,
-                        textquestion: 'В январе Анна купила абонемент на 12 занятий и использовала кешбэк от покупки абонемента, купленного в декабре. Сколько рублей заплатила Анна за абонемент в январе с учётом кешбэка?',
-                        textright: 'В детском бассейне при покупке абонемента на плавание действует кешбэк — 10% от стоимости абонемента. Возвращённые деньги можно использовать при покупке следующего абонемента. Термин «кешбэ́к» используется в сфере торговли для обозначения разновидности бонусной программы для привлечения клиентов. Схема кешбэка состоит в следующем: покупатель оплачивает продавцу цену товара или услуги, а часть этой суммы ему возвращается на счёт или в виде бонусов',
-                    },
-
-                ]
-            },
             validate: false,
-            showMessage: false,
             messageText: '',
             disabledInput: false,
 
@@ -236,6 +155,7 @@ export default {
 
         let result = {
             user_id: this.user.id,
+            level_id: this.task.level_id,
             task_id: this.task.id,
             question_id: question.id,
             points: points
@@ -255,6 +175,8 @@ export default {
                     this.disabledNext = false;
                     this.validate = false;
                     this.disabledInput = true;
+
+                    this.getUserInfo();
                 })
                 .catch(error => {
                             console.error('Ошибка:', error);
@@ -267,6 +189,28 @@ export default {
 
 
 
+    },
+
+    async getUserInfo() {
+            try {
+                const response = await axios.get('/api/userinfo', {
+                    params: {
+                        id: this.user.id
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    userStore().updateUserInfo(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
     },
 
     checkAnswer(question) {
@@ -288,7 +232,7 @@ export default {
 
 <style>
 
-    .account.level-1-0 {
+    .account.level-1-1 {
         background-image: url(../assets/img/task-1-1.webp);
         background-size: cover;
     }

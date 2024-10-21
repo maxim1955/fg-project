@@ -87,9 +87,9 @@
 
                         <div v-if="question.images">
                             <div class="task__images">
-                                <img v-for="(img, index) in question.images.img" :key="index" :class="{task__img: question.images.img.length > 1}" :src="getImgUrl(img)" alt="">
+                                <img v-for="(img, index) in question.img" :key="index" :class="{task__img: question.img.length > 1}" :src="getImgUrl(img)" alt="">
                             </div>
-                            <p class="task__info">{{ question.images.desc }}</p>
+                            <p class="task__info">{{ question.imgdesc }}</p>
                         </div>
 
                     </div>
@@ -446,6 +446,7 @@ export default {
 
         let result = {
             user_id: this.user.id,
+            level_id: this.task.level_id,
             task_id: this.task.id,
             question_id: question.id,
             points: points
@@ -463,6 +464,8 @@ export default {
                     this.disabledNext = false;
                     this.validate = false;
                     this.disabledInput = true;
+
+                    this.getUserInfo();
                 })
                 .catch(error => {
                             console.error('Ошибка:', error);
@@ -475,6 +478,28 @@ export default {
 
 
 
+    },
+
+    async getUserInfo() {
+            try {
+                const response = await axios.get('/api/userinfo', {
+                    params: {
+                        id: this.user.id
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    userStore().updateUserInfo(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
     },
 
     getImgUrl(imageNameWithExtension) {
@@ -566,21 +591,7 @@ export default {
         display: flex;
     }
 
-    .level-2-0 .task__table tbody tr {
-        flex-wrap: wrap;
-    }
 
-    .level-2-0 .task__table {
-        overflow: visible;
-    }
-
-    .level-2-0 .task__table thead {
-        border-radius: 20px 20px 0 0;
-    }
-
-    .level-2-0 .task__table tbody {
-        border-radius: 0 0 20px 20px;
-    }
 
     @media (max-width: 1660px) {
         .level-2 .task__form > .task__table tr {
@@ -589,11 +600,6 @@ export default {
         }
     }
 
-    @media (max-width: 1200px) {
-        .account.level-2-1 {
-            background-image: url(../assets/img/task-2-1-1024.webp);
-        }
-    }
 
     @media (max-width: 768px) {
         .level-2 .task__form > .task__table {
@@ -648,11 +654,7 @@ export default {
 
     }
 
-    @media (max-width: 360px) {
-        .account.level-2-1 {
-            background-image: url(../assets/img/task-2-1-360.webp);
-        }
-    }
+
 </style>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>

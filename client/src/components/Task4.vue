@@ -654,6 +654,7 @@ export default {
 
         let result = {
             user_id: this.user.id,
+            level_id: this.task.level_id,
             task_id: this.task.id,
             question_id: question.id,
             points: points
@@ -671,6 +672,8 @@ export default {
                     this.disabledNext = false;
                     this.validate = false;
                     this.disabledInput = true;
+
+                    this.getUserInfo();
                 })
                 .catch(error => {
                             console.error('Ошибка:', error);
@@ -736,7 +739,29 @@ export default {
             }
 
         }
-    }
+    },
+
+    async getUserInfo() {
+            try {
+                const response = await axios.get('/api/userinfo', {
+                    params: {
+                        id: this.user.id
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    userStore().updateUserInfo(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
+    },
 
   },
 

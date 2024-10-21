@@ -703,6 +703,7 @@ export default {
 
         let result = {
             user_id: this.user.id,
+            level_id: this.task.level_id,
             task_id: this.task.id,
             question_id: question.id,
             points: points
@@ -720,6 +721,8 @@ export default {
                     this.disabledNext = false;
                     this.validate = false;
                     this.disabledInput = true;
+
+                    this.getUserInfo();
                 })
                 .catch(error => {
                             console.error('Ошибка:', error);
@@ -737,6 +740,29 @@ export default {
     // getImgUrl(imageNameWithExtension) {
     //    return new URL(`${imageNameWithExtension}`, import.meta.url).href
     // },
+
+    async getUserInfo() {
+            try {
+                const response = await axios.get('/api/userinfo', {
+                    params: {
+                        id: this.user.id
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    userStore().updateUserInfo(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
+    },
+
 
     addCheckbox(id) {
         const res = this.checkboxes.some(el => el === id);
@@ -807,10 +833,7 @@ export default {
         max-width: max-content;
     }
 
-    .account.level-3-0 {
-        background-image: url(../assets/img/task-3-1.webp);
-        background-size: cover;
-    }
+
 
     .task-3 .q-carousel__slide {
         padding: 0;
@@ -866,17 +889,7 @@ export default {
         justify-content: center;
     }
 
-    .level-3-0 .task__table {
-        overflow: visible;
-    }
 
-    .level-3-0 .task__table thead {
-        border-radius: 20px 20px 0 0;
-    }
-
-    .level-3-0 .task__table tbody {
-        border-radius: 0 0 20px 20px;
-    }
 
     @media (max-width: 1440px) {
         .level-3 .task__form {
@@ -893,9 +906,7 @@ export default {
 
 
 
-        .account.level-3-1 {
-            background-image: url(../assets/img/task-3-1-1024.webp);
-        }
+
 
         .task-3 .task__form--4 > .task__table {
             display: block;
@@ -944,10 +955,5 @@ export default {
         }
     }
 
-    @media (max-width: 360px) {
-        .account.level-3-1 {
-            background-image: url(../assets/img/task-3-1-360.webp);
-        }
-    }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
