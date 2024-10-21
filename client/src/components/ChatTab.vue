@@ -6,36 +6,61 @@
     </div>
 
     <form class="chat__form">
-        <div class="chat__message-area">
+      <div class="chat__message-area">
 
-          <div class="chat__message">
-            <div class="chat__message-container chat__message-container-into ">
-              <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы и место в списке лучших в классе,
+        <div class="chat__message">
+          <div class="chat__message-container chat__message_container_into ">
+            <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы и место в списке лучших в классе,
               выберешь себе красивого персонажа из нескольких вариантов, обменяешь бонусные баллы на крутые призы.</p>
-              <span class="chat__message-date">Пн, 1 апр.</span>
-              </div>
-            <img class="chat__message-figure chat__message-figure-into" src="../assets/img/message-figure-into.svg" alt="" />
+            <span class="chat__message-date">Пн, 1 апр.</span>
           </div>
-
-          <div class="chat__message chat__message-out">
-            <div class="chat__message-container chat__message-container-out">
-              <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы и место в списке лучших в классе,
-              выберешь себе красивого персонажа из нескольких вариантов, обменяешь бонусные баллы на крутые призы.</p>
-              <span class="chat__message-date">Пн, 1 апр.</span>
-              </div>
-            <img class="chat__message-figure chat__message-figure-out" src="../assets/img/message-figure-out.svg" alt="" />
-          </div>
-
-
-          <div class="chat__message">
-            <div class="chat__message-container chat__message-container-into ">
-              <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы</p>
-              <span class="chat__message-date">Пн, 1 апр.</span>
-              </div>
-            <img class="chat__message-figure chat__message-figure-into" src="../assets/img/message-figure-into.svg" alt="" />
-          </div>
-
+          <img class="chat__message-figure chat__message-figure-into" src="../assets/img/message-figure-into.svg"
+            alt="" />
         </div>
+
+        <div class="chat__message chat__message_out">
+          <div class="chat__message-container chat__message_container_out">
+            <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы и место в списке лучших в классе,
+              выберешь себе красивого персонажа из нескольких вариантов, обменяешь бонусные баллы на крутые призы.</p>
+            <span class="chat__message-date">Пн, 1 апр.</span>
+          </div>
+          <img class="chat__message-figure chat__message-figure-out" src="../assets/img/message-figure-out.svg"
+            alt="" />
+        </div>
+
+
+        <div class="chat__message">
+          <div class="chat__message-container chat__message_container_into ">
+            <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы</p>
+            <span class="chat__message-date">Пн, 1 апр.</span>
+          </div>
+          <img class="chat__message-figure chat__message-figure-into" src="../assets/img/message-figure-into.svg"
+            alt="" />
+        </div>
+
+        <div class="chat__message" v-for="(message, index) in chatMsgsTest" :key="message" :class="{
+          chat__message_out: message.sendor === iAmUser,
+        }">
+          <div class="chat__message-container"  :class="{
+          chat__message_container_out: message.sendor === iAmUser,
+          chat__message_container_into: message.sendor !== iAmUser,
+        }">
+            <p class="chat__message-text">{{ message.message }}</p>
+            <span class="chat__message-date">{{ message.date }}</span>
+          </div>
+          <img class="chat__message-figure chat__message-figure-into" src="../assets/img/message-figure-into.svg"
+            alt="" 
+            :class="{
+          hidden: message.sendor === iAmUser,
+        }"/>
+            <img class="chat__message-figure chat__message-figure-out" src="../assets/img/message-figure-out.svg"
+            alt="" 
+            :class="{
+          hidden: message.sendor !== iAmUser,
+        }"/>
+        </div>
+
+      </div>
 
 
       <div class="chat__func-container">
@@ -49,16 +74,79 @@
   </div>
 </template>
 
-<script>
-  export default {
-    methods: {
-      resize (e) {
-        e.target.style.height = 'auto'
-        e.target.style.height =`${e.target.scrollHeight}px`
-      }
-    }
-  }
+<script setup>
+const resize = (e) => {
+  e.target.style.height = 'auto'; // Reset height to auto to calculate scrollHeight
+  e.target.style.height = `${e.target.scrollHeight}px`; // Set height to scrollHeight
+};
 
+// import axios from "axios";
+import userStore from '../store/UserStore';
+import {getChatMsgs} from '../dbquery/getChatMsgs.js'
+import { ref } from 'vue';
+
+console.log(userStore().user.id)
+
+const userID = userStore().user.id;
+const iAmUser = ref(userID.toString());
+
+
+    let chatTest = async () => {
+        try {
+            let response = await getChatMsgs(userID);
+            // console.log("Those are the MSGS i got === "+ console.log(response.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    chatTest();
+
+    let chatTest2 = async () => {
+        try {
+            let response = await getChatMsgs(1);
+            // console.log("Those are the MSGS i got === "+ console.log(response.data))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    chatTest2();
+
+
+
+
+const chatMsgsTest = [
+{ "date": 1315656646, "type": "0", "sendor": "1", "recepient": "3", "message": "Привет учитель" },
+{ "date": 1316452646, "type": "0", "sendor": "1", "recepient": "3", "message": "Я здесь" },
+{ "date": 1316566246, "type": "1", "sendor": "3", "recepient": "1", "message": "Да, привет" },
+{ "date": 1316866246, "type": "1", "sendor": "3", "recepient": "1", "message": "Буду учить" },
+{ "date": 1317039046, "type": "1", "sendor": "3", "recepient": "1", "message": "Это сообщение должно быть в конце." },
+{ "date": 1316939046, "type": "0", "sendor": "1", "recepient": "3", "message": "Круто!" },
+];
+
+chatMsgsTest.sort(function(x, y){
+    return x.timestamp - y.timestamp;
+})
+
+
+
+
+
+// // Check if user data is available
+// if (userID) {
+//     // Construct the API endpoint using the user data
+//     const apiUrl = `/api/chat/${userID}`; // Assuming user has an 'id' property
+
+//     // Make the GET request using axios
+//     axios.get(apiUrl)
+//         .then(response => {
+//             console.log(response.data); // Handle the response data
+//         })
+//         .catch(error => {
+//             console.error('Error fetching chat data:', error); // Handle any errors
+//         });
+// } else {
+//     console.error('No user data found in sessionStorage.');
+// }
 </script>
 
 <style>
@@ -114,7 +202,7 @@
     position: relative;
   }
 
-  .chat__message-out {
+  .chat__message_out {
     align-self: flex-end;
   }
 
@@ -129,7 +217,7 @@
     font-weight: 600;
   }
 
-  .chat__message-container-into {
+  .chat__message_container_into {
     margin-left: 40px;
     background-color: #812D9C;
     color: #FFFFFF;
@@ -137,7 +225,7 @@
     margin-right: 60px;
   }
 
-  .chat__message-container-out {
+  .chat__message_container_out {
     margin-right: 40px;
     margin-left: 60px;
     align-self: flex-end;
@@ -310,12 +398,12 @@
       gap: 12px;
     }
 
-    .chat__message-container-into {
+    .chat__message_container_into {
       margin-right: 20px;
       margin-left: 20px;
     }
 
-    .chat__message-container-out {
+    .chat__message_container_out {
       margin-left: 20px;
       margin-right: 20px;
     }
