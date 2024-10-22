@@ -201,12 +201,12 @@
                 <div class="partners__container">
                     <ul v-for="(item, index) in 3" :key="index"v-if="partners.length >= 4" class="partners__list list-reset partners__list--animation">
                         <li class="partners_item" v-for="partner in partners" :key="partner.id">
-                            <a :href="partner?.site" class="partners__link flex"><img :src="getImgUrl(partner?.img)" alt=""></a>
+                            <a :href="partner.site" class="partners__link flex"><img :src="'/storage/' + partner.img" alt=""></a>
                         </li>
                     </ul>
                     <ul v-else class="partners__list list-reset">
                         <li class="partners_item" v-for="partner in partners" :key="partner.id">
-                            <a href="" class="partners__link flex"><img src="../assets/img/footer-logo-1.svg" alt=""></a>
+                            <a :href="partner.site" class="partners__link flex"><img :src="'/storage/' + partner.img" alt=""></a>
                         </li>
                     </ul>
                 </div>
@@ -946,6 +946,7 @@
 
 .partners__container {
     display: flex;
+    justify-content: center;
     gap: 40px;
     overflow: hidden;
 }

@@ -1,30 +1,28 @@
 <template>
     <div class="task__block">
-        <div v-if="intro" class="task__intro intro">
-            <p class="intro__title">{{ getTask.name }}</p>
+        <div v-if="getTask.intro" class="task__intro intro">
+            <p class="intro__title">Введение</p>
+            <p class="intro__text">Прочитайте введение. Затем приступайте к выполнению заданий.</p>
+            <p v-if="currentLevel === 5" class="intro__title">{{ getTask.name }}</p>
             <p class="intro__text">{{ getTask.intro }}</p>
             <img class="intro__img" :src="getTask.img" alt="">
 
             <div class="carousel__btns">
-                <button class="carousel__btn" @click="intro = false">Далее</button>
+                <button class="carousel__btn" @click="getTask.intro = false">Далее</button>
             </div>
         </div>
-        <div v-if="!intro">
+        <div v-if="!getTask.intro">
             <p class="task__number">Задание {{ slide }}/{{ getTask.questions.length }}</p>
             <div class="q-pa-md">
             <q-carousel v-if="getTask.questions.length > 0"
-                swipeable
                 animated
                 v-model="slide"
                 ref="carousel">
                 <q-carousel-slide v-for="(question, index) in getTask.questions" :key="question.id" :name="index + 1">
                     <div class="task__box">
-                        <div class="task__left">
-                        <p class="task__info">Прочитайте текст «{{ getTask.name }}». Для ответа на вопрос отметьте нужный вариант ответа.</p>
+                        <div class="task__left" :class="{'task__last': getTask.position === 1 && currentLevel === 5 && question.position === 5}">
+                        <p v-if="question.toptext" class="task__info">{{ question.toptext }}</p>
                         <p class="task__question">{{ question.textquestion }}</p>
-                        <div v-if="getTask.position === 1 && currentLevel === 4 && question.position === 3" class="task__images">
-                            <img v-for="(el, index) in task.img" :key="index" class="task__img" :src="getImgUrl(el)" alt="">
-                        </div>
                         <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 0" class="task__form form">
                             <label class="form__label">
                                 <span>{{ question.btntext }}</span>
@@ -131,7 +129,7 @@
                         </form>
                         <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3 && getTask.position === 1 && currentLevel === 3 && question.position === 2" class="task__form form">
                             <span>{{ question.btntext }}</span>
-                            <table class="task__table">
+                            <table class="task__table task__table--3">
                                 <thead>
                                     <tr>
                                         <th>Высказывание</th>
@@ -177,6 +175,69 @@
                             <span class="form__error" v-show="showMessage">{{ messageText }}</span>
                             <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
                         </form>
+                        <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3 && getTask.position === 1 && currentLevel === 4 && question.position === 3" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                            <div v-if="question.img" class="task__images">
+                                <img v-for="(img, index) in JSON.parse(question.img)" :key="index" :class="{task__img: JSON.parse(question.img).length > 1}" :src="'/storage/' + img" alt="">
+                            </div>
+                                <div class="form__box">
+                                    <label class="form__label" v-for="(item, index) in question.promts" :key="item.id">
+                                        {{ item.text }}
+                                        <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                        </multiselect>
+                                    </label>
+                                </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3 && getTask.position === 1 && currentLevel === 5 && question.position === 3" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                                <div class="form__box">
+                                    <div class="task__selects selects">
+                                        <label class="form__label" v-for="(item, index) in question.promts" :key="item.id">
+                                            {{ item.text }}
+                                            <img v-if="item.img" :src="getImgUrl(item.img)" alt="">
+                                            <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                            </multiselect>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3 && getTask.position === 1 && currentLevel === 5 && question.position === 4" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                                <div class="form__box">
+                                    <div class="task__selects selects">
+                                        <label class="form__label" v-for="(item, index) in question.promts" :key="item.id">
+                                            {{ item.text }}
+                                            <img v-if="item.img !== null" :src="'/storage/' + item.img" alt="">
+                                            <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                            </multiselect>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
+                        <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3 && getTask.position === 1 && currentLevel === 5 && question.position === 5" class="task__form form">
+                            <span>{{ question.btntext }}</span>
+                                <div class="form__box">
+                                    <div class="task__selects selects selects-5">
+                                        <label class="form__label" v-for="(item, index) in question.promts" :key="item.id">
+                                            {{ item.text }}
+                                            <img v-if="item.img" :src="getImgUrl(item.img)" alt="">
+                                            <multiselect @select="checkAnswer(question)" :custom-label="customLabel" :allow-empty="true" v-model="options[index]" select-label="" :searchable="false" :options="getOptionsForQuestion(question.id, item.id)" placeholder="Выберите ответ" :disabled="disabledInput">
+                                            </multiselect>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            <span class="form__error" v-show="showMessage">{{ messageText }}</span>
+                            <button :disabled="!validate" type="submit" class="btn-reset form__btn">Принять ответ</button>
+                        </form>
                         <form @submit.prevent="submitAnswer(question)" v-else-if="question.questiontype == 3" class="task__form form">
                             <span>{{ question.btntext }}</span>
                                 <div class="form__box">
@@ -192,15 +253,13 @@
 
 
                     </div>
-                    <div class="task__right">
+                    <div class="task__right" v-if="!(getTask.position === 1 && currentLevel === 5 && question.position === 5)">
                         <h3 class="task__title">{{ getTask.name }}</h3>
                         <p class="task__desc">{{ question.textright }}</p>
-                        <!-- <div v-if="question.img">
-                            <div class="task__images">
-                                <img v-for="(img, index) in JSON.parse(question.img)" :key="index" :class="{task__img: JSON.parse(question.img).length > 1}" :src="'storage/' + img" alt="">
+                            <div v-if="!(question.img && question.questiontype === 3 && getTask.position === 1 && currentLevel === 4 && question.position === 3)" class="task__images">
+                                <img v-for="(img, index) in JSON.parse(question.img)" :key="index" :class="{task__img: JSON.parse(question.img).length > 1}" :src="'/storage/' + img" alt="">
                             </div>
-                            <p class="task__info">{{ question.imgdesc }}</p>
-                        </div> -->
+                            <p v-if="question.imgdesc" class="task__info">{{ question.imgdesc }}</p>
                     </div>
                     </div>
                 </q-carousel-slide>
@@ -247,7 +306,6 @@ export default {
             messageText: '',
             disabledInput: false,
             validate: false,
-
         }
     },
 
@@ -343,11 +401,12 @@ export default {
                     trueanswer += 1;
                 }
                 console.log(trueanswer)
-                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+
+            })
+            const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
                 if (point) {
                     points += point.points;
                 }
-            })
         }
 
 
@@ -514,6 +573,12 @@ body .form__label--select .multiselect__tags {
         flex-wrap: wrap;
     }
 
+    .level-2-1 .task .multiselect__tags {
+        background-color: white;
+    }
+
+
+
     .level-2-1 .task__table {
         overflow: visible;
     }
@@ -543,6 +608,74 @@ body .form__label--select .multiselect__tags {
         border-radius: 0 0 20px 20px;
     }
 
+    .level-3-1 .task-3 .task__left .form__label.form__label--radio {
+        justify-content: center;
+    }
+
+    .level-3-1 .task .multiselect__tags {
+        background-color: white;
+    }
+
+    .task__last.task__left {
+        width: 100%;
+    }
+
+
+    .task-5.task .task__selects.selects-5 .multiselect {
+        min-width: 240px;
+    }
+
+    .level-5-1 .task__selects {
+        margin-bottom: 40px;
+        padding: 12px 20px;
+        border-radius: 20px;
+        display: flex;
+        background-color: rgba(242, 241, 236, 1);
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .level-5-1 .task__selects .form__label {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+    }
+
+    .level-5-1 .task__selects.selects-5 .form__label {
+        grid-template-columns: 1fr auto;
+    }
+
+    @media (max-width: 1600px) {
+        .level-5-1 .task__selects .form__label {
+            grid-template-columns: 1fr;
+        }
+
+        .level-5-1 .task__selects.selects-5 .form__label {
+            grid-template-columns: 1fr auto;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        .level-3-1 .task-3 .task__form>.task__table {
+            display: block;
+        }
+
+        .task .form__label > .multiselect .multiselect__tags {
+            min-height: auto;
+        }
+
+        .level-4-1 .task-4 .task__images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            margin-bottom: 40px;
+            overflow: visible;
+        }
+
+        .level-4-1 .task-4 .task__img {
+            width: 100%;
+        }
+    }
+
 @media (max-width: 1200px) {
     .task__block {
         padding: 20px;
@@ -565,6 +698,42 @@ body .form__label--select .multiselect__tags {
             background-image: url(../assets/img/task-3-1-1024.webp);
         }
 }
+
+@media (max-width: 640px) {
+    .level-2-1 .task__form .task__table td {
+        width: auto;
+    }
+
+    .level-2-1 .task-2 .task__form>.task__table {
+        overflow: auto;
+    }
+
+    .level-2-1 .task-2 .task__form>.task__table tbody,
+    .level-2-1 .task-2 .task__form>.task__table thead {
+        display: table-row-group;
+    }
+
+    .level-2-1 .task-2 .task__form>.task__table tr {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .level-5-1 .task__selects.selects-5 .form__label {
+        grid-template-columns: 1fr;
+    }
+
+    .task-5.task .task__selects.selects-5 .multiselect {
+        min-width: auto;
+    }
+}
+
+    @media (max-width: 768px) {
+        .level-2-1 .task__images {
+            flex-wrap: nowrap;
+        }
+    }
+
+
 
     @media (max-width: 360px) {
         .account.level-1-1 {

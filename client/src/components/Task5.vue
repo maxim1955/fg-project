@@ -21,7 +21,7 @@
 
             <q-carousel-slide v-for="question in task.questions" :key="question.id" :name="question.position">
                     <div class="task__box">
-                        <div class="" :class="{'task__last': question.id === 5, 'task__left': question.id !== 5}">
+                        <div class="task__left" :class="{'task__last': question.id === 5}">
                         <p class="task__info">{{ question.questionname }}</p>
                         <p class="task__question" v-html="question.textquestion"></p>
                         <div v-if="task.images" class="task__images">

@@ -1,7 +1,7 @@
 <template>
     <q-layout view="hHh lpR fFf">
         <div class="">
-    <div class="account row justify-between no-wrap" :class="[this.showTask ? `level-${currentLevel}-${currentTask}` : '']">
+    <div class="account row justify-between no-wrap" :class="[this.showTask && $route.path === '/levels' ? `level-${currentLevel}-${currentTask}` : '']">
         <div class="menu" :class="{collapse: this.collapse}">
             <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
             <router-link :to="{name: 'main'}" class="menu__logo">
@@ -116,10 +116,10 @@
                 timerStore.updateToday();
             }
 
-            // timerStore.restoreTimerData();
-            // if (timerStore.shouldUpdateTimer){
-            //     timerStore.updateToday();
-            // }
+            timerStore.restoreTimerData();
+            if (timerStore.shouldUpdateTimer){
+                timerStore.updateToday();
+            }
 
             return {
             tab: ref('home'),

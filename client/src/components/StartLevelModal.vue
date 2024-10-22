@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import Task from './Task.vue';
 import {useTimerAndDateStore} from "../store/TimerStore.js";
 export default {
     data() {
@@ -25,7 +24,7 @@ export default {
             showTask: false,
         }
     },
-    components: {Task},
+    components: {},
     props: ['currentTask'],
 
     methods: {
@@ -34,30 +33,30 @@ export default {
         },
     },
 
-    // setup () {
-    //         const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
-    //         timerStore.startTimer();
+    setup () {
+            const timerStore = useTimerAndDateStore(); // Получаем доступ к хранилищу
+            timerStore.startTimer();
 
-    //         return {
-    //         startTimer: timerStore.startTimer,
-    //         stopTimer: timerStore.stopTimer,
-    //         resetTimer: timerStore.resetTimer,
-    //         formattedTime: timerStore.formattedTime,
-    //         timerStore
-    //         }
-    // },
+            return {
+            startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
+            }
+    },
 
-    // mounted() {
-    //         this.interval = setInterval(() => {
-    //         const now = new Date();
-    //         if (now.getDate() !== this.timerStore.today.getDate()) {
-    //             this.timerStore.updateToday();
-    //         }
-    //         }, 1000 * 60 * 60 * 24);
-    //     },
-    //     beforeDestroy() {
-    //         clearInterval(this.interval);
-    // },
+    mounted() {
+            this.interval = setInterval(() => {
+            const now = new Date();
+            if (now.getDate() !== this.timerStore.today.getDate()) {
+                this.timerStore.updateToday();
+            }
+            }, 1000 * 60 * 60 * 24);
+        },
+        beforeDestroy() {
+            clearInterval(this.interval);
+    },
 }
 </script>
 
