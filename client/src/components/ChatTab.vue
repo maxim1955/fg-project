@@ -93,8 +93,8 @@ const formattedUserDate = userLocalDate.toISOString().replace('T', ' ').substrin
 const utcOffset = 0; // UTC+0 offset in milliseconds
 const UtcDateServer = new Date(new Date().getTime() + utcOffset);
 const formattedUtcDateServer = UtcDateServer.toISOString().replace('T', ' ').substring(0, 19); // Format for SQL
-console.log("User  Local Time (SQL format):", formattedUserDate);
-console.log("UTC+0 Time (SQL format):", formattedUtcDateServer);
+// console.log("User  Local Time (SQL format):", formattedUserDate);
+// console.log("UTC+0 Time (SQL format):", formattedUtcDateServer);
 
 // Форматирование календарной даты для сообщений
 const days = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота', 'Воскресенье'];
