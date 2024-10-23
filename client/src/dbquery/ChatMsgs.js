@@ -9,7 +9,7 @@ export const getChatMsgs = async (user_id) => {
               user_id: user_id
             }
         });
-        console.log(response)
+        // console.log(response)
         return response.data;
     } catch (error) {
         console.error('Ошибка при запросе===:', error);
@@ -45,9 +45,9 @@ export const getChatMsgs = async (user_id) => {
 // Function to post a chat message
 export function postChatMsg(data) {
     // Validate the data structure (optional but recommended)
-    if (!data.sender || !data.recipient || !data.message || !data.datetime || !data.type) {
-      throw new Error("Invalid data structure");
-    }
+    // if (!data.sendor || !data.recepient || !data.message || !data.datetime || !data.tipe) {
+    //   throw new Error("Invalid data structure");
+    // }
   
     return api.post("/api/chat/newmessage", data, {
       headers: {
