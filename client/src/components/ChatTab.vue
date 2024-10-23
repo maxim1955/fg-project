@@ -66,7 +66,7 @@
         <div class="chat__buttons-container">
           <div class="chat__button-other"></div>
           <!-- <file></file> ?? -->
-          <button class="chat__submit" @click="sendMessage">Отправить</button>
+          <button class="chat__submit" type="button" @click="sendMessage">Отправить</button>
         </div>
       </div>
     </form>
@@ -132,7 +132,7 @@ console.log(iAmUser)
 let chatGetMessages = async () => {
   try {
     const { data: messages } = await getChatMsgs(userID);
-    chatMsgsArray.value.push(messages);
+    chatMsgsArray.value = [messages];
     // console.log(chatMsgsArray.value[0]);
     // // console.log(chatMsgsArray.value[0].data[0]);
     // console.log("^^^ Those are the MSGS i got ^^^")
@@ -142,6 +142,9 @@ let chatGetMessages = async () => {
 }
 onMounted(async () => {
   chatGetMessages();
+  setInterval(function() {
+    chatGetMessages();
+}, 5000);
 });
 
 // Отправка сообщения от юзера на сервер
