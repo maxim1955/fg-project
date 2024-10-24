@@ -90,11 +90,10 @@
             <p class="text_low">
               Выбери все верные варианты ответа.
             </p>
-
             <div class="vehicle_flex">
               <div class="custom">
                 <label for="photo1" class="avatars__label">
-                  <input type="checkbox" name="avatar" id="photo1" class="avatars__input">
+                  <input type="checkbox" name="avatar" id="photo1" class="avatars__input" v-model="photo1Selected" @change="updateValue">
                   <span class="avatars__check"></span>
                   <span class="empty"></span>
               <img src="../assets/img/vehicle.svg" alt="" class="vehicles">
@@ -103,7 +102,7 @@
 
           <div class="custom">
               <label for="photo2">
-                <input type="checkbox" name="avatar" id="photo2" class="avatars__input">
+                <input type="checkbox" name="avatar" id="photo2" class="avatars__input" v-model="photo2Selected" @change="updateValue">
                 <span class="avatars__check"></span>
                 <span class="empty"></span>
               <img src="../assets/img/vehicle_1.svg" class="vehicles" alt="">
@@ -112,7 +111,7 @@
 
           <div class="custom">
               <label for="photo3">
-                <input type="checkbox" name="avatar" id="photo3" class="avatars__input">
+                <input type="checkbox" name="avatar" id="photo3" class="avatars__input" v-model="photo3Selected" @change="updateValue">
                 <span class="avatars__check"></span>
                 <span class="empty"></span>
               <img src="../assets/img/vehicle_2.svg" class="vehicles" alt="">
@@ -121,7 +120,7 @@
 
             <div class="custom">
               <label for="photo4">
-                <input type="checkbox" name="avatar" id="photo4" class="avatars__input">
+                <input type="checkbox" name="avatar" id="photo4" class="avatars__input" v-model="photo4Selected" @change="updateValue">
                 <span class="avatars__check"></span>
                 <span class="empty"></span>
               <img src="../assets/img/vehicle_3.svg"  class="vehicles" alt="">
@@ -131,7 +130,7 @@
 
             <div class="custom">
             <label for="photo5"> 
-              <input type="checkbox" name="avatar" id="photo5" class="avatars__input">
+              <input type="checkbox" name="avatar" id="photo5" class="avatars__input" v-model="photo5Selected" @change="updateValue">
                 <span class="avatars__check"></span>
                 <span class="empty"></span> 
               <img src="../assets/img/vehicle_4.svg" class="vehicles" alt="">
@@ -182,18 +181,19 @@
             <img src="../assets/img/pdd_mob.svg" alt="" class="img_mar pdd_mob">
             <p class="text_mar"><b> Какие утверждения о езде на электросамокате верны, а какие — нет?</b>
           </p>
+
           <div class="pdd_flex ">
             <div class="pdd_inner gap_1">
             <p class="choice_pad">Электросамокатом безопасно пользоваться в любую погоду.
                </p>
                <multiselect v-model="value1" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
-               placeholder="Выберите ответ" ></multiselect>
+               placeholder="Выберите ответ"  ></multiselect>
           </div>
           <div class="pdd_inner gap_2">
             <p class="choice_pad">На электросамокате нужно ездить в шлеме: с ним безопаснее.
              </p>
              <multiselect v-model="value2" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
-             placeholder="Выберите ответ" ></multiselect>
+             placeholder="Выберите ответ"  ></multiselect>
           </div>
           <div class="pdd_inner gap_3">
             <p class="choice_pad">На одном электросамокате можно ездить вдвоём.
@@ -204,13 +204,13 @@
           <div class="pdd_inner gap_4">
             <p class="choice_pad">Электросамокат нужно периодически подзаряжать. </p>
             <multiselect v-model="value4" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
-             placeholder="Выберите ответ" ></multiselect>
+             placeholder="Выберите ответ"  ></multiselect>
           </div>
           <div class="pdd_inner gap_5">
             <p class="choice_pad">Для прогулок на электросамокате разбитые дороги опасны.
               </p>
               <multiselect v-model="value5" :options="options" :open-direction="bottom" :searchable="false" :close-on-select="true" :show-labels="false"
-             placeholder="Выберите ответ" ></multiselect>
+             placeholder="Выберите ответ"  ></multiselect>
           </div>
             </div>
 
@@ -247,7 +247,6 @@
             <div class="q-pos">
             <h4 class="question_num">Вопрос</h4>
             <h4 class="question_num">3/16</h4>
-
           </div>
           <p class="text_mar"><b>Артур решил рассказать родителям об электросамокате и обсудить с ними его покупку.
              Определи, какие утверждения являются аргументами за покупку электровелосипеда, а какие — против.</b></p>
@@ -325,7 +324,7 @@
                 <img src="../assets/img/q4.svg" class="img_mar" alt="">
                 <p class="text_mar"><b>Посмотри на неё и ответь на вопрос: сколько раз будет использована такая форма, чтобы выложить всю дорожку?</b></p>
                 <p>Запишите свой ответ.</p>
-                <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
+                <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ" v-model="value22">
           </div>
           <q-btn-toggle
           size="24px"
@@ -370,7 +369,7 @@
               <img src="../assets/img/soil.svg" alt="" class="wd320">
             </div>
             <p class="enter_answer">Запишите свой ответ.</p>
-            <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
+            <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ" v-model="value23">
           </div>
           <q-btn-toggle
           size="24px"
@@ -416,7 +415,7 @@
             </b>
           </p>
           <p class="enter_answer">Запишите свой ответ.</p>
-            <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ">
+            <input type="text" name="" id="" class="input_styles" placeholder="Введите ответ" v-model="value24">
           </div>
           <q-btn-toggle
           size="24px"
@@ -466,12 +465,12 @@
             </p>
             <p class="enter_answer">Отметьте все верные варианты ответа.</p>
             <div class=" checkbox_pos">
-        <q-checkbox dense v-model="q_7_1"  label="Шкала цен «от» и «до»" color="purple-9"></q-checkbox>
-        <q-checkbox dense v-model="q_7_2" label="Рост (см)" color="purple-9"></q-checkbox>
-        <q-checkbox dense v-model="q_7_3" label="Диаметр колёс" color="purple-9"></q-checkbox>
-        <q-checkbox dense v-model="q_7_4" label="Только в наличии" color="purple-9"></q-checkbox>
-        <q-checkbox dense v-model="q_7_5" label="Со скидкой" color="purple-9"></q-checkbox>
-        <q-checkbox dense v-model="q_7_6" label="Видеообзор" color="purple-9"></q-checkbox>
+        <q-checkbox dense v-model="box1Selected"  label="Шкала цен «от» и «до»" color="purple-9" ></q-checkbox>
+        <q-checkbox dense v-model="box2Selected" label="Рост (см)" color="purple-9" ></q-checkbox>
+        <q-checkbox dense v-model="box3Selected" label="Диаметр колёс" color="purple-9" ></q-checkbox>
+        <q-checkbox dense v-model="box4Selected" label="Только в наличии" color="purple-9" ></q-checkbox>
+        <q-checkbox dense v-model="box5Selected" label="Со скидкой" color="purple-9" ></q-checkbox>
+        <q-checkbox dense v-model="box6Selected" label="Видеообзор" color="purple-9" ></q-checkbox>
         </div>
           </div>
 
@@ -991,10 +990,10 @@
 
           <p class="enter_answer">Выбери верный вариант.</p>
           <div class="checkbox_style">
-          <q-radio v-model="name3" val="Телевизор" label="Он покажет много стран, у него большой экран. (Телевизор)" color="purple-9"  />
-          <q-radio v-model="name3" val="Шкаф" label="Расшифруй предложение: «Дона глязатьну дпо фашк». (Надо заглянуть под шкаф)" color="purple-9" />
-          <q-radio v-model="name3" val="Холодильник" label="Большой и холодный, не оставит голодным. (Холодильник)" color="purple-9" />
-          <q-radio v-model="name3" val="Ваза" label="Вот интересно, А сможешь ли ты угадать, Зачем именно так, А не иначе записано предложение. (Ваза)" color="purple-9" />
+          <q-radio v-model="name5" val="Телевизор" label="Он покажет много стран, у него большой экран. (Телевизор)" color="purple-9"  />
+          <q-radio v-model="name5" val="Шкаф" label="Расшифруй предложение: «Дона глязатьну дпо фашк». (Надо заглянуть под шкаф)" color="purple-9" />
+          <q-radio v-model="name5" val="Холодильник" label="Большой и холодный, не оставит голодным. (Холодильник)" color="purple-9" />
+          <q-radio v-model="name5" val="Ваза" label="Вот интересно, А сможешь ли ты угадать, Зачем именно так, А не иначе записано предложение. (Ваза)" color="purple-9" />
           </div>
           </div>
           <q-btn-toggle
@@ -1159,6 +1158,44 @@
           ]"
         />
         </q-carousel-slide>
+        <q-carousel-slide name="question_17" class="">
+          <div class="start_flex">
+            <div class="start_left">
+            <h2 class="question_num start_head">Ты прошёл весь тест</h2>
+            
+            <p class="list_start">У тебя {{scoretest()}} из 16 баллов. Теперь тебе открыт первый и второй уровень для прохождения заданий. Проходи к уровням с самого начала, чтобы набрать необходимое количество баллов.</p>
+            <div class="results-container">
+            <div class="column">
+                  <div v-for="(result, index) in results.slice(0, 8)" :key="index" class="result-item">
+          {{ result }}
+        </div>
+      </div>
+      <div class="column">
+        <div v-for="(result, index) in results.slice(8, 16)" :key="index" class="result-item">
+          {{ result }}
+        </div>
+      </div>
+         </div>
+          <button
+          size="24px"
+          class="btn_pc start_btn pc_stuff"
+          style="cursor: pointer"
+          @click="sendResults"
+        >
+        К уровням
+      </button>
+        <button
+          size="20px"
+          type="submit"
+          class="btn_mob start_btn mob_stuff"
+          style="cursor: pointer"
+          @click="sendResults"
+          >
+          К уровням
+        </button>
+      </div>
+      </div>
+        </q-carousel-slide>
       </q-carousel>
     </div>
   </template>
@@ -1166,6 +1203,10 @@
   <script>
   import { ref } from 'vue'
   import Multiselect from 'vue-multiselect'
+  import userStore from "../store/UserStore.js"; // Импортируем store из Pinia
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+
   export default {
     setup () {
       return {
@@ -1177,22 +1218,6 @@
         q_7_4: ref(false),
         q_7_5: ref(false),
         q_7_6: ref(false),
-        name: ref(''),
-        name1: ref(''),
-        name2: ref(''),
-        name3: ref(''),
-        name4: ref(''),
-        q_11_1: ref(false),
-        q_11_2: ref(false),
-        q_11_3: ref(false),
-        q_11_4: ref(false),
-        q_11_5: ref(false),
-        q_13_1: ref(false),
-        q_13_2: ref(false),
-        q_13_3: ref(false),
-        q_13_4: ref(false),
-        q_13_5: ref(false),
-
       }
     },
     components:{
@@ -1221,14 +1246,184 @@
         value19: '',
         value20: '',
         value21: '',
+        value22: '',
+        value23:'',
+        value24:'',
+        name: '',
+        name1: '',
+        name2: '',
+        name3:'',
+        name4:'',
+        name5:'',
         options:['Правда','Ложь'],
         options1:['За','Против'],
         options2:['одного вида','разных видов'],
         options3:['меньше','больше'],
         options4:['завяливания','ферментации','сушки'],
         options5:['фиолетовой','серой','оранжевой','светло-зеленой'],
+        // lels: 0,
+        // lels2:0,
+        // lels3:0,
+        // lels4:0,
+        // lels5:0,
+        // lels6:0,
+        // lels7:0,
+        // lels8:0,
+        // lels9:0,
+        // lels10:0,
+        // lels11:0,
+        // lels12:0,
+        // lels13:0,
+        // lels14:0,
+        // lels15:0,
+        // lels16:0,
+        // scoretest:0,
+      photo1Selected: false,
+      photo2Selected: false,
+      photo3Selected: false,
+      photo4Selected: false,
+      photo5Selected: false,
+      box1Selected: false,
+      box2Selected: false,
+      box3Selected: false,
+      box4Selected: false,
+      box5Selected: false,
+      box6Selected: false,
+      q_11_1: false,
+      q_11_2: false,
+      q_11_3: false,
+      q_11_4: false,
+      q_11_5: false,
+      q_13_1: false,
+      q_13_2: false,
+      q_13_3: false,
+      q_13_4: false,
+      q_13_5: false,
       }
+    },
+    methods: {
+    updateValue() {
+      this.lels = (this.photo2Selected && this.photo5Selected && !this.photo1Selected && !this.photo3Selected && !this.photo4Selected ) ? 1 : 0;
+    },
+    scoretest(){
+      console.log(this.lels, this.lels2, this.lels3, this.lels4, this.lels5, this.lels6, this.lels7, this.lels8, this.lels9, this.lels10, this.lels11, this.lels12, this.lels13, this.lels14, this.lels15, this.lels16);
+      const score = (
+        this.lels +
+        this.lels2 +
+        this.lels3 +
+        this.lels4 +
+        this.lels5 +
+        this.lels6 +
+        this.lels7 +
+        this.lels8 +
+        this.lels9 +
+        this.lels10 +
+        this.lels11 +
+        this.lels12 +
+        this.lels13 +
+        this.lels14 +
+        this.lels15 +
+        this.lels16
+      );
+      console.log('Calculated Score:', score);
+      return score;
+    },
+    async sendResults() {
+      const user_id = this.user.id; // Предполагаем, что user_id хранится в хранилище
+      const scoretest = this.scoretest(); // Получаем значение score
+
+      try {
+        const response = await axios.post('/api/testresults', {
+          user_id, // Передаем user_id
+          scoretest// Передаем score
+        });
+        console.log(response.data);
+        const router = useRouter();
+        router.push('/home');
+      } catch (error) {
+        console.error('Ошибка:', error);
+      }
+    },
+  },
+  computed:{
+    lels2(){
+      return (this.value1 === 'Ложь' &&
+              this.value3 === 'Ложь' &&
+              this.value2 === 'Правда' &&
+              this.value4 === 'Правда' &&
+              this.value5 === 'Правда') ? 1 : 0;
+    },
+    lels3(){
+      return (this.value6 === 'Против' &&
+              this.value7 === 'За' &&
+              this.value8 === 'Против' &&
+              this.value9 === 'Против' &&
+              this.value10 === 'За') ? 1 : 0;
+    },
+    lels4(){
+      return (this.value22 === '20' ) ? 1 : 0;
+    },
+    lels5(){
+      return (this.value23 === '450' ) ? 1 : 0;
+    },
+    lels6(){
+      return (this.value24 === '4430' ) ? 1 : 0;
+    },
+    lels7(){
+      return(this.box1Selected && this.box5Selected && !this.box2Selected && !this.box3Selected && !this.box4Selected && !this.box6Selected) ? 1 : 0;
+    },
+    lels8(){
+      return(this.name==='Лиза' && this.name1==='Руслан1' && this.name2==='Влад2' ) ? 1: 0;
+    },
+    lels9(){
+      return(this.name3==='delivery')? 1 :0;
+    },
+    lels10(){
+      return(this.value11==='одного вида' && this.value12==='больше' && this.value13==='ферментации' )? 1 :0;
+    },
+    lels11(){
+      return(this.q_11_2 && this.q_11_4 && !this.q_11_1 && !this.q_11_3 && !this.q_11_5 )? 1 :0;
+    },
+    lels12(){
+      return(this.value14==='Ложь' && this.value15==='Правда' && this.value16==='Ложь' && this.value17==='Ложь' )? 1 :0;
+    },
+    lels13(){
+      return(this.q_13_3 && this.q_13_5 && !this.q_13_1 && !this.q_13_2 && !this.q_13_4 )? 1 :0;
+    },
+    lels14(){
+      return(this.name5==='Ваза')? 1 :0;
+    },
+    lels15(){
+      return(this.name4==='Гость')? 1 :0;
+    },
+    lels16(){
+      return(this.value18==='фиолетовой' && this.value19==='серой' && this.value20==='оранжевой' && this.value21==='светло-зеленой')? 1 :0;
+    },
+    results() {
+      return [
+        this.lels === 1 ? 'Вопрос 1 - верно' : 'Вопрос 1 - неверно',
+        this.lels2 === 1 ? 'Вопрос 2 - верно' : 'Вопрос 2 - неверно',
+        this.lels3 === 1 ? 'Вопрос 3 - верно' : 'Вопрос 3 - неверно',
+        this.lels4 === 1 ? 'Вопрос 4 - верно' : 'Вопрос 4 - неверно',
+        this.lels5 === 1 ? 'Вопрос 5 - верно' : 'Вопрос 5 - неверно',
+        this.lels6 === 1 ? 'Вопрос 6 - верно' : 'Вопрос 6 - неверно',
+        this.lels7 === 1 ? 'Вопрос 7 - верно' : 'Вопрос 7 - неверно',
+        this.lels8 === 1 ? 'Вопрос 8 - верно' : 'Вопрос 8 - неверно',
+        this.lels9 === 1 ? 'Вопрос 9 - верно' : 'Вопрос 9 - неверно',
+        this.lels10 === 1 ? 'Вопрос 10 - верно' : 'Вопрос 10 - неверно',
+        this.lels11 === 1 ? 'Вопрос 11 - верно' : 'Вопрос 11 - неверно',
+        this.lels12 === 1 ? 'Вопрос 12 - верно' : 'Вопрос 12 - неверно',
+        this.lels13 === 1 ? 'Вопрос 13 - верно' : 'Вопрос 13 - неверно',
+        this.lels14 === 1 ? 'Вопрос 14 - верно' : 'Вопрос 14 - неверно',
+        this.lels15 === 1 ? 'Вопрос 15 - верно' : 'Вопрос 15 - неверно',
+        this.lels16 === 1 ? 'Вопрос 16 - верно' : 'Вопрос 16 - неверно',
+      ];
+    },
+    user(){
+      return userStore().user;
     }
+  }
+
   }
 
   </script>
@@ -1264,6 +1459,21 @@
 .q-checkbox__bg{
   border: none !important;
   background-color: #6a1b9a !important;
+}
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.column {
+  width: 48%; /* Ширина каждого столбца */
+}
+.result-item {
+  margin-bottom: 10px; /* Отступ между элементами */
+}
+.result-item {
+  width: 50%; /* Два столбца */
+  box-sizing: border-box; /* Учитываем padding и border в ширину */
+  padding: 10px; /* Отступы для элементов */
 }
 .multiselect__spinner {
   position: absolute;
@@ -1516,7 +1726,19 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-
+.pc_stuff{
+  border-radius: 24px;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px 60px 10px 60px;
+}
+.mob_stuff{
+  font-weight: 700;
+    font-size: 24px;
+    border-radius: 24px;
+    border: none;
+}
 .multiselect__select:before {
   position: relative;
   right: 0;
@@ -2069,6 +2291,15 @@
   display: flex;
   flex-direction: column;
   gap:unset;
+}
+.results-container{
+  display:initial;
+}
+.column{
+  width:100%;
+}
+.result-item{
+  width:100%;
 }
 .riddle_flex{
   display: flex;
