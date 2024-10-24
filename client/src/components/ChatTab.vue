@@ -6,7 +6,7 @@
     </div>
 
     <form class="chat__form">
-      <div class="chat__message-area" id="chat_scroller">
+      <div class="chat__message-area" id="chat_scroller" ref="chatContainer">
 <!-- 
         <div class="chat__message">
           <div class="chat__message-container chat__message_container_into ">
@@ -97,36 +97,46 @@ const formattedUtcDateServer = UtcDateServer.toISOString().replace('T', ' ').sub
 // console.log("UTC+0 Time (SQL format):", formattedUtcDateServer);
 
 // Форматирование календарной даты для сообщений
-const days = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота', 'Воскресенье'];
-const months = ['Янв','Фев','Март','Апр','Май','Июнь','Июль','Авг','Сен','Окт','Нояб','Дек'];
+const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+const months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Нояб', 'Дек'];
 function getDayName(date) {
-    if (!(date instanceof Date)) {
-        throw new Error('Input must be a Date object');
-    }
-    return days[date.getDay()];
+  if (!(date instanceof Date)) {
+    throw new Error('Input must be a Date object');
+  }
+  return days[date.getDay()];
 }
 
 function getMonthName(date) {
-    if (!(date instanceof Date)) {
-        throw new Error('Input must be a Date object');
-    }
-    return months[date.getMonth()];
+  if (!(date instanceof Date)) {
+    throw new Error('Input must be a Date object');
+  }
+  return months[date.getMonth()];
 }
 function formatDateForMsgs(date) {
-    if (!(date instanceof Date)) {
-        throw new Error('Input must be a Date object');
-    }
-    const day = getDayName(date);
-    const month = getMonthName(date);
-    const dayOfMonth = date.getDate();
-    return `${day}, ${dayOfMonth} ${month}`;
+  if (!(date instanceof Date)) {
+    throw new Error('Input must be a Date object');
+  }
+  const day = getDayName(date);
+  const month = getMonthName(date);
+  const dayOfMonth = date.getDate();
+  return `${day}, ${dayOfMonth} ${month}`;
+}
+
+// Референс для контейнера с сообщениями, сделано для скролла
+const chatContainer = ref(null);
+// Скролла
+function scrollToBottom() {
+  const container = chatContainer.value;
+  if (container) {
+    container.scrollTop = container.scrollHeight;
+  }
 }
 
 // Инициализирование массива сообщений и проверка текущего юзера из пинии
 const chatMsgsArray = ref([]);
 const userID = userStore().user.id;
 const iAmUser = ref(userID);
-console.log(iAmUser)
+// console.log(iAmUser)
 
 // Получение всех сообщений юзера с сервера
 let chatGetMessages = async () => {
@@ -140,52 +150,39 @@ let chatGetMessages = async () => {
     console.log(error)
   }
 }
-onMounted(async () => {
-  chatGetMessages();
-  setInterval(function() {
-    chatGetMessages();
-}, 5000);
+// Получение всех сообщений юзера с сервера + все действия связанные с этим
+const fetchMessages = async () => {
+  await chatGetMessages();
+  scrollToBottom();
+};
+onMounted(() => {
+  fetchMessages(); // Initial fetch
+  setInterval(function () { fetchMessages(); }, 5000);
 });
 
 // Отправка сообщения от юзера на сервер
 const messageToSend = ref('');
 let sendMessage = async () => {
   try {
-    // Create the data object as expected by postChatMsg
     const data = {
-      sendor: userID  , // Assuming userID is defined elsewhere
-      recepient: 2,   // Replace with the actual recipient ID
+      sendor: userID, // отправитель - текущий юзер
+      recepient: 2,   // получатель как константа по сути
       message: messageToSend.value,
-      datetime: formattedUtcDateServer,
-      tipe: 0         // Adjust this as necessary (e.g., text, image, etc.)
+      datetime: formattedUtcDateServer, // форматированная в SQL-формат датавремя
+      tipe: 0         // как в тз
     };
 
-    // Call the postChatMsg function with the data object
+    // Отправка даты в функцию и на сервер
     let response = await postChatMsg(data);
 
-    // Log the response data
-    console.log("I send this === ", response.data);
+    // console.log("I send this === ", response.data);
     chatMsgsArray.value.push(response.data);
     messageToSend.value = '';
+    fetchMessages();
   } catch (error) {
     console.log(error);
   }
 };
-
-// // Поведение окна с сообщениями
-// let scroller = document.querySelector("#chat_scroller");
-// let anchor = document.querySelector("#chat_anchor");
-
-// const config = { childList: true };
-// const callback = function (mutationsList, observer) {
-//   for (let mutation of mutationsList) {
-//     if (mutation.type === "childList") {
-//       window.scrollTo(0, document.body.scrollHeight);
-//     }
-//   }
-// };
-// const observer = new MutationObserver(callback);
-// observer.observe(scroller, config);
 </script>
 
 <style>
