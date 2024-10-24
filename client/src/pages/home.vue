@@ -919,6 +919,7 @@
 .partners__list {
     display: flex;
     gap: 40px;
+    overflow: auto;
 
 }
 
@@ -938,6 +939,7 @@
 }
 
 .partners_item {
+    flex-shrink: 0;
     width: 290px;
     background-color: white;
     border-radius: 28px;

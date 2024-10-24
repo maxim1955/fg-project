@@ -54,7 +54,7 @@
 
     </div>
         <NextTaskModal :currentTask="currentTask" @next-task="nextTask(currentTask)" @close-modal="closeModal()" @try-again="tryAgain()" v-if="showNextTaskModal"/>
-        <!-- <TimesModal @close-timer-modal="closeTimerModal()" v-if="this.showTimerModal"/> -->
+        <TimesModal @close-timer-modal="closeTimerModal()" v-if="this.showTimerModal"/>
         <StartLevelModal :currentTask="currentTask" @close-modal="closeModalStart()" @open-task="handleOpenTask()" v-if="this.showModalStart"></StartLevelModal>
     </div>
 
@@ -103,8 +103,8 @@ export default {
     },
 
     openModalStart(task) {
-        // if (this.timerStore.secondsRemaining <= 0) this.showTimerModal = true
-        // else
+         if (this.timerStore.secondsRemaining <= 0) this.showTimerModal = true
+         else
         {
             levelsStore().updateCurrentTask(task.position);
             this.currentTask = task;
