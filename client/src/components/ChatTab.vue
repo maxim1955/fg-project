@@ -7,7 +7,7 @@
 
     <form class="chat__form">
       <div class="chat__message-area" id="chat_scroller" ref="chatContainer">
-<!-- 
+<!--
         <div class="chat__message">
           <div class="chat__message-container chat__message_container_into ">
             <p class="chat__message-text">В личном кабинете ты узнаешь свои баллы и место в списке лучших в классе,
@@ -64,8 +64,6 @@
       <div class="chat__func-container">
         <textarea placeholder="Напишите сообщение..." class="chat__input" @input="resize($event)" v-model="messageToSend"></textarea>
         <div class="chat__buttons-container">
-          <div class="chat__button-other"></div>
-          <!-- <file></file> ?? -->
           <button class="chat__submit" type="button" @click="sendMessage">Отправить</button>
         </div>
       </div>
