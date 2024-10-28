@@ -16,7 +16,7 @@ const routes = [
     {
         path: '/',
         name: 'main',
-        component: home,
+        component: Test,
         meta: { layout: 'mainLayouts' },
     },
     {

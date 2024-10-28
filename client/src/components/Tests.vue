@@ -1205,10 +1205,11 @@
   import Multiselect from 'vue-multiselect'
   import userStore from "../store/UserStore.js"; // Импортируем store из Pinia
 import axios from 'axios';
-import { useRouter } from 'vue-router';
+import {useTimerAndDateStore} from "../store/TimeStore.js";
 
   export default {
     setup () {
+      const timerStore = useTimerAndDateStore();
       return {
         slide: ref('question_0'),
         lorem: 'lorem',
@@ -1218,10 +1219,18 @@ import { useRouter } from 'vue-router';
         q_7_4: ref(false),
         q_7_5: ref(false),
         q_7_6: ref(false),
+        startTimer: timerStore.startTimer,
+            stopTimer: timerStore.stopTimer,
+            resetTimer: timerStore.resetTimer,
+            formattedTime: timerStore.formattedTime,
+            timerStore
       }
     },
     components:{
       Multiselect
+    },
+    mounted() {
+        this.timerStore.startTimer();
     },
     data(){
       return{
@@ -1305,6 +1314,27 @@ import { useRouter } from 'vue-router';
     updateValue() {
       this.lels = (this.photo2Selected && this.photo5Selected && !this.photo1Selected && !this.photo3Selected && !this.photo4Selected ) ? 1 : 0;
     },
+    async getUserInfo() {
+            try {
+                const response = await axios.get('/api/userinfo', {
+                    params: {
+                        id: this.user.id
+                    }
+                })
+                .then(response => {
+                    console.log(response.data)
+                    userStore().updateUserInfo(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+
+                return response;
+            } catch (error) {
+                console.error('Ошибка при запросе===:', error);
+                throw error;
+            }
+    },
     scoretest(){
       console.log(this.lels, this.lels2, this.lels3, this.lels4, this.lels5, this.lels6, this.lels7, this.lels8, this.lels9, this.lels10, this.lels11, this.lels12, this.lels13, this.lels14, this.lels15, this.lels16);
       const score = (
@@ -1329,23 +1359,24 @@ import { useRouter } from 'vue-router';
       return score;
     },
     async sendResults() {
-      const user_id = this.user.id; // Предполагаем, что user_id хранится в хранилище
-      const scoretest = this.scoretest(); // Получаем значение score
-
+      const scoretest = this.scoretest();
+      const user_id = this.user.id;
       try {
         const response = await axios.post('/api/testresults', {
           user_id, // Передаем user_id
           scoretest// Передаем score
         });
         console.log(response.data);
-        const router = useRouter();
-        router.push('/home');
+        this.$router.push({name: 'home'})
       } catch (error) {
-        console.error('Ошибка:', error);
+        console.error(scoretest);
       }
     },
   },
   computed:{
+    user() {
+        return userStore().user;
+    },
     lels2(){
       return (this.value1 === 'Ложь' &&
               this.value3 === 'Ложь' &&
@@ -1445,7 +1476,6 @@ import { useRouter } from 'vue-router';
 </style>
   <style>
   .xds{
-    width:1315px;
     border-radius: 32px;
   }
   fieldset[disabled] .multiselect {
