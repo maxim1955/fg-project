@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const useTimerStore  = defineStore('TimeStore' , {
     state: () => {
-        const savedData = localStorage.getItem('timerData');
+        const savedData = localStorage.getItem('timerTest');
         if (savedData) {
           return JSON.parse(savedData);
         }
@@ -51,11 +51,11 @@ export const useTimerStore  = defineStore('TimeStore' , {
               today: this.today,
               secondsRemaining: this.secondsRemaining
             };
-            localStorage.setItem('timerData', JSON.stringify(dataToSave));
+            localStorage.setItem('timerTest', JSON.stringify(dataToSave));
           },
 
             restoreTimerData() {
-			const storedData = localStorage.getItem('timerData');
+			const storedData = localStorage.getItem('timerTest');
 			if (storedData) {
 				const data = JSON.parse(storedData);
 				this.today = new Date(data.today);
