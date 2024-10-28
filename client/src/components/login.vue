@@ -221,19 +221,15 @@ label {
     margin-right: 30px;
 }
 
-@media (max-width: 1920px) {
-    .q-dialog__inner--minimized > div {
-        max-width: 640px;
-    }
+.q-dialog__inner--minimized > div {
+    max-width: 100%;
 }
 
 @media (max-width: 1120px) {
     .q-dialog__inner--minimized{
         padding: 0!important;
     }
-    .q-dialog__inner--minimized > div {
-        max-width: 462px;
-    }
+
     .modal-auth__title {
         font-size: 26px;
     }

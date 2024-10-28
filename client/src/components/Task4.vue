@@ -790,7 +790,6 @@ export default {
         border-radius: 0;
     }
     .task-4 .task__form > span {
-        display: inline-block;
         margin-bottom: 12px;
         font-size: 16px;
         font-weight: 600;
@@ -801,30 +800,6 @@ export default {
         max-width: 320px;
     }
 
-    .level-4-0 .task__img {
-        width: calc((100% - 24px)/4);
-        box-shadow: 4px 5px 50px 0px #ECEAE1;
-    }
-
-    .level-4-0 .task__images {
-        margin-bottom: 40px;
-    }
-
-    .level-4-0 .task .multiselect__tags {
-        background-color: rgba(242, 241, 236, 1);
-    }
-
-
-    @media (max-width: 1400px) {
-        .task-4 .task__images {
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .task-4 .task__img {
-            width: calc((100% - 12px)/2);
-        }
-    }
 
     @media (max-width: 1200px) {
         .task-4 .form__label {

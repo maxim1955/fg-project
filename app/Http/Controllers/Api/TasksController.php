@@ -17,8 +17,8 @@ class TasksController extends RestController
     public function index()
     {
         $levels = DB::table('levels')->get();
-        $tasks = DB::table('tasks')->get();
-        $questions = DB::table('questions')->get();
+        $tasks = DB::table('tasks')->orderBy('position')->get();
+        $questions = DB::table('questions')->orderBy('position')->get();
         $promts = DB::table('promts')->get();
         $answers = DB::table('answers')->get();
         $points = DB::table('points')->get();

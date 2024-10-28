@@ -17,6 +17,7 @@ class ChatController extends RestController
         $messages = DB::table('chats')
                     ->where('sendor', $req->user_id)
                     ->orWhere('recepient', $req->user_id)
+                    ->orderBy('datetime', 'desc')
                     ->take(10)
                     ->get();
 
