@@ -256,7 +256,7 @@
                     <div class="task__right" v-if="!(getTask.position === 1 && currentLevel === 5 && question.position === 5)">
                         <h3 class="task__title">{{ getTask.name }}</h3>
                         <p class="task__desc">{{ question.textright }}</p>
-                            <div v-if="!(question.img && question.questiontype === 3 && getTask.position === 1 && currentLevel === 4 && question.position === 3)" class="task__images">
+                            <div v-if="!(question.img && question.questiontype === 3 && getTask.position === 1 && currentLevel === 4 && question.position === 3) && question.img !== null && question.img.length > 0" class="task__images">
                                 <img v-for="(img, index) in JSON.parse(question.img)" :key="index" :class="{task__img: JSON.parse(question.img).length > 1}" :src="'/storage/' + img" alt="">
                             </div>
                             <p v-if="question.imgdesc" class="task__info">{{ question.imgdesc }}</p>

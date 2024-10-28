@@ -137,7 +137,7 @@ export default {
         this.showModalStart = false;
         this.showTask = true;
         this.showTaskTemplate = true;
-        levelsStore().updateCurrentTask(task.position);
+        levelsStore().updateCurrentTask(this.currentTask.position);
     },
     openModal() {
             this.showNextTaskModal = true;

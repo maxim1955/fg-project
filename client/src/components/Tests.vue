@@ -20,7 +20,7 @@
             </ul>
             <p class="list_start">Используй доступное время эффективно, так как от результатов теста зависит твой стартовый уровень. Удачи!</p>
 
-         
+
           <q-btn-toggle
           size="24px"
           type="submit"
@@ -44,7 +44,7 @@
             { label:'Начать тест', value: 'question_1' },
 
           ]"
-        /> 
+        />
       </div>
       <div class="start_girl">
         <img src="../assets/img/start.png" alt="" class="girl_inner">
@@ -129,10 +129,10 @@
 
 
             <div class="custom">
-            <label for="photo5"> 
+            <label for="photo5">
               <input type="checkbox" name="avatar" id="photo5" class="avatars__input" v-model="photo5Selected" @change="updateValue">
                 <span class="avatars__check"></span>
-                <span class="empty"></span> 
+                <span class="empty"></span>
               <img src="../assets/img/vehicle_4.svg" class="vehicles" alt="">
             </label>
           </div>
@@ -1162,7 +1162,7 @@
           <div class="start_flex">
             <div class="start_left">
             <h2 class="question_num start_head">Ты прошёл весь тест</h2>
-            
+
             <p class="list_start">У тебя {{scoretest()}} из 16 баллов. Теперь тебе открыт первый и второй уровень для прохождения заданий. Проходи к уровням с самого начала, чтобы набрать необходимое количество баллов.</p>
             <div class="results-container">
             <div class="column">
@@ -1338,8 +1338,7 @@ import { useRouter } from 'vue-router';
           scoretest// Передаем score
         });
         console.log(response.data);
-        const router = useRouter();
-        router.push('/home');
+        this.$router.push({name: 'home'});
       } catch (error) {
         console.error('Ошибка:', error);
       }
@@ -1687,7 +1686,7 @@ import { useRouter } from 'vue-router';
  background-repeat: no-repeat;
  position: absolute;
    margin-top: 262px;
-    margin-left: 279px; 
+    margin-left: 279px;
 }
 .avatars__input:checked ~ .empty{
   display: none;
@@ -1756,7 +1755,7 @@ import { useRouter } from 'vue-router';
 .avatars__input:checked ~ .avatars__check {
        position: absolute;
        margin-top: 260px;
-    margin-left: 276px; 
+    margin-left: 276px;
         display: inline-block;
         width: 40px;
         height: 40px;
