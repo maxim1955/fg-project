@@ -1,5 +1,5 @@
 <template>
-    <div class="xds">
+    <div class="xds" v-if="enoughTime">
       <q-carousel
         v-model="slide"
         transition-prev="slide-right"
@@ -1197,6 +1197,45 @@
       </div>
         </q-carousel-slide>
       </q-carousel>
+      <div class="xds" id="lasttime"
+      v-if="!enoughTime">
+        <div class="start_flex">
+            <div class="start_left">
+            <h2 class="question_num start_head">Ты прошёл весь тест</h2>
+
+            <p class="list_start">У тебя {{scoretest()}} из 16 баллов. Теперь тебе открыт первый и второй уровень для прохождения заданий. Проходи к уровням с самого начала, чтобы набрать необходимое количество баллов.</p>
+            <div class="results-container">
+            <div class="column">
+                  <div v-for="(result, index) in results.slice(0, 8)" :key="index" class="result-item">
+          {{ result }}
+        </div>
+      </div>
+      <div class="column">
+        <div v-for="(result, index) in results.slice(8, 16)" :key="index" class="result-item">
+          {{ result }}
+        </div>
+      </div>
+         </div>
+          <button
+          size="24px"
+          class="btn_pc start_btn pc_stuff"
+          style="cursor: pointer"
+          @click="sendResults"
+        >
+        К уровням
+      </button>
+        <button
+          size="20px"
+          type="submit"
+          class="btn_mob start_btn mob_stuff"
+          style="cursor: pointer"
+          @click="sendResults"
+          >
+          К уровням
+        </button>
+      </div>
+      </div>
+      </div>
     </div>
   </template>
 
@@ -1209,7 +1248,7 @@ import {useTimerStore} from "../store/TimeStore.js";
 
   export default {
     setup () {
-      const timerStore = useTimerStore();
+      const timerTest = useTimerStore();
       return {
         slide: ref('question_0'),
         lorem: 'lorem',
@@ -1219,18 +1258,18 @@ import {useTimerStore} from "../store/TimeStore.js";
         q_7_4: ref(false),
         q_7_5: ref(false),
         q_7_6: ref(false),
-        startTimer: timerStore.startTimer,
-            stopTimer: timerStore.stopTimer,
-            resetTimer: timerStore.resetTimer,
-            formattedTime: timerStore.formattedTime,
-            timerStore
+        startTimer: timerTest.startTimer,
+            stopTimer: timerTest.stopTimer,
+            resetTimer: timerTest.resetTimer,
+            formattedTime: timerTest.formattedTime,
+            timerTest
       }
     },
     components:{
       Multiselect
     },
     mounted() {
-        this.timerStore.startTimer();
+        this.timerTest.startTimer();
     },
     data(){
       return{
@@ -1308,6 +1347,7 @@ import {useTimerStore} from "../store/TimeStore.js";
       q_13_3: false,
       q_13_4: false,
       q_13_5: false,
+      enoughTime:true,
       }
     },
     methods: {
@@ -1452,7 +1492,11 @@ import {useTimerStore} from "../store/TimeStore.js";
     },
     user(){
       return userStore().user;
-    }
+    },
+    timerHide() {
+        console.log(this.timerTest.secondsRemaining)
+        if (this.timerTest.secondsRemaining <= 0) this.enoughTime = false;
+    },
   }
 
   }
@@ -1480,6 +1524,9 @@ import {useTimerStore} from "../store/TimeStore.js";
   }
   fieldset[disabled] .multiselect {
   pointer-events: none;
+}
+.hide{
+  display:none;
 }
 .list_start{
   font-weight: 600;
