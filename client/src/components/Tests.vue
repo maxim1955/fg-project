@@ -27,6 +27,7 @@
           form=""
           class="btn_pc start_btn"
           v-model="slide"
+         @click="toStart"
           :options="[
 
             { label:'Начать тест', value: 'question_1' },
@@ -39,6 +40,7 @@
           form=""
           class="btn_mob start_btn"
           v-model="slide"
+        @click="toStart"
           :options="[
 
             { label:'Начать тест', value: 'question_1' },
@@ -1268,9 +1270,6 @@ import {useTimerStore} from "../store/TimeStore.js";
     components:{
       Multiselect
     },
-    mounted() {
-        this.timerTest.startTimer();
-    },
     data(){
       return{
         value1: '',
@@ -1374,6 +1373,9 @@ import {useTimerStore} from "../store/TimeStore.js";
                 console.error('Ошибка при запросе===:', error);
                 throw error;
             }
+    },
+         toStart(){
+      this.timerTest.startTimer();
     },
     scoretest(){
       console.log(this.lels, this.lels2, this.lels3, this.lels4, this.lels5, this.lels6, this.lels7, this.lels8, this.lels9, this.lels10, this.lels11, this.lels12, this.lels13, this.lels14, this.lels15, this.lels16);

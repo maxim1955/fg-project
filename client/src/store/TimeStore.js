@@ -42,7 +42,7 @@ export const useTimerStore  = defineStore('timerTest' , {
 
           updateToday() {
             this.today = new Date();
-            this.secondsRemaining = 1800;
+            this.secondsRemaining = 2400;
             this.saveTimerData(); // Сохраняем состояние таймера
           },
 
