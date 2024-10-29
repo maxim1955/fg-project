@@ -27,6 +27,10 @@
                     <div v-if="this.$route.name == 'levels'" class="timer">
                         <div class="timer__amount">{{ timerStore.formattedTime }}</div>
                     </div>
+                    <div v-if="this.$route.name == 'test'" class="timer">
+                        <div class="timer__amount">{{timerTest.formattedTime }}</div>
+                    </div>
+            
                     <div class="points">
                         <div class="points__amount">{{ user.sumpoint }}</div>
                     </div>
@@ -93,6 +97,7 @@
     import userStore from "../store/UserStore.js";
     import levelsStore from "../store/LevelsStore.js";
     import {useTimerAndDateStore} from "../store/TimerStore.js";
+    import {useTimerStore} from "../store/TimeStore.js";
     export default {
         components: {},
         data() {
@@ -121,6 +126,18 @@
                 timerStore.updateToday();
             }
 
+            const timerTest = useTimerStore();
+            console.log(timerTest.shouldUpdateTimer)
+            if (timerTest.shouldUpdateTimer) {
+                timerTest.updateToday();
+            }
+
+            timerTest.restoreTimerData();
+            if (timerTest.shouldUpdateTimer){
+                timerTest.updateToday();
+            }
+
+
             return {
             tab: ref('home'),
             splitterModel: ref(20),
@@ -128,7 +145,12 @@
             stopTimer: timerStore.stopTimer,
             resetTimer: timerStore.resetTimer,
             formattedTime: timerStore.formattedTime,
-            timerStore
+            timerStore,
+            timerTest,
+            startingTimer: timerTest.startTimer,
+            stopingTimer: timerTest.stopTimer,
+            resetingTimer: timerTest.resetTimer,
+            formattedingTime: timerTest.formattedTime,
             }
         },
 
@@ -192,14 +214,17 @@
 
         beforeDestroy() {
         stopTimer();
+        stopingTimer();
     },
 
     ummounted() {
         stopTimer();
+        stopingTimer();
     },
 
     onBeforeRouteLeave() {
         stopTimer();
+        stopingTimer();
     },
 
     }

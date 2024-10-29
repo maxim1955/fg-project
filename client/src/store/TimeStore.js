@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 import axios from "axios";
 
-export const useTimerStore  = defineStore('TimeStore' , {
+export const useTimerStore  = defineStore('timerTest' , {
     state: () => {
         const savedData = localStorage.getItem('timerTest');
         if (savedData) {
