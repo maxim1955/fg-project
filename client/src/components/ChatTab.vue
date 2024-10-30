@@ -83,11 +83,11 @@ import { getChatMsgs, postChatMsg } from '../dbquery/ChatMsgs.js'
 import { onMounted, ref } from 'vue';
 
 // Получение календарной даты и времени для отправки на сервер и показа локально // Получение календарной даты и времени для отправки на сервер и показа локально
-const userTimeZoneOffset = new Date().getTimezoneOffset() * -1; // Convert to positive value
-// Get user's local time in their timezone
-const userLocalDate = new Date(new Date().getTime() + userTimeZoneOffset * 60 * 1000);
-const formattedUserDate = userLocalDate.toISOString().replace('T', ' ').substring(0, 19); // Format for SQL
-// Get UTC+3 time
+// const userTimeZoneOffset = new Date().getTimezoneOffset() * -1; // Convert to positive value
+
+// const userLocalDate = new Date(new Date().getTime() + userTimeZoneOffset * 60 * 1000);
+// const formattedUserDate = userLocalDate.toISOString().replace('T', ' ').substring(0, 19); // Format for SQL
+
 const utcOffset = 0; // UTC+0 offset in milliseconds
 const UtcDateServer = new Date(new Date().getTime() + utcOffset);
 const formattedUtcDateServer = UtcDateServer.toISOString().replace('T', ' ').substring(0, 19); // Format for SQL
@@ -95,28 +95,39 @@ const formattedUtcDateServer = UtcDateServer.toISOString().replace('T', ' ').sub
 // console.log("UTC+0 Time (SQL format):", formattedUtcDateServer);
 
 // Форматирование календарной даты для сообщений
-const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-const months = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Нояб', 'Дек'];
+const DAYS_OF_WEEK  = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+const MONTHS_OF_YEAR  = ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сен', 'Окт', 'Нояб', 'Дек'];
 function getDayName(date) {
   if (!(date instanceof Date)) {
     throw new Error('Input must be a Date object');
   }
-  return days[date.getDay()];
+  const dayIndex = (date.getDay() + 6) % 7;
+  return DAYS_OF_WEEK[dayIndex];
 }
 
 function getMonthName(date) {
   if (!(date instanceof Date)) {
     throw new Error('Input must be a Date object');
   }
-  return months[date.getMonth()];
+  return MONTHS_OF_YEAR[date.getMonth()];
 }
+// function getTimeLocal(date) {
+//   return date.toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit', hour12: false  });
+// }
+
 function formatDateForMsgs(date) {
   if (!(date instanceof Date)) {
     throw new Error('Input must be a Date object');
   }
-  const day = getDayName(date);
-  const month = getMonthName(date);
-  const dayOfMonth = date.getDate();
+  const localUTCOffset = new Date().getTimezoneOffset(); // Offset in minutes
+  const offsetHours = -localUTCOffset / 60; // Convert to hours (negative because getTimezoneOffset returns negative for UTC+)
+  const adjustedDate = new Date(date.getTime() + offsetHours * 60 * 60 * 1000); // Convert hours to milliseconds
+  const localDate = new Date(adjustedDate.toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
+
+  // const time = getTimeLocal(localDate);
+  const day = getDayName(localDate);
+  const month = getMonthName(localDate);
+  const dayOfMonth = localDate.getDate();
   return `${day}, ${dayOfMonth} ${month}`;
 }
 
