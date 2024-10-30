@@ -140,8 +140,9 @@ const iAmUser = ref(userID);
 let chatGetMessages = async () => {
   try {
     const { data: messages } = await getChatMsgs(userID);
+    messages.sort((a, b) => a.id - b.id) // сортировка по ID сообщений. Новые всегда скорее всего будут иметь больший ID
     chatMsgsArray.value = [messages];
-    // console.log(chatMsgsArray.value[0]);
+    console.log(chatMsgsArray.value[0]);
     // // console.log(chatMsgsArray.value[0].data[0]);
     // console.log("^^^ Those are the MSGS i got ^^^")
   } catch (error) {
