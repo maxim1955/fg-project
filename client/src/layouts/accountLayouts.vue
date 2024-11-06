@@ -3,7 +3,8 @@
         <div class="">
     <div class="account row justify-between no-wrap" :class="[this.showTask && $route.path === '/levels' ? `level-${currentLevel}-${currentTask}` : '']">
         <div class="menu" :class="{collapse: this.collapse}">
-            <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
+            <div class="menu__wrapper">
+                <button class="menu__collapse btn-reset" @click="collapseMenu()"></button>
             <router-link :to="{name: 'main'}" class="menu__logo">
                 <img src="../assets/img/account-logo.svg" alt="Логотип">
             </router-link>
@@ -17,7 +18,9 @@
                 <q-route-tab to="/bonuses" class="menu__item menu__item--bonuses" name="bonuses" label="Бонусы" @click="cleanTask()"/>
                 <q-route-tab to="/resources" class="menu__item menu__item--resources" name="resources" label="Ресурсы" @click="cleanTask()"/>
                 <q-route-tab to="/chat" class="menu__item menu__item--chat" name="chat" label="Чат" @click="cleanTask()"/>
-        </q-tabs>
+            </q-tabs>
+            </div>
+
         </div>
 
         <div class="content flex justify-end">
@@ -30,7 +33,7 @@
                     <div v-if="this.$route.name == 'test'" class="timer">
                         <div class="timer__amount">{{timerTest.formattedTime }}</div>
                     </div>
-            
+
                     <div class="points">
                         <div class="points__amount">{{ user.sumpoint }}</div>
                     </div>
@@ -264,6 +267,7 @@
 
 
     .menu {
+        flex-shrink: 0;
         position: relative;
         padding: 40px;
         width: 357px;
@@ -273,6 +277,13 @@
         border-radius: 0px 40px 40px 0px;
         background-color: var(--red);
         transition: width .3s ease-in-out;
+
+    }
+
+    .menu__wrapper {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: clip;
     }
 
     .content {
@@ -285,6 +296,10 @@
     .menu__logo {
         display: block;
         margin-bottom: 140px;
+    }
+
+    .menu .q-tabs--vertical {
+        max-height: max-content;
     }
 
     .menu .q-tabs--vertical .q-tab {
@@ -366,9 +381,13 @@
         opacity: 0;
     }
 
-    .menu .q-tabs--vertical.q-tabs--not-scrollable .q-tabs__content {
+    .menu .q-tabs__content {
+        display: flex !important;
+        flex-direction: column;
         min-width: 277px;
+        max-height: max-content;
         transition: min-width .3s ease-in-out;
+        overflow: auto;
     }
 
     .account__header {
@@ -716,6 +735,7 @@
         flex-direction: column;
         justify-content: start;
         align-items: center;
+
     }
 
     .menu.collapse .q-tabs--vertical.q-tabs--not-scrollable .q-tabs__content {
@@ -751,6 +771,7 @@
 
         .q-tabs--vertical .q-tabs__content {
             display: flex !important;
+            flex-direction: row;
         }
 
         .menu .q-tabs--vertical .q-tab {

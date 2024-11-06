@@ -361,20 +361,18 @@ export default {
         }
 
         if (question.questiontype === 1) {
+            let trueanswer = 0;
             this.checkboxes.forEach(el => {
-                let trueanswer = 0;
                 const answer = question.answers.find(answer => answer.id === el);
                 if (answer.trueorfalse === 1) {
                     trueanswer += 1;
                     console.log(trueanswer)
                 }
-
-                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+            })
+            const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
                 if (point) {
                     points += point.points;
                 }
-
-            })
         }
 
 
@@ -394,7 +392,23 @@ export default {
 
         if (question.questiontype === 3) {
             let trueanswer = 0;
-            this.options.forEach(option => {
+
+            if (this.getTask.position === 1 && this.currentLevel === 3 && question.position === 2) {
+                this.radio1.forEach(option => {
+
+                const promt = question.promts.find(promt => promt.id === option.promt_id);
+                console.log(promt)
+                if (option.answer_id == promt.answer_id) {
+                    trueanswer += 1;
+                }
+                })
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                if (point) {
+                    points += point.points;
+                    console.log(points)
+                }
+            } else {
+                this.options.forEach(option => {
 
                 const promt = question.promts.find(promt => promt.id === option.promt_id);
                 if (option.answer_id === promt.answer_id) {
@@ -402,11 +416,14 @@ export default {
                 }
                 console.log(trueanswer)
 
-            })
-            const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
+                })
+                const point = question.points.find(point => point.question_id === question.id && point.truecount === trueanswer);
                 if (point) {
                     points += point.points;
                 }
+            }
+
+
         }
 
 
@@ -506,8 +523,23 @@ export default {
       return `${text}`
     },
 
-    checkAnswer(question) {
+    checkAnswer(question, promtID, answerID, event) {
         this.validate = true;
+        if (this.getTask.position === 1 && this.currentLevel === 3 && question.position === 2) {
+            const res = this.radio1.some(item => item.promt_id === promtID);
+            if (!res) {
+                this.radio1.push({
+                answer_id: answerID,
+                answer: event.target.value,
+                promt_id: promtID
+            })
+            } else {
+                this.radio1.forEach(item => {
+                    item.answer = event.target.value;
+                })
+            }
+
+        }
     },
 
 
@@ -643,6 +675,10 @@ body .form__label--select .multiselect__tags {
 
     .level-5-1 .task__selects.selects-5 .form__label {
         grid-template-columns: 1fr auto;
+    }
+
+    .task .multiselect__single {
+        background: transparent;
     }
 
     @media (max-width: 1600px) {

@@ -169,5 +169,11 @@ export default {
         background: linear-gradient(109.56deg, rgba(201, 255, 34, 0.42) 14.7%, rgba(201, 255, 34, 0) 66.8%);
     }
 
+    @media (max-width: 768px) {
+        .modal__btn {
+            font-size: 20px;
+        }
+    }
+
 
 </style>

@@ -5,7 +5,7 @@
             <div class="footer__container flex">
                 <div class="footer__left flex column">
                     <div class="footer__logos flex">
-                        <router-link :to="{name: 'home'}"><img src="../assets/img/footer-logo-1.svg" alt=""></router-link>
+                        <button @click="goToHome()" class="btn-reset"><img src="../assets/img/footer-logo-1.svg" alt=""></button>
                         <a target="_blank" href="https://shkola55perm.ru"><img src="../assets/img/footer-logo-2.svg" alt=""></a>
                     </div>
                     <div class="footer__copyright">&copy;&nbsp;2024&nbsp;МАОУ &laquo;СОШ &#8470;&nbsp;55&nbsp;имени дважды Героя Советского Союза Г.Ф. Сивкова&raquo;</div>
@@ -52,7 +52,12 @@
 
 <script>
 export default {
-
+methods: {
+    goToHome() {
+        this.$router.push({name: 'main'});
+         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+}
 }
 </script>
 

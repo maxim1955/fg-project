@@ -243,17 +243,18 @@ export default {
 
     totalPoints(task) {
         return task.questions.reduce((total, question) => {
-            if (question.point1) {
+            if (question.point1 !== null) {
             total += question.point1;
         }
         // Если баллы хранятся в массиве points
-        if (question.points && question.points.length > 0) {
+        else if (question.points && question.points.length > 0) {
             total += question.points.reduce((maxPoints, currentPoints) => {
 
                 if (currentPoints.points > maxPoints.points) {
                     return currentPoints.points
                 } else return maxPoints
             }, question.points[0].points);
+            console.log(question.points[0].points)
         }
         return total
         }, 0)
@@ -318,6 +319,10 @@ export default {
 </script>
 
 <style>
+
+    .task .multiselect--disabled .multiselect__select {
+        background: transparent;
+    }
 
     .tasks__error {
         display: inline-block;
@@ -590,6 +595,10 @@ export default {
     .task__left,
     .task__right {
         width: calc((100% - 40px)/2);
+    }
+
+    .task__name {
+        text-align: left;
     }
 
     .task__title {
@@ -1101,6 +1110,13 @@ export default {
     }
 
 
+    .task.task-1 .task__img {
+        width: 50%;
+    }
+
+    .task.task-1 .task__images {
+        flex-wrap: nowrap;
+    }
 
 
     @media (min-width: 1921px) {
@@ -1119,6 +1135,14 @@ export default {
 
 
     @media (max-width: 1400px) {
+        .task.task-1 .task__img {
+            width: 100%;
+        }
+
+        .task.task-1 .task__images {
+            flex-wrap: wrap;
+        }
+
         .task__images {
             flex-direction: column;
         }
