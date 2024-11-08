@@ -281,6 +281,9 @@
     }
 
     .menu__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
         height: 100%;
         overflow-y: auto;
         overflow-x: clip;
@@ -295,10 +298,10 @@
 
     .menu__logo {
         display: block;
-        margin-bottom: 140px;
     }
 
     .menu .q-tabs--vertical {
+        margin: auto 0;
         max-height: max-content;
     }
 

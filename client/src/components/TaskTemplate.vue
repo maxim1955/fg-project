@@ -22,7 +22,7 @@
                     <div class="task__box">
                         <div class="task__left" :class="{'task__last': getTask.position === 1 && currentLevel === 5 && question.position === 5}">
                         <p v-if="question.toptext" class="task__info">{{ question.toptext }}</p>
-                        <p class="task__question">{{ question.textquestion }}</p>
+                        <div class="task__question" v-html="question.textquestion"></div>
                         <form @submit.prevent="submitAnswer(question)" v-if="question.questiontype == 0" class="task__form form">
                             <label class="form__label">
                                 <span>{{ question.btntext }}</span>
@@ -255,7 +255,7 @@
                     </div>
                     <div class="task__right" v-if="!(getTask.position === 1 && currentLevel === 5 && question.position === 5)">
                         <h3 class="task__title">{{ getTask.name }}</h3>
-                        <p class="task__desc">{{ question.textright }}</p>
+                        <p class="task__desc" v-html="question.textright"></p>
                             <div v-if="!(question.img && question.questiontype === 3 && getTask.position === 1 && currentLevel === 4 && question.position === 3) && question.img !== null && question.img.length > 0" class="task__images">
                                 <img v-for="(img, index) in JSON.parse(question.img)" :key="index" :class="{task__img: JSON.parse(question.img).length > 1}" :src="'/storage/' + img" alt="">
                             </div>
