@@ -192,6 +192,8 @@ export default {
         openAuth() {
             if (sessionStorage.getItem('user') !== null) {
                 this.$router.push({name: 'home'});
+                document.body.classList.remove("open-menu");
+                document.querySelector(".header__menu").classList.remove("open");
             } else this.modalLogin = true;
         }
     },
@@ -258,7 +260,7 @@ export default {
     gap: 20px;
 }
 
-.header__sign {
+.header__sign .q-btn__content {
     position: relative;
     display: flex;
     align-items: center;
@@ -415,6 +417,7 @@ export default {
         transform: translateY(-200%);
         transition: transform 0.2s ease-in-out;
     }
+
 
     .nav__link::before,
     .nav__link::after {

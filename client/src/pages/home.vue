@@ -925,6 +925,11 @@
 
 .partners__list--animation {
     animation: scroll 8s linear infinite;
+    overflow: visible;
+}
+
+.partners__list--animation:not(:last-child) {
+    margin-right: 40px;
 }
 
 .partners__container:hover .partners__list {
@@ -1566,6 +1571,10 @@
 
     .partners__container {
         gap: 28px;
+    }
+
+    .partners__list--animation:not(:last-child) {
+        margin-right: 28px;
     }
 
 
